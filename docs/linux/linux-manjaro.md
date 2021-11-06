@@ -353,6 +353,7 @@ PREFIX + CTRL r：加载会话
     -   ./install.py
     -   按照提示 [[-s ~/.autojump/etc/profile.d/autojump.zsh]] && . ~/.autojump/etc/profile.d/autojump.zsh
     -   source .zshrc
+-   缓存数据库位置:`~/.local/shart/autojump/autojump.txt`
 
 ### lazygit
 [参考](http://blog.csdn.net/cumo3681/article/details/107407815)
