@@ -403,14 +403,14 @@ console.log(flatten(arr));
 
 #### Blob
 
->   Blob(二进制大对象)对象是一个用来包装二进制文件的容器，File继承于Blob
+> Blob(二进制大对象)对象是一个用来包装二进制文件的容器，File 继承于 Blob
 >
->   **IE9-浏览器不支持**
+> **IE9-浏览器不支持**
 
 ##### Blob 创建
 
 ```javascript
-var myBlob = new Blob([1,2,3],{type:'text/plain'});
+var myBlob = new Blob([1, 2, 3], { type: "text/plain" });
 console.log(myBlob);
 console.log(myBlob.size);
 console.log(myBlob.type);
@@ -443,50 +443,46 @@ console.log(myBlob.type);
 </script>
 ```
 
-
-
-##### Blob转地址
+##### Blob 转地址
 
 ```javascript
 // 把blob转化成当前页面的一个data:image/jpeg;base64内存地址
 let fr = new FileReader();
-fr.readAsDataURL(file|blob);
+fr.readAsDataURL(file | blob);
 fr.onloadend = function (e) {
     let base64 = e.target.result;
-    console.log(base64)
+    console.log(base64);
 };
 
 // 把blob转化成当前页面的一个blob:xxxx内存地址
-let src = window.URL.createObjectURL(file|blob); // 这个方法也可以传一个file
-console.log(src)
+let src = window.URL.createObjectURL(file | blob); // 这个方法也可以传一个file
+console.log(src);
 img.src = src;
 ```
--	URL.createObjectURL(file|blob) 可以获取当前文件的一个内存URL
-	-   得到 blob:http://127.0.0.1:5500/xxxxxxxx 格式地址，不是base64的
-	-	比base64地址小节约空间
-	-	立即执行的同步生成，FileReader需要在onload下异步获取base64
-	-	URL.revokeObjectURL释放该地址
-	-	data://URL会对内容进行编码。blob://URL只是对浏览器存储在内存中或者磁盘上的Blob的一个简单引用
 
+-   URL.createObjectURL(file|blob) 可以获取当前文件的一个内存 URL
+    -   得到 blob:http://127.0.0.1:5500/xxxxxxxx 格式地址，不是 base64 的
+    -   比 base64 地址小节约空间
+    -   立即执行的同步生成，FileReader 需要在 onload 下异步获取 base64
+    -   URL.revokeObjectURL 释放该地址
+    -   data://URL 会对内容进行编码。blob://URL 只是对浏览器存储在内存中或者磁盘上的 Blob 的一个简单引用
 
+#### JS 获取 base64 的方式
 
-#### JS获取base64的方式
+> base64 是二进制数据的一个编码格式
 
->   base64是二进制数据的一个编码格式
-
--   JS通过 FileReader 获取base64
+-   JS 通过 FileReader 获取 base64
 
 ```javascript
 let fileReader = new FileReader();
-fileReader.readAsDataURL(file|Blob) // base64形式 读取图片
-fileReader.onload = (e) => { //图片读取完成
+fileReader.readAsDataURL(file | Blob); // base64形式 读取图片
+fileReader.onload = (e) => {
+    //图片读取完成
     console.log(e.target.result);
 };
 ```
 
-
-
--   JS通过 canvas 获取 base64
+-   JS 通过 canvas 获取 base64
 
 ```javascript
 // 这个image就是输入
@@ -501,7 +497,7 @@ image.onload = function () {
    canvas.width = w;
    canvas.height = h;
    ctx.drawImage(image, 0, 0, w, h);
-   // 可以在这里添加水印或者合并图片什么的    
+   // 可以在这里添加水印或者合并图片什么的
    ...
    // 把画布的内容转成base64，这个就是输出
    var base64 = canvas.toDataURL('image/jpeg'，0.1);//参数2压缩比例
@@ -527,7 +523,7 @@ image.src = "xxx.jpg";
 
 ##### FileReader
 
->   FileReader是用来读取内存中的文件的API，支持File和Blob两种格式。
+> FileReader 是用来读取内存中的文件的 API，支持 File 和 Blob 两种格式。
 
 -   FileReader.readyState
     -   0：EMPTY/还没有加载任何数据
@@ -535,6 +531,7 @@ image.src = "xxx.jpg";
     -   2：DONE/已完成全部的读取请求
 -   FileReader.result
 -   FileReader.error
+
 ```javascript
 // readAsArrayBuffer(file) :按字节读取文件内容，结果用ArrayBuffer对象表示
 // readAsBinaryString(file) :按字节读取文件内容，结果为文件的二进制串
@@ -550,22 +547,25 @@ image.src = "xxx.jpg";
 // onloadend 当读取操作完成时调用，无论成功，失败或取消
 
 let fileReader = new FileReader();
-fileReader.readAsDataURL(file) // base64形式 读取图片
-fileReader.onload = (e) => { //图片读取完成
+fileReader.readAsDataURL(file); // base64形式 读取图片
+fileReader.onload = (e) => {
+    //图片读取完成
     console.log(e.target.result);
 };
 //或
 let fileReader = new FileReader();
-fileReader.readAsDataURL(file)
-fileReader.addEventListener('load', function() {
-  // 读取完成
-  let res = fileReader.result
-  // res是base64格式的图片
-})
+fileReader.readAsDataURL(file);
+fileReader.addEventListener("load", function () {
+    // 读取完成
+    let res = fileReader.result;
+    // res是base64格式的图片
+});
 ```
 
 ##### FormData
+
 > 用一些键值对来模拟一系列表单控件：即把 form 中所有表单元素的 name 与 value 组装成 一个 queryString
+
 ```javascript
 let formData = new FormData();
 //各种方式给formData添加文件数据
@@ -576,7 +576,7 @@ formData.set(fieldName, file);
     value:属性值，在我们这里则指 file 数据
     filename:当第二个参数为 file 或 blob 时，告诉服务器的文件名。Blob 对象的默认文件名是“blob”。File 对象的默认文件名 是文件的文件名。
 */
-formData.append(name, value, filename)
+formData.append(name, value, filename);
 ```
 
 ##### 上传
@@ -598,16 +598,19 @@ axios
 ```
 
 ##### 大文件上传
-	-	file继承Blob利用Blob的slice方法将文件切片
-	-	确定每片大小
-	-	获取总大小 (file.size)
-	-	片段数量 (Math.ceil(总大小/每片大小))
-	-	定义一个偏移量决定每次调接口传哪一段，每次调用便宜量++
-#####  Canvas图片上传
-	-	通过 canvas.toDataURL('image/jpeg') 上传base64上传   
 
+    -	file继承Blob利用Blob的slice方法将文件切片
+    -	确定每片大小
+    -	获取总大小 (file.size)
+    -	片段数量 (Math.ceil(总大小/每片大小))
+    -	定义一个偏移量决定每次调接口传哪一段，每次调用便宜量++
+
+##### Canvas 图片上传
+
+    -	通过 canvas.toDataURL('image/jpeg') 上传base64上传
 
 #### 字符串编码
+
 ```javascript
 /*
 ASCII 
@@ -643,6 +646,16 @@ UTF-8:统一编码 汉字占三个字节
 -------------------------------------------------
 */
 ```
+
+#### 滚动条动态底部
+
+```javascript
+//变化的时候
+this.$nextTick(() => {
+    this.$refs.overflow容器.scrollTop = this.$refs.overflow容器.scrollHeight;
+});
+```
+
 #### js 代码整洁之道
 
 [暂时参考](https://zhuanlan.zhihu.com/p/159458364)
