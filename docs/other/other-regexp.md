@@ -34,6 +34,8 @@ title: 正则表达式
             -   如果存在子表达式，参数是，匹配字符串、子1、子n、匹配字符串起始位置
                 -   callback((每次匹配,小括号1，小括号n,index)=>{xxx})
         -   "12liao34zhong56xun".replace(/([a-zA-Z]+)/g,(item)=> item.substring(0,1).toUpperCase()+item.substring(1))
+    -   `str.replaceAll(reg，callback|char)
+        -   正则reg必须加g全局匹配
     -   `str.split(reg)`:通过 str 中 reg 匹配到的子字符串进行分割(默认 g)
 
 ### 重要概念
@@ -186,3 +188,11 @@ console.log(q);
 console.log('18060849356'.replace(/(?=(\d{4})+$)/g,'-'));
 console.log('18060849356'.replace(/(?!^)(?=(\d{3})+$)/g,'-'));
 ```
+
+-   去除字符串中多出指定规则的内容
+
+```javascript
+//同时去除字符串前两位与后四位
+'12werty5678'.replace(/^\w{2}|\w{4}$/g,"")
+```
+
