@@ -317,6 +317,71 @@ arr = null; //手动赋值null， [1,2,3,4]这时没有被引用, 会被自动�
     -   Trident(IE)
     -   EdgeHTML(Edge 浏览器) --> 后期被 Blink 代替
 
+#### 禁止通过控制台查看代码
+```javascript
+//https://www.mk2048.com/blog/blog_hjjahikh2hjaa.html
+var forbidDebug = function () {
+    try {
+        (function () {
+            var callbacks = [],
+                timeLimit = 50,
+                open = false;
+            setInterval(loop, 1);
+            return {
+                addListener: function (fn) {
+                    callbacks.push(fn);
+                },
+                cancleListenr: function (fn) {
+                    callbacks = callbacks.filter(function (v) {
+                        return v !== fn;
+                    });
+                },
+            };
+
+            function loop() {
+                // alert('=======================================')
+                var startTime = new Date();
+                debugger;
+                if (new Date() - startTime > timeLimit) {
+                    if (!open) {
+                        callbacks.forEach(function (fn) {
+                            fn.call(null);
+                        });
+                    }
+                    open = true;
+                    window.stop();
+                    alert("扒的话，劳烦您尊重一下劳动成果！");
+                    document.body.innerHTML = "";
+                } else {
+                    open = false;
+                }
+            }
+        })().addListener(function () {
+            window.location.reload();
+        });
+    } catch (e) {}
+    try {
+        document.onkeydown = function () {
+            var e = window.event || arguments[0];
+            if (e.keyCode == 123) {
+                alert("扒的话，劳烦您尊重一下劳动成果2！");
+                return false;
+            } else if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+                alert("扒的话，劳烦您尊重一下劳动成果2！");
+                return false;
+            } else if (e.ctrlKey && e.keyCode == 85) {
+                alert("扒的话，劳烦您尊重一下劳动成果4！");
+                return false;
+            } else if (e.ctrlKey && e.keyCode == 83) {
+                alert("扒的话，劳烦您尊重一下劳动成果5！");
+                return false;
+            }
+        };
+    } catch (e) {}
+};
+forbidDebug()
+```
+
 #### js 判断服务器图片是否存在
 
 ```javascript
