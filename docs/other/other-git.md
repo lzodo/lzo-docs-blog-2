@@ -323,3 +323,5 @@ git push origin master
 ### github
 - 快查看代码
     -   找到线上项目,按句号，或者将项目添加1s,如:https://github1s.com/lzoxun/xxxxx.git直接编辑器方式打开项目
+-   查看项目信息
+    -   `https://api.github.com/repos/用户名称/项目名称`

@@ -40,7 +40,7 @@ css像素是一个相对单位。
 -   **设备像素比DPR**
 
 设备像素比DPR(devicePixelRatio)
-设备像素/CSS像素
+设备像素/(CSS像素|独立像素)
 DPR = 1 设备像素与css像素相等
 DPR = 2 设备像素是css像素两倍
 dpr可通过window.devicePixelRatio获取
@@ -55,6 +55,7 @@ dpr可通过window.devicePixelRatio获取
         -  视觉视口表示浏览器内看到的`网站的显示区域`
         -  用户可以通过缩放来改变视觉视口
     -  理想视口（ideal viewport）
+        -  `理想视口`或者说`分辨率`就是给定设备物理像素的情况下，最佳的“布局视口”。
     -  https://juejin.cn/post/6844903630655471624#heading-0
 
 ```html
@@ -71,6 +72,102 @@ dpr可通过window.devicePixelRatio获取
         
 -->
 ```
+
+### 媒体查询
+
+```CSS
+// 设备宽度小于 960px 时 body背景变红
+@media screen and (max-width: 960px){
+    body{
+      background-color:#F00；
+    }
+}
+/* 在 screen 类型 小于 240px 或 大于360px 小于 700px 加载 */
+@media screen and (max-width: 240px), (min-width: 360px) and (max-width: 700px) {
+    
+}
+@media not screen {
+    xxxx
+}
+@media only screen{
+    xxx
+}
+/*
+	设备类型:
+		all、screen、print ...
+	运算符
+		not、and、only、逗号
+	常见功能属性
+		height                  输出设备中的页面可见区域高度。
+        width                   输出设备中的页面可见区域宽度。
+        max-aspect-ratio        输出设备的屏幕可见宽度与高度的最大比率。
+        max-device-aspect-ratio 输出设备的屏幕可见宽度与高度的最大比率。
+        max-device-height       输出设备的屏幕可见的最大高度。
+        max-device-width        输出设备的屏幕最大可见宽度。
+        max-height              输出设备中的页面最大可见区域高度。
+        max-width               输出设备中的页面最大可见区域宽度。
+        min-height              输出设备中的页面最小可见区域高度。
+        min-width               输出设备中的页面最小可见区域宽度。
+*/
+```
+
+#### 加载方式
+
+```css
+// 1、标签中 
+<source media="(min-width: 650px)" srcset="demo.jpg">
+
+// 2、样式中
+@media only screen{
+    xxx
+}
+
+// 3、样式标签
+<style media="(min-width: 500px)">
+  .box {
+    background-color: red;
+  }
+</style>
+
+// 4、第三方文件
+@import url(./index.css) (min-width:350px);
+```
+
+
+
+### 适配方案
+
+```css
+/*
+百分比
+    width/height(百分比值):相对于父元素
+    left/right:position非static的上级元素宽度
+    top/bottom:position非static的上级元素高度
+    定位元素 padding/margin:position非static 直接父亲元素的width，height无关
+    非定位元素 padding/margin:直接父亲元素的width，而与父元素的height无关
+    border-radius/translate/background-size等:相对于自生宽度
+百分比布局缺点
+	宽高相对父元素不一致，计算困难
+*/
+```
+
+#### vw适配方案
+
+[GitHub案例](https://github.com/liaozhongxun/lzo-webfit-postpxtoviewport)
+
+```css
+/* 计算公式:元素宽度(75px)/设计稿宽度(750px)*100 vw */
+```
+
+
+
+#### rem 适配发难
+
+-   rem只相对于浏览器的根元素（HTML元素）的font-size
+-   在响应式布局中，必须通过js来动态控制根元素font-size的大小。
+-   必须将改变font-size的代码放在css样式之前。
+
+
 
 
 
