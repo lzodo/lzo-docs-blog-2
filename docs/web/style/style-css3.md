@@ -153,7 +153,7 @@ dpr可通过window.devicePixelRatio获取
 
 #### vw适配方案
 
-[GitHub案例](https://github.com/liaozhongxun/lzo-webfit-postpxtoviewport)
+[Github案例](https://github.com/liaozhongxun/lzo-webfit-postpxtoviewport)
 
 ```css
 /* 计算公式:元素宽度(75px)/设计稿宽度(750px)*100 vw */
@@ -161,11 +161,103 @@ dpr可通过window.devicePixelRatio获取
 
 
 
-#### rem 适配发难
+#### rem 适配方案
+
+```css
+/* 设计稿尺寸/rootValue(基准大小) => 得到rem大小，rem大小*根字体大小 => 得到设备显示的具体像素大小 */
+```
+
+
 
 -   rem只相对于浏览器的根元素（HTML元素）的font-size
 -   在响应式布局中，必须通过js来动态控制根元素font-size的大小。
 -   必须将改变font-size的代码放在css样式之前。
+-   算法: `设计稿尺寸/rootValue(基准大小)` 得到rem大小，`rem大小*根字体大小`得到设备的具体像素大小
+-   如果`基准翻倍`，html`字体翻倍`，得到的`rem值缩小一半`，最终设备得到像素大小`不变`
+
+##### vue2
+
+[Github案例](https://github.com/liaozhongxun/lzo-webfit-pxtorem-vue2)
+
+```css
+
+/*
+1.通过 vue init webpack my-project 搭建vue2 webpack项目
+2.映入rem文件动态设置html的字体大小
+import "./rem";
+3.安装 postcss-pxtorem@5.1.1
+4..postcssrc.js 配置 postcss-pxtorem
+----------------------------------------------.postcssrc.js
+module.exports = {
+  "plugins": {
+    "postcss-pxtorem": { 
+          rootValue: 16, //结果为：设计稿元素尺寸/16，比如元素宽320px,最终页面会换算成 20rem
+          rootValue: 32, //结果为：设计稿元素尺寸/32，比如元素宽750px,最终页面会换算成 23.4375rem
+          propList: ["*"], //是一个存储哪些将被转换的属性列表，这里设置为['*']全部，假设需要仅对边框进行设置，可以写['*', '!border*']
+          unitPrecision: 5, //保留rem小数点多少位
+          selectorBlackList: ['.radius'],  //则是一个对css选择器进行过滤的数组，比如你设置为['fs']，那例如fs-xl类名，里面有关px的样式将不被转换，这里也支持正则写法。
+          replace: true, //是否直接替换
+          mediaQuery: false, //媒体查询( @media screen 之类的)中不生效
+          minPixelValue: 12, //px小于12的不会被转换
+    }
+  }
+}
+-----------------------------------------------------
+
+5.项目中按ui稿正常填写像素大小，解析后自动转为rem单位
+*/
+```
+
+```js
+//rem.js
+// 基准大小
+const baseSize = 32; //与 post-pxtorem 的 rootValue 一致
+// 设置 rem 函数
+function setRem() {
+  // 当前页面宽度相对于 750 宽的缩放比例，可根据自己需要修改。
+  // iPhone678 375，baseSize为32,这是 得到跟节点大小为 16px
+  const scale = document.documentElement.clientWidth / 750;
+  // 设置页面根节点字体大小
+  document.documentElement.style.fontSize =
+    baseSize * Math.min(scale, 2) + "px";
+}
+// 初始化
+setRem();
+// 改变窗口大小时重新设置 rem
+window.onresize = function() {
+  setRem();
+};
+```
+
+##### vue3
+
+>   `.postcssrc.js` 改为 `postcss.config.js`
+
+[Github](https://github.com/liaozhongxun/lzo-webfit-pxtorem)
+
+```css
+/*
+1.通过 vue create 项目名称
+2.映入rem文件动态设置html的字体大小
+import "./rem";
+3.安装 postcss-pxtorem@5.1.1
+4.postcss.config.js 配置 postcss-pxtorem
+----------------------------------------------.postcssrc.js
+module.exports = {
+    "postcss-pxtorem": {
+        rootValue: 32
+		xxx
+    },
+  },
+};
+
+-----------------------------------------------------
+
+5.项目中按ui稿正常填写像素大小，解析后自动转为rem单位
+*/
+```
+
+
 
 
 
