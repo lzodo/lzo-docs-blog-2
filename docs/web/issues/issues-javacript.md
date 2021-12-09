@@ -2,7 +2,7 @@
  title: javascript
 ---
 
-### JS
+### JS概念性问题
 
 #### 跨域方案总结
 
@@ -382,19 +382,6 @@ var forbidDebug = function () {
 forbidDebug()
 ```
 
-#### js 判断服务器图片是否存在
-
-```javascript
-var ImgObj = new Image(); //判断图片是否存在
-ImgObj.src = "xxxx.png";
-ImgObj.onload = function () {
-    console.log("图片存在");
-};
-ImgObj.onerror = function () {
-    console.log("图片不存在");
-};
-```
-
 #### 进制
 
 ```javascript
@@ -410,6 +397,29 @@ ImgObj.onerror = function () {
  *  占四位 最大值1+2+4+8 =15 
  *  颜色值六个十六进制占三个字节24位 => #ffffff => rgb(0b11111111,0b11111111,0b11111111) 所以范围是0-255,所以三个字节的颜色拥有256*256*256种颜色
  */
+```
+#### js 代码整洁之道
+
+[暂时参考](https://zhuanlan.zhihu.com/p/159458364)
+[暂时参考](https://www.cnblogs.com/wenxinsj/p/14646550.html)
+[暂时参考](https://www.jianshu.com/p/fb4409d8ace2)
+
+#### 断点调试
+
+> 在某一行打下断点,当浏览器执行到这一行时，程序暂停，可以观察限制，代码状态，变量值等，在通过下一步下一步查看代码走向以及值的变化
+
+### JS功能性问题
+#### js 判断服务器图片是否存在
+
+```javascript
+var ImgObj = new Image(); //判断图片是否存在
+ImgObj.src = "xxxx.png";
+ImgObj.onload = function () {
+    console.log("图片存在");
+};
+ImgObj.onerror = function () {
+    console.log("图片不存在");
+};
 ```
 
 #### js 插入样式
@@ -721,12 +731,197 @@ this.$nextTick(() => {
 });
 ```
 
-#### js 代码整洁之道
+#### 指定时间触发定时器
 
-[暂时参考](https://zhuanlan.zhihu.com/p/159458364)
-[暂时参考](https://www.cnblogs.com/wenxinsj/p/14646550.html)
-[暂时参考](https://www.jianshu.com/p/fb4409d8ace2)
+>   通过一个定时器找到指定时与分，关闭定时器，执行内容，定义第二个24小时执行一次的定时器
 
-#### 断点调试
+```javascript
+// 固定时间执行定时器
+// 利用定时器监听到某个时间点时触发另外一个定时器
 
-> 在某一行打下断点,当浏览器执行到这一行时，程序暂停，可以观察限制，代码状态，变量值等，在通过下一步下一步查看代码走向以及值的变化
+const ListenerTime = 1000 * 60 * 2; //监控的执行间隔时间   每小时
+var StartTime = 1000 * 60 * 60 * 24; //正式启动后的执行间隔时间   每天 24小时
+
+var RunInterval,runTime,hh=11,mm=34;
+
+/**
+ *	启动的入口
+ */
+function run() {
+    console.log("正在启动监听....");
+    //直接符合条件不开定时器
+    if(runCode()){
+        return false;
+    }
+
+    runTime = setInterval(function () {
+        runCode();
+    }, ListenerTime);
+}
+
+/**
+ * run定时器中要做的事情
+ */
+
+function runCode(){
+    console.log("监听中....第" + getTime("hh") + "小时" + ",当前是第 " + getTime("mm") + " 分," + getTime("ss") + " 秒");
+    if (getTime("hh") == hh) {
+        //当系统时间是中午12点启动，如果是特定的其他时间可按需改动
+        if(getTime("mm") == mm||getTime("mm") == mm+1){
+            runTime&&clearInterval(runTime); //清除监控的定时器
+            console.log("找到执行时间,当前过 1000 * 60 * 60 * 24 毫秒再次执行,已关闭监听");
+            StartInterval(); //启动要执行的方法
+            return true;
+        }
+    }
+}
+
+/**
+ *  到监控时间后所要启动的定时器
+ */
+function StartInterval() {
+    main();
+    RunInterval = setInterval(function () {
+        main();
+    }, StartTime);
+}
+
+/**
+ *  主要执行的函数内容
+ */
+function main() {
+    console.log(new Date() + "正式执行");
+}
+
+/**
+ *	关闭主要执行的定时器
+ * 	需要额外调用来关闭主程序
+ */
+function closeInterval() {
+    clearInterval(RunInterval);
+    console.log("已关闭执行程序");
+}
+
+/** 获取系统时间的方法  **/
+
+/**
+ *
+ * @param {Object} time  想要获取时分秒的判断参数
+ * YY 年;MM 月;DD 日;hh 时;mm 分;ss 秒;
+ *
+ * return   返回类型为Number型,若参数正确，返回-1
+ */
+function getTime(time) {
+    var datetime = new Date();
+    var year = datetime.getFullYear();
+    var month = datetime.getMonth() + 1;
+    var day = datetime.getDate();
+    var Hours = datetime.getHours();
+    var Minutes = datetime.getMinutes();
+    var Seconds = datetime.getSeconds();
+
+    switch (time) {
+        case "YY":
+            return year;
+            break;
+        case "MM":
+            return month;
+            break;
+        case "DD":
+            return day;
+            break;
+        case "hh":
+            return Hours;
+            break;
+        case "mm":
+            return Minutes;
+            break;
+        case "ss":
+            return Seconds;
+            break;
+        default:
+            return -1;
+    }
+}
+
+//模拟启动
+run();
+
+```
+
+#### iframe详细
+
+```javascript
+/*
+let iframe = document.getElementById("iframe");
+
+1.iframe引入一些网站需要关闭 高级 > 隐私设置和安全性 > 内容设置 > Cookie > 阻止第三方Cookie
+2.引入不同源页面，无法正常操作子页面
+    跨域概念:协议与域名相同，就不算跨域
+    跨域顶多只能实现页面跳转window.location.href.
+    通过postMessage父子页面消息传递
+        父页面（子）
+            iframe.contentWindow.postMessage('要发送的数据'或{msg: 'data to parent'},'*');
+            参数
+                data：postMessage传递进来的值
+                origin：发送消息的文档所在的域
+                source：发送消息文档的window对象的代理
+        子页面接收（父）
+            window.addEventListener("message",(data)=>{console.log(data)}, false);
+3.同源情况下父页面操作子页面，或获取子页面消息数据
+    子页面Win:iframe.contentWindow || window.frames['framesName']
+    子页面Docs:iframe.contentDocument.getElementById("xxxxx")
+4.同源情况下子页面操作父页面，或获取父页面消息数据
+    子页面
+        操作父页面:window.parent.ifrmLoaded('window.parent.ifrmLoaded');
+        多层iframe最顶层:window.top
+    父页面接收
+        function ifrmLoaded(data){
+            console.log('接收子页面操作'+ data)
+        }
+5.iframe的事件操作
+    iframe.onload=()=>{}; //子页面加载完成后执行
+
+6.iframe标签常用属性
+    iframe常用属性:
+        1.frameborder:是否显示边框，1(yes),0(no)
+        2.height:框架作为一个普通元素的高度，建议在使用css设置。
+        3.width:框架作为一个普通元素的宽度，建议使用css设置。
+        4.name:框架的名称，window.frames[name]时专用的属性。
+        5.scrolling:框架的是否滚动。yes,no,auto。
+        6.src：内框架的地址，可以使页面地址，也可以是图片的地址。
+        7.sandbox: 对iframe进行一些列限制，IE10+支持
+        8.allowfullscreen：是否允许全屏
+        9.allowtransparency：是否允许设置透明
+7.安全措施
+    防止自己网页被iframe
+        1. 手动跳转
+            if(window != window.top){
+                window.top.location.href = correctURL;
+            }
+        或
+            if (top.location.host != window.location.host) {
+            　　top.location.href = window.location.href;
+            }
+        2.  响应头 X-Frame-Options
+            X-Frame-Options是一个相应头，主要是描述服务器的网页资源的iframe权限。
+                DENY：当前页面不能被嵌套iframe里，即便是在相同域名的页面中嵌套也不允许,也不允许网页中有嵌套iframe
+                SAMEORIGIN：iframe页面的地址只能为同源域名下的页面
+                ALLOW-FROM：可以在指定的origin url的iframe中加载
+        3. 响应头 Content Security
+            比较强大。。。。。
+            Content-Security-Policy: default-src 'self'
+            。。。各种配置
+    iframe别人网站
+        1.sandbox
+            是h5的一个新属性，就是用来给指定iframe设置一个沙盒模型，限制iframe的更多权限.
+            allow-forms	允许进行提交表单
+            allow-scripts	运行执行脚本
+            allow-same-origin	允许同域请求,比如ajax,storage
+            allow-top-navigation	允许iframe能够主导window.top进行页面跳转
+            allow-popups	允许iframe中弹出新窗口,比如,window.open,target="_blank"
+            allow-pointer-lock	在iframe中可以锁定鼠标，主要和鼠标锁定有关
+            <iframe sandbox="allow-forms allow-same-origin" src="..."></iframe>
+*/
+```
+

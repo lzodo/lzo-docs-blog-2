@@ -53,6 +53,8 @@ title: 工作学习资源
 
 -   [CSS-Inspiration(CSS3)](https://github.com/chokcoco/CSS-Inspiration)
 -   [javascript-questions 题库](https://github.com/lydiahallie/javascript-questions)
+-   [监控大屏项目](https://gitee.com/lzo-gitee/DataGearDashboardTemplate)
+-   [监控大屏项目2](https://gitee.com/lzo-gitee/DaShuJuZhiDaPingZhanShi)
 
 ## 插件、库
 
@@ -132,7 +134,6 @@ title: 工作学习资源
 -   [window mydock](https://www.mydockfinder.com/)
 -   [彼岸壁纸](http://www.netbian.com/)
 -   [win10](https://www.microsoft.com/zh-cn/software-download/windows10)
-
 
 
 

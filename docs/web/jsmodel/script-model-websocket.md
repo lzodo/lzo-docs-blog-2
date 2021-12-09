@@ -11,3 +11,8 @@ title: websocket
   - socket.io 兼容性较好
 - 短连接(ajax)
   - 前端主动获取数据    
+
+
+### websocket
+### SSE
+> SSE 支持短轮询、长轮询和HTTP 流，而且能在断开连接时自动确定何时重新连接。
