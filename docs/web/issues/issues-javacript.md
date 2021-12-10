@@ -382,6 +382,88 @@ var forbidDebug = function () {
 forbidDebug()
 ```
 
+#### Date详解
+
+>   **lzo-web-project\JavaScript\ECMAScript\Date\index.js**
+
+```javascript
+//===========================基本操作======================================
+/**
+ * ISO 8601 国际标准化组织的国际标准ISO 8601是日期和时间的表示方法（1998、2000、2004等版本）
+ * GMT（格林尼治标准时间）是一些欧洲和非洲国家正式使用的时间，
+ * UTC（是国际标准）这两个时间一般情况是相等的
+ *
+ * Thu Nov 04 2021 08:00:00 GMT+0800 (中国标准时间) 指 中国标准时间是格林尼治标准时间 + 8小时(偏移量)
+ * UTC或GMT 时间00:00:00的时候，我们的时间是08:00:00
+ * IOS上执行new Date('1990-01-04')会得到invilaid date。处理方法是对1990-01-04转换成1990/01/04的格式
+ * Thu Nov 04 2021 10:10:10 GMT+0800 (中国标准时间) 等同于UTC时间 2021-11-04T02:10:10.000Z (T指UTC时间)
+ */
+
+//new Date 里的参数默认中国标准时间
+let NewDate = new Date("2021-11-04");
+console.log('===============日期基础===================')
+//浏览器运行结果
+console.log(new Date("2021-11-04")) //Thu Nov 04 2021 08:00:00 GMT+0800 (中国标准时间)
+console.log(new Date()) //Thu Nov 04 2021 16:05:58 GMT+0800 (中国标准时间)
+console.log(new Date(1636013291302)) //Thu Nov 04 2021 16:08:11 GMT+0800 (中国标准时间)
+console.log(new Date('Thu Nov 04 2021 16:08:11 GMT+0800')) //Thu Nov 04 2021 16:08:11 GMT+0800 (中国标准时间)
+console.log(new Date("2021-11-04T10:10:10")) //Thu Nov 04 2021 10:10:10 GMT+0800 (中国标准时间)
+//node运行 (ISO 8601)
+console.log(new Date("2021-11-04T10:10:10")) //2021-11-04T02:10:10.000Z
+
+
+//获取当前时间(从格林威治1970.1.1 00:00:00 [国内 1970.1.1 08:00:00] 开始的毫秒数)
+console.log(new Date().getTime());
+//获取当前毫秒数(0-999)
+console.log(new Date().getMilliseconds());
+//获取一分钟后的毫秒数目
+console.log(new Date(new Date() + 60000).getTime());
+//获取星期
+console.log(new Date().getDay());
+
+//方法返回指定日期在月中的第几天（从 1 到 31）。
+console.log(new Date().getDate(),'getDate');
+console.log(new Date('2021-11-05 07:59:59').getUTCDate(),'getUTCDate'); //中国标准上午八点之前，获取到的是前一天
+
+//getUTCHours 与 getHours
+console.log(new Date('2021-11-05 08:00:00').getHours(),'getHours'); //8
+console.log(new Date('2021-11-05 08:00:00').getUTCHours(),'getUTCDate'); //0
+
+
+console.log('===============end===================')
+
+//====================通过Date方法获取日期时间格式===========================
+
+/*
+ * 功能:返回时间
+ * 描述:date.toTimeString         // 11:19:44 GMT+0800 (中国标准时间,24小时制)
+ *	console.log(new Date(1597894083000).toLocaleString())      // 2020/8/20 上午11:26:29
+ *	console.log(new Date().toLocaleTimeString()) //下午3:23:14
+ *	console.log(new Date(1597894083000).toLocaleDateString())  // 2020/8/20
+ */
+
+ //获取24制小时
+const getTimeFromDate = (date) => date.toTimeString().slice(0, 8);
+let time1 = getTimeFromDate(new Date()); // 09:46:08
+
+
+console.log('========转换输出格式=============')
+console.log(new Date().toLocaleString()) //2021/11/5 上午11:50:41
+console.log(new Date().toLocaleTimeString()) //上午11:50:41
+console.log(new Date().toLocaleDateString()) //2021/11/5
+
+console.log(new Date().toISOString()); //转ISO标准，日期格式 2021-11-05T03:47:35.756Z
+console.log(new Date().toUTCString()); //Fri, 05 Nov 2021 03:45:22 GMT (推荐)
+console.log(new Date().toGMTString()); //Fri, 05 Nov 2021 03:45:22 GMT (不推荐)
+
+console.log(new Date().toString()); //中国标准时间(默认)
+console.log(new Date().toTimeString()); //中国标准时间后半部分
+console.log(new Date().toDateString()); //中国标准时间日期部分
+console.log('========end=============')
+```
+
+
+
 #### 进制
 
 ```javascript
@@ -851,10 +933,16 @@ run();
 
 #### iframe详细
 
+```html
+<iframe id="iframe"></iframe>
+```
+
+```javascript
+let iframe = document.getElementById("iframe");
+```
+
 ```javascript
 /*
-let iframe = document.getElementById("iframe");
-
 1.iframe引入一些网站需要关闭 高级 > 隐私设置和安全性 > 内容设置 > Cookie > 阻止第三方Cookie
 2.引入不同源页面，无法正常操作子页面
     跨域概念:协议与域名相同，就不算跨域
@@ -925,3 +1013,88 @@ let iframe = document.getElementById("iframe");
 */
 ```
 
+
+
+#### 页面滚动到顶部
+
+```javascript
+/*
+ * 功能:快速向上滚动至顶部
+ * 描述: scrollTo(x,y) 通过横纵坐标位置
+ */
+const scrollToTop = () => {
+    const t = document.documentElement.scrollTop || document.body.scrollTop; //获取滚动高度
+    if (t > 0) {
+        window.requestAnimationFrame(scrollToTop); //浏览器自动判断动画完成之后执行回调
+        window.scrollTo(0, t - t / 8);
+    }
+};
+scrollToTop();
+```
+
+#### 数字转大写
+
+```javascript
+let digitUppercase = (n)=> {
+    var fraction = ["角", "分"];
+    var digit = [
+        "零","壹","贰","叁","肆","伍","陆","柒","捌","玖",
+    ];
+    var unit = [ //unit[2]均分unit[1], 如:佰元、佰万、佰亿
+        ["元", "万", "亿"],
+        ["", "拾", "佰", "仟"],
+    ];
+
+    //算前:判断是否为负数
+    var head = n < 0 ? "欠" : "";
+    n = Math.abs(n);
+
+    //算小数点后
+    var s = "";
+    for (var i = 0; i < fraction.length; i++) {
+        //角位置 n*10 => 移一位小数 => floor去小数 => 取除10余数 => 拼接上角
+        //分位置 m*10*10 => 移两位小数=> floor去小数 => 取除10余数 => 拼接上角分
+        s += (digit[Math.floor(n * 10 * Math.pow(10, i)) % 10] + fraction[i]).replace(/零./, "");
+    }
+    //是否有角与分
+    s = s || "整";
+
+    //算整数部分
+    n = Math.floor(n);
+    //遍历 ["元", "万", "亿"]
+    for (var i = 0; i < unit[0].length && n > 0; i++) {
+        var p = "";
+        //遍历 ["", "拾", "佰", "仟"]
+        for (var j = 0; j < unit[1].length && n > 0; j++) {
+            //  digit[4]        ""   
+            //  digit[3]        拾 
+            //  digit[5]        佰  
+            //  digit[6]        仟
+            //  结束循环添加单位，p保存到s中，进入下一循环  
+            //  digit[8]        仟 
+            p = digit[n % 10] + unit[1][j] + p;
+            n = Math.floor(n / 10);
+        }
+        s = p.replace(/(零.)*零$/, "").replace(/^$/, "零") + unit[0][i] + s;
+    }
+    return (
+        head + s
+            .replace(/(零.)*零元/, "元")
+            .replace(/(零.)+/g, "零")
+            .replace(/^整$/, "零元整")
+    );
+}
+
+console.log(digitUppercase(86534.63))
+```
+
+
+
+### 请求与响应
+
+#### 响应参数
+
+-   **X-Frame-Options**：iframe权限参数
+-   **Content-Security-Policy**:服务器通过发送一个 CSP 头部，来告诉浏览器什么是`被授权执行的`与`什么是需要被禁止的`
+
+#### 请求参数
