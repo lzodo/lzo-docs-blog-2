@@ -85,13 +85,20 @@ git push -u origin master
 
 ```shell
 git status [-s]# 查看文件状态
-git add file|. # 将文件添加到暂存区
-git reset file # 取消暂存，变为之前的状态
+git add file|.|* # 将指定文件、所有新增编辑文件、所有编辑文件 添加到暂存区
+git reset <file-name>           # 从暂存区恢复指定到工作区
+git reset -- .                  # 从暂存区恢复所有文件到工作区
+git reset --hard                # 把暂存区的修改退回到工作区
+git reset --hard HEAD~1         # 回头n个版本
 git commit -m '日志信息' # 将暂存区文件提交到版本库(状态变为已跟踪未修改 看不到了)
 git commit -a -m '日志信息' # 不用add 直接添加到版本库
 git commit 回车(进入编辑器) --> i(进入编辑模式) --> esc (退出编辑模式) --> :wq(保存并退出)
+
 git log # 查看日志记录
 	commit id  重要
+git log --oneline  //以简洁的一行显示，包含简洁哈希索引值
+git log --pretty=oneline //查看日志且并且显示版本
+git log --stat     //显示每个commit中哪些文件被修改,分别添加或删除了多少行
 ```
 
 ### 撤销

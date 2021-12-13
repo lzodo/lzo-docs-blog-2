@@ -241,5 +241,20 @@ let ivn = isValidNumber(10); // true
 let ivn2 = isValidNumber("a"); // false
 ```
 
+### 环境判断相关
+
+#### 判断是否是手机
+
+```javascript
+isMobile() {
+    let flag = 		navigator.userAgent.match(/(phone|pad|pod|iPhone|iPod|ios|iPad|Android|Mobile|BlackBerry|IEMobile|MQQBrowser|JUC|Fennec|wOSBrowser|BrowserNG|WebOS|Symbian|Windows Phone)/i)
+    return flag;
+},
+```
+
+
+
+
+
 
 
