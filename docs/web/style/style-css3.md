@@ -197,6 +197,7 @@ module.exports = {
           unitPrecision: 5, //保留rem小数点多少位
           selectorBlackList: ['.radius'],  //则是一个对css选择器进行过滤的数组，比如你设置为['fs']，那例如fs-xl类名，里面有关px的样式将不被转换，这里也支持正则写法。
 		  selectorBlackList: [/^(?!\.mrms-).*斜杠], //只要不是.mrms-开头的类都排除，保留px
+		  selectorBlackList: [/^(?!\.(mrms|ivu)-).*斜杠], // 只要不是.mrms-或.ivu-开头的类都排除，保留px
           replace: true, //是否直接替换
           mediaQuery: false, //媒体查询( @media screen 之类的)中不生效
           minPixelValue: 12, //px小于12的不会被转换
