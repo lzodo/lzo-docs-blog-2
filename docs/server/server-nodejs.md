@@ -190,7 +190,8 @@ http请求 无状态 服务器、客户端相互不认识
 非对称加密:RS256...
     通过私钥产生token、通过公钥解密token
     指加密和解密使用不同密钥的加密算法,也称为公私钥加密。
-    
+
+[官网]([ https://www.openssl.org/source/](https://www.openssl.org/source/))    [下载地址](http://slproweb.com/products/Win32OpenSSL.html)
 
 ```shell
 # openssl方式
@@ -254,7 +255,7 @@ npm install bcrypt -S
 ```
 ### Express RMVP 模式
 > MVC -> MVP|RMVP -> MVVM ,Web 设计模式
- 
+
 [参考](http://www.ruanyifeng.com/blog/2015/02/mvcmvp_mvvm.html)
 #### MVC
 + M:Model,模型层，数据相关的操作
