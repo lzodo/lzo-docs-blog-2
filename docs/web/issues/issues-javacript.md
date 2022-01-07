@@ -380,6 +380,93 @@ var forbidDebug = function () {
     } catch (e) {}
 };
 forbidDebug()
+
+//==========================第一次输入密码查看======
+function forbidDebug() {
+    let intarv = null;
+    try {
+        (function () {
+            var callbacks = [],
+                timeLimit = 50,
+                open = false;
+            intarv = setInterval(loop, 3000);
+
+            return {
+                addListener: function (fn) {
+                    callbacks.push(fn);
+                },
+                cancleListenr: function (fn) {
+                    callbacks = callbacks.filter(function (v) {
+                        return v !== fn;
+                    });
+                },
+            };
+
+            function loop() {
+                var startTime = new Date();
+                console.log(1);
+                debugger;
+                if (new Date() - startTime > timeLimit) {
+                    if (window.prompt("请输入密码") == 1) {
+                        //右键进入
+                        clearInterval(intarv);
+                        open = false;
+                        localStorage.setItem("console", "xxxx");
+                    } else {
+                        if (!open) {
+                            callbacks.forEach(function (fn) {
+                                fn.call(null);
+                            });
+                        }
+                        open = true;
+                        window.stop();
+                        alert("请您尊重一下劳动成果！");
+                        document.body.innerHTML = "";
+                    }
+                } else {
+                    open = false;
+                }
+            }
+        })().addListener(function () {
+            window.location.reload();
+        });
+    } catch (e) {}
+    try {
+        document.onkeydown = function () {
+            var e = window.event || arguments[0];
+            if (
+                e.keyCode == 123 ||
+                (e.ctrlKey && e.shiftKey && e.keyCode == 73) ||
+                (e.ctrlKey && e.keyCode == 85) ||
+                (e.ctrlKey && e.keyCode == 83)
+            ) {
+                if (window.prompt("请输入密码") == 1) {
+                    clearInterval(intarv);
+                    open = false;
+                    localStorage.setItem("console", "xxxx");
+                } else {
+                    alert("请您尊重一下劳动成果！");
+                    return false;
+                }
+            }
+            // else if (e.ctrlKey && e.shiftKey && e.keyCode == 73) {
+            //     alert("禁止打开控制台");
+            //     return false;
+            // }
+            // else if (e.ctrlKey && e.keyCode == 85) {
+            //     alert("禁止查看源码页面");
+            //     return false;
+            // }
+            // else if (e.ctrlKey && e.keyCode == 83) {
+            //     alert("禁止下载页面");
+            //     return false;
+            // }
+        };
+    } catch (e) {}
+}
+if (localStorage.getItem("console") != "xxxx") {
+    forbidDebug();
+}
 ```
 
 #### Date详解
