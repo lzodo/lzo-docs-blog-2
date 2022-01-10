@@ -92,3 +92,41 @@ list-style:none|其他图形符号(例:decimal数字) inside(文本内侧) 自�
 
 暂存:background-blend-mode 属性定义了背景层的混合模式（图片与颜色）。
     anime.js Mo.js velocity popmotion Hover(css)
+    
+#### font-family
+
+##### `font-family`取值
+- **font-family: Arial** ：具体的`字体样式`，字体族名为 Arial;
+- **font-family: sans-serif**：`通用字体族名`,备选机制，用于在指定的字体不可用时给出较好的字体
+- **通用字体族名**
+    - [css fonts3](https://www.w3.org/TR/2018/REC-css-fonts-3-20180920/#generic-font-families)
+        - serif 衬线字体族
+        - sans-serif 非衬线字体族
+        - monospace 等宽字体，即字体中每个字宽度相同
+        - cursive 草书字体
+        - fantasy 主要是那些具有特殊艺术效果的字体 	
+    - [css fonts4 新增](https://www.w3.org/TR/css-fonts-4/#generic-font-families)
+        - system-ui 系统默认字体
+        - emoji 用于兼容 emoji 表情符号字符
+        - math 适用于数学表达式
+        - fangsong 此字体系列用于中文的（仿宋）字体。
+
+##### 常用 通用字体族名
+
+- `系统默认字体（system-ui）`，不同的操作系统的 Web 页面下，自动选择本操作系统下的默认系统字体。
+	- 补充 system-ui 兼容性的不足 
+	- 支持作为 **-apple-system** 值（仅在 macOS 和 iOS 上）
+	- 支持作为 **BlinkMacSystemFont** 值（仅在 macOS 上） 	
+- `Segoe UI`， Windows 平台及 Windows Phone 上选取最佳的**西文字体**展示。
+- `Roboto`，是为 Android 操作系统设计的一个无衬线字体家族
+- `衬线字体族（ serif）`，在字符笔画末端有叫做衬线额外装饰，笔画的粗细会有所不同
+- `无衬线字体族（sans-serif）`，通常是统一线条的，往往拥有相同的曲率，笔直的线条，锐利的转角
+
+```css
+*{
+	font-family: system-ui,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,
+    Helvetica,Arial,
+    sans-serif,apple color emoji,segoe ui emoji,segoe ui symbol;
+}
+/* system-ui,-apple-system,BlinkMacSystemFont,segoe ui,Roboto,具体字体族,sans-serif,可有可无随意;*/
+```
