@@ -1,7 +1,11 @@
 ---
 title: 样式问题
 ---
-### CSS
+#### CSS
+#### 初始化
+
+normalize.css
+
 #### 只在火狐生效
 ```css
 @-moz-document url-prefix(){
