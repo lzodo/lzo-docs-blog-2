@@ -268,6 +268,7 @@ npm install bcrypt -S
 + V:View,视图层，用户界面渲染逻辑(html、css...)
 + C:控制器，js
 + MVC之间三方都能相互通讯
++ View层是界面，Controller层是业务逻辑，Model层是数据库访问(WEB接口调用)
 #### MVP
 + M:Model,模型层，数据相关的操作
 + V:View,视图层，用户界面渲染逻辑(html、css...)
