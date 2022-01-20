@@ -23,7 +23,9 @@ title: 正则表达式
     -   `g:global` 全局匹配，匹配字符串中所有匹配的词
 -   JS 正则对象提供的方法
     -   `reg.test("str");`:test 验证 str 中是否存在符合规则的子字符串
+    -   `reg.test(["str1","str2","strn"])`:只要一个符合条件就返回true
     -   `reg.exec("str");`:exec 返回 str 中，匹配到的符合规则的第一个子字符串,与`小括号包裹`的子表达式，不匹配返回`null`
+    
 -   String 方法提供的方法
     -   `str.search(reg)`:从 str 中查找 reg 匹配到子字符串的`起始位置`,没有返回`-1`
     -   `str.match(reg)`:以数组模式返回 str 中所以符合 reg 要求的子字符串,和正则的`exec`类似,并通过 g 获取所以匹配项
