@@ -1211,12 +1211,13 @@ export default class CronFormat {
             return this.validator().msg;
         }
 
+        if(this.cronstr[3] == "?"&&this.cronstr[5] == "?") return "格式错误,周或天只能选一个";
         if (this.cronstr[5] == "?") {
             res = `${this.getMonth()} ${this.getDay()} ${this.getHour()} ${this.getMinutes()} ${this.getSeconds()}`;
         } else if (this.cronstr[3] == "?") {
             res = `${this.getMonth()} ${this.getWeek()} ${this.getHour()} ${this.getMinutes()} ${this.getSeconds()}`;
         } else {
-            return "格式错误,周或天必须且只能选一个";
+            return "格式错误,周或天必须选一个";
         }
 
         if (this.formaterr) {
