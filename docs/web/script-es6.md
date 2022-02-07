@@ -20,12 +20,17 @@ title: ECMAScript
 ## 运算符
 ### ??
 
->   非空运算符，只判断变量是否为`null/undefined`, ``||`可以判断变量是否为null/undefined/false/0/""等
+>   非空运算符，只判断变量是否为`null/undefined`, `||`可以判断变量是否为null/undefined/false/0/""等
 
 ```javascript
-//??
+//?? 如果前面变量为null或undefined则返回??后面的值
 null??1	 //1
 0??1	 //0
+// 非空判断
+if((value??'') !== ''){
+  //...
+}
+
 
 //??= 
 a ??= b  ->   a = (a??b)
@@ -35,6 +40,10 @@ a ??= b  ->   a = (a??b)
 // 查找config下的db下的host属性，如果那一层没有，直接返回undefined
 const host = config?.db?.host;
 console.log(host)
+
+obj?.prop // 对象属性是否存在
+obj?.[expr] // 同上
+func?.(...args) // 函数或对象方法是否存在
 
 //?: 三元运算符
 ```
@@ -56,11 +65,14 @@ console.log(host)
         - for循环
         - for in:`for(let i in arr)` ，i为索引
         - for of:`for(let item of arr)`，item为每一项
+        
     - `filter`
         - filter的回调必须返回一个`bool`值，`true`自动将这一项`返回`，否则`过滤`掉这一项
         - 用`新数组`接收
+        
     - `map`
         - 每一项进行个性化操作后返回，生成`新数组`,改变`item`会音响原数组
+        
     - `reduce`:对数组所以项进行汇总
         - preVal为`前一次return`的值，`第一次`默认为`参数二传入`的值，这里是0
         ```javascript
@@ -69,6 +81,10 @@ console.log(host)
             return preVal + item
         },0)
         ```
+        
+    - `数组扁平化`并去重
+    
+        - **...new Set([1,2,3,4,[4,5,6,7],7,8,9].flat(Infinity))**
 
 
 ## 字符串
