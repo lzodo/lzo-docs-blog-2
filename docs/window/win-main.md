@@ -56,7 +56,7 @@ title: window
         -   `iex (new-object net.webclient).downloadstring('https://raw.githubusercontent.com/lukesampson/scoop/master/bin/install.ps1')`:官网安装
         -   `scoop uninstall scoop`:卸载 scoop 以及安装的所有软件 -->
 
--   Scoop [官网](https://scoop.sh/)
+-   Scoop [官网](https://scoop.sh/) [中文网](https://typoraio.cn/#)
 
 G   -   要求：`Win7+ / PowerShell5+`,管理员身份运行 PowerShell
     -   $PSVersionTable.PSVersion | git-host
