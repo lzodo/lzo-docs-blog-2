@@ -580,6 +580,7 @@ console.log('========end=============')
 2.组件，大驼峰
 3.类名，横杠分词，多层级双横杠
 4.函数名、普通变量名，小驼峰
+5.关键字、变量、标点符号（除 括号 和 引号）后加空格
 */
 ```
 
@@ -1187,7 +1188,7 @@ let digitUppercase = (n)=> {
 console.log(digitUppercase(86534.63))
 ```
 
-#### cron 解析 
+#### cron 解析
 ```javascript
 /**
  * 不考虑这种 SUN, MON, TUE, WED, THU, FRI and SAT 单词表示法

@@ -29,6 +29,8 @@ title: sublime
 -   `Ctrl+K,B`:长按Ctrl显示隐藏菜单
 -   `Ctrl+Shift+RightKey`：块选择
 
+-   `ctrl+p 输入 view 选择 toggle view` 显示隐藏菜单栏
+http://tmtheme-editor.herokuapp.com/#!/editor/theme/Dark
 #### 激活码全部复制
 ```
 <pre class="md-fences md-end-block ty-contain-cm modeLoaded" spellcheck="false" lang="bash" cid="n198" mdtype="fences" style="box-sizing: border-box; overflow: visible; font-family: var(--monospace); font-size: 0.9em; display: block; break-inside: avoid; text-align: left; white-space: normal; background-image: inherit; background-position: inherit; background-size: inherit; background-repeat: inherit; background-attachment: inherit; background-origin: inherit; background-clip: inherit; background-color: rgb(248, 248, 248); position: relative !important; border: 1px solid rgb(231, 234, 237); border-radius: 3px; padding: 8px 4px 6px; margin-bottom: 15px; margin-top: 15px; width: inherit; color: rgb(51, 51, 51); font-style: normal; font-variant-ligatures: normal; font-variant-caps: normal; font-weight: 400; letter-spacing: normal; orphans: 2; text-indent: 0px; text-transform: none; widows: 2; word-spacing: 0px; -webkit-text-stroke-width: 0px; text-decoration-thickness: initial; text-decoration-style: initial; text-decoration-color: initial;">—– BEGIN LICENSE —–
