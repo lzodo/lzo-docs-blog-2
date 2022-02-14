@@ -145,5 +145,5 @@ pam_service_name=vsftpd
 -   `busybox`：轻量嵌入式系统
 -   `centos`:系统镜像
 
-#### lazydocker 
+#### lazydocker
 > docker gui管理插件
