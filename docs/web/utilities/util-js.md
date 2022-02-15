@@ -163,7 +163,13 @@ let ivjson2 = isValidJSON('{"title": "javascript", "price": 14}'); // true
 let ivjson3 = isValidJSON('{"title": "javascript", "price": 14, subtitle}'); // false
 ```
 
-
+#### 字符串高亮
+```javascript
+ let name = "font"；
+ let item = {name:'itemfonttmp'}
+ let reg = new RegExp(`[${name}]{1}`,'g');
+ item.highlight = item.name.replace(reg,(item)=>`<span style="color:#f00">${item}</span>`);
+```
 
 ### Math相关
 
