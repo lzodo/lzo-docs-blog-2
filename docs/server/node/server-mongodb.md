@@ -77,6 +77,8 @@ show collections;          #显示当前数据库中的集合（类似关系数�
 
 show users;                #查看当前数据库的用户信息
 use <db name>;             #切换数据库(或创建数据库)
+show collections           #查看集合列表
+db.menus.find()            #查询当前所在数据库，menus集合里面的列表文档内容
 db;或者db.getName();        #查看当前所在数据库
 
 db.getMongo()               #查看db链接机器地址
