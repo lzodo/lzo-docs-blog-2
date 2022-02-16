@@ -7,6 +7,9 @@ title: nodejs基础
 nodejs
 - javascript 运行时
 - 不是语言、不是框架、是一个平台、一个基于v8引擎的js运行环境(宿主环境)
+    -   哪里安装nodejs，JavaScript代码就能在哪里运行,nodejs之前一般是在浏览器中运行的
+    -   使js可以做很多浏览器网站之外的事情
+    -   如:`Node的Electron开发的VsCode` 、`gulp`、`webpack`
 - 除了nodejs外其他js数组环境:浏览器
 
 

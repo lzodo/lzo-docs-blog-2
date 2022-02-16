@@ -72,6 +72,7 @@ title: VsCode 编辑器
 [^①]:Powermode: Enabled 开启插件  
 Powermode: Presets 设置效果  
 Powermode: Enable Shake 去除代码抖动  
+-    Debugger for Chromes
 
 ## 快捷键
 

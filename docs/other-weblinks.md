@@ -45,6 +45,7 @@ title: 工作学习资源
 -   [lodash 工具库](https://www.lodashjs.com/)[^③]
 -   [Vue3+TS 快速上手](https://24kcs.github.io/vue3_study)
 -   [Linux手册](https://www.linuxcool.com)
+-   [stack overflow社区](https://stackoverflow.com/)
 [^③]:
     `sortBy` 对象排序  
     `size({})` 对象成员个数
@@ -98,8 +99,10 @@ title: 工作学习资源
 -   [矢量小人图标](https://pictogram2.com/)
 -   [免费SVG插图](https://undraw.co/illustrations)
 -   [抠图](https://www.remove.bg/zh/)
-#### 音效
+#### 音频
 -   [tosound音效网站](https://www.tosound.com/)
+-   [免费视频剪辑](https://mazwai.com/)
+-   [videvo](https://www.videvo.net/)
 #### 字体
 -   [求字体](https://www.qiuziti.com/)
 -   [hellofont 选择免费字体](https://www.hellofont.cn/font-list?tag=73)
