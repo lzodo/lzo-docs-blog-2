@@ -200,6 +200,7 @@ E-tag 相比 Last-Modified？
 > 解析 html-词法分析然后解析成 dom 树、解析 css 生成 css 规则树、合并成 render 树，然后 layout、painting 渲染、复合图层的合成、GPU 绘制、外链资源的处理、loaded 和 domcontentloaded 等
 
 ##### (1)、 解析 HTML，构建 DOM 树
+    -   生产DOM树之前如果与到js代码会先执行js，再继续渲染，否则如果js有操作dom的话会渲染频繁
 
 ##### (2)、 解析 CSS，生成 CSSOM 树
 
@@ -248,11 +249,25 @@ E-tag 相比 Last-Modified？
 > 元素的渲染规则，如包含块，控制框，BFC，IFC 等概念
 
 ### 八、 JS 引擎解析过程
-
+> 作用:将js转汇编转二进制最终变为cpu可以认识的数据
 > JS 的解释阶段，预处理阶段，执行阶段生成执行上下文，VO，作用域链、回收机制等等
+
+-   常见的JS引擎
+    -   `SpiderMonkey`:第一款，也是作者`Brendan Eich`开发的
+    -   `Chakra`:微软开发主要`IE`浏览器
+    -   `JavaScriptCore`:浏览器引擎(WebKit)中的内置JS引擎，Apply公司开发(小程序的JsCore)
+        -   WebKit = 渲染工作的(WebCore) 与 JS引擎(JavaScriptCore) 组成 
+    -   `V8`:Google开发
+        -   `在Chrome中，只有Html的渲染采用了WebKit的WebCore代码，而在JavaScript上，重新搭建了一个NB哄哄的V8引`
+        -   `谷歌浏览器体验好的原因之一`
+        -   `V8`
+            -   C++编写，主要用于Google与NodeJs
+            -   可以独立运行，也能嵌入C++应用程序中 
 
 ### 九、 其它
 
 > 可以拓展不同的知识模块，如跨域，web 安全，hybrid 模式等等内容
+
+## 总结
 
 [from](https://segmentfault.com/a/1190000013662126#articleHeader10)
