@@ -10,6 +10,40 @@ title: mongodb
 -   MongoDB Community Server 社区版
 -   MongoDB Enterprise Server 企业版
 
+[MongoDb Tools](https://www.mongodb.com/try/download/database-tools)
+
+-   数据库相关工具
+    +   导入`mongoimport`
+        *   -h:指明数据库宿主机的IP
+        *   -u:指明数据库的用户名
+        *   -p:指明数据库的密码
+        *   -d:指明数据库的名字
+        *   -c:指明collection的名字
+        *   -f:指明要导出那些列
+        *   -o:指明到要导出的文件名
+        *   -q:指明导出数据的过滤条件
+        *   `mongoexport -d pro-node-lagou -c menus -o D:\lzo-project\lzo-everyday\mongodb-export\menus.dat`
+        *   `mongoexport -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -c 表名 -f 字段1，字段2 -q‘{条件导出}’ `--csv -o 文件名
+    +   导出`mongoexport`
+        *   -h:指明数据库宿主机的IP
+        *   -u:指明数据库的用户名
+        *   -p:指明数据库的密码
+        *   -d:指明数据库的名字
+        *   -c:指明collection的名字
+        *   -f:指明要导入那些列
+        *   `mongoimport -d pro-node-lagou -c menus menus.dat`
+    +   备份`mongodump`
+        *   导出至少精确到集合，备份是整个数据库
+        *   `mongodump -d pro-node-lagou -o D:\lzo-project\lzo-everyday\mongodb-export`
+        *   备份的数据默认存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个pro-node-lagou目录，
+    +   恢复`mongorestore`
+        *   `mongorestore D:\lzo-project\lzo-everyday\mongodb-export`
+        
+    +   `mongofiles`保存大文件
+    +   `mongostat`是mongodb自带的状态检测工具
+    +   `mongotop`用来跟踪MongoDB的实例
+    
+
 ### 安装
 
 1. 安装

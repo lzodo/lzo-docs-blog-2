@@ -139,7 +139,7 @@ hover-stay-time 离开后保持多久失去效果
 > 创建 ：后缀名.vue文件，视为一个组件  
 > 使用 ：通过import 组件名 from "xxx"导入并通过components注册,完成之后通过标签形式使用
 
-##### 组件通讯  
+##### 组件通讯
 
 [组件通讯](https://uniapp.dcloud.io/collocation/frame/communication)
 > 父传子 : 以标签形式调用组件是 :data 传到子组件, 组件中:prop['data'] 接收  
@@ -358,7 +358,7 @@ uni.chooseImage({
 </navigator>
 ```
 
-#### 路由跳转   
+#### 路由跳转
 [uni.navigateTo](https://uniapp.dcloud.io/api/router?id=navigateto)
 
 ```javascript
