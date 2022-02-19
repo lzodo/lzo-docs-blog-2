@@ -4,7 +4,8 @@ title: nodejs基础
 
 > 终端直接输入 node 进入可以运行 node 代码的换叫 REPL 环境
 
-nodejs
+## 概念
+### nodejs
 - javascript 运行时
 - 不是语言、不是框架、是一个平台、一个基于v8引擎的js运行环境(宿主环境)
     -   哪里安装nodejs，JavaScript代码就能在哪里运行,nodejs之前一般是在浏览器中运行的
@@ -12,6 +13,19 @@ nodejs
     -   使js可以做很多浏览器网站之外的事情
     -   如:`Node的Electron开发的VsCode` 、`gulp`、`webpack`
 - 除了nodejs外其他js数组环境:浏览器
+
+### JS 引擎
+> 作用:将js转汇编转二进制最终变为cpu可以认识的数据
+> JS 的解释阶段，预处理阶段，执行阶段生成执行上下文，VO，作用域链、回收机制等等
+
+-   常见的JS引擎
+    -   `SpiderMonkey`:第一款，也是作者`Brendan Eich`开发的
+    -   `Chakra`:微软开发主要`IE`浏览器
+    -   `JavaScriptCore`:浏览器引擎(WebKit)中的内置JS引擎，Apply公司开发(小程序的JsCore)
+        -   WebKit = 渲染工作的(WebCore) 与 JS引擎(JavaScriptCore) 组成 
+    -   `V8`:Google开发
+        -   `在Chrome中，只有Html的渲染采用了WebKit的WebCore代码，而在JavaScript上，重新搭建了一个NB哄哄的V8引`
+        -   `谷歌浏览器体验好的原因之一`
 
 
 

@@ -261,8 +261,16 @@ E-tag 相比 Last-Modified？
         -   `在Chrome中，只有Html的渲染采用了WebKit的WebCore代码，而在JavaScript上，重新搭建了一个NB哄哄的V8引`
         -   `谷歌浏览器体验好的原因之一`
         -   `V8`
-            -   C++编写，主要用于Google与NodeJs
+            -   C++编写，作为js引擎的话主要用于Google浏览器与NodeJs
+            -   也有作为其他语言的引擎，如`WebAssembly`
             -   可以独立运行，也能嵌入C++应用程序中 
+            -   工作过程：
+                - js引擎中的`Parse模块`，将js中有用到的代码转换成`AST（抽象语法树）`，引擎中的`Ignition(解释器)`才能认识解析
+                - `Ignition(解释器)`将`AST`转成`ByteCode(字节码)`，同时收集`TurboFan`优化需要的信息
+                -  `TurboFan(编译器)`可以将字节码编译成CPU可以直接执行的机器码
+                    -   如果函数被多次调用，会被标记为热点函数，`直接`通过`TurboFan`转为机器码
+                    -   但是函数后续执行时，如类型发生变化等等，机器码不能正确处理运算，就会被逆向还原为`字节码`（所以类型不固定很耗性能）
+                -   `Orinoco` V8内存回收模块
 
 ### 九、 其它
 
