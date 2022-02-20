@@ -272,7 +272,36 @@ E-tag 相比 Last-Modified？
                     -   但是函数后续执行时，如类型发生变化等等，机器码不能正确处理运算，就会被逆向还原为`字节码`（所以类型不固定很耗性能）
                 -   `Orinoco` V8内存回收模块
 
-### 九、 其它
+### 九所有浏览器 userAgent 都是 Mozilla?
+
+> 最初浏览器 NCSA Mosaic，简称 Mosaic,
+> 后面出现另外一款浏览器 Mozilla( Mosaic + Killer)，--> Mozilla 更名为 Netscape，也就是网景
+> `网站管理员探测 user agent，对 Mozilla 浏览器发送含有框架的页面，对非 Mozilla 浏览器发送没有框架的页面。`
+> 后面软开发了自己的浏览器，Internet Explorer --> (开始只有 Mozilla 支持框架（frame），为了快速收到含有框架的页面了)微软宣布 IE 是兼容 Mozilla，并且模仿 Netscape 称 IE 为“Mozilla/1.22“
+> 后面微软与网景的浏览器大众，网景失败退出
+> Netscape 居然以 Mozilla(后面更名 Firefox)的名义重生了，并且开发了 `Gecko渲染引擎`（Mozilla/5.0(Windows; U; Windows NT 5.0; en-US; rv:1.1) Gecko/20020826）
+> Mozilla 后来变成了 Firefox，并自称“Mozilla/5.0 (Windows; U; Windows NT 5.1; sv-SE; rv:1.7.5) Gecko/20041108 Firefox/1.0”
+> 很多浏览器使用了它的代码，每一个都将自己装作 Mozilla，而它们全都使用 Gecko。
+> `Gecko 很出色,因此 user agent 探测规则变了，使用 Gecko 的浏览器被发送了更好的代码`
+> linux Konqueror 浏览器`KHTML渲染引擎` 伪装 Gecko `like Gecko`(Mozilla/5.0 (compatible; Konqueror/3.2; FreeBSD) (KHTML, like Gecko))
+> Opera
+> 后来苹果开发了 Safari 浏览器，并使用 KHTML 作为渲染引擎
+> 但苹果加入了许多新的特性，于是苹果从 KHTML 另辟分支称之为 `WebKit`
+> 但它又不想抛弃那些为 KHTML 编写的页面，于是 Safari 自称为“Mozilla/5.0 (Macintosh; U; PPC Mac OS X; de-de) AppleWebKit/85.7 (KHTML, like Gecko) Safari/85.5”
+> 再后来，谷歌开发了 Chrome 浏览器，Chrome 使用 Webkit 作为渲染引擎(后面渲染引擎改用 Blink(基于 Webkit 开发)，V8 是 js 引擎不是渲染引擎)
+> 和 Safari 之前一样，它想要那些为 Safari 编写的页面，于是它伪装成了 Safari
+> 于是 Chrome 使用 WebKit，并将自己伪装成 Safari，WebKit 伪装成 KHTML，KHTML 伪装成 Gecko，最后所有的浏览器都伪装成了 Mozilla
+> `因为网站开发者可能会因为你是某浏览器（这里是 Mozilla），所以输出一些特殊功能的程序代码（这里指好的特殊功能），所以当其它浏览器也支持这种好功能时，就试图去模仿 Mozilla 浏览器让网站输出跟 Mozilla 一样的内容，而不是输出被阉割功能的程序代码。大家都为了让网站输出最好的内容，都试图假装自己是 Mozilla，一个已经不存在的浏览器……`
+
+-   渲染引擎之间关系(内核也叫做排版引擎、渲染引擎、浏览器引擎等)
+    -   Gecko(Firefox)
+    -   KHTML(linux Konqueror)
+    -   KHTML --> Webkit(Safari)
+    -   KHTML --> Webkit --> Blink(chrome)
+    -   Presto(欧鹏) -> 欧鹏 Presto 后期被 Blink 代替
+    -   Trident(IE)
+    -   EdgeHTML(Edge 浏览器) --> 后期被 Blink 代替
+### 十、 其它
 
 > 可以拓展不同的知识模块，如跨域，web 安全，hybrid 模式等等内容
 

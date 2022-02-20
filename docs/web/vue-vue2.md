@@ -245,35 +245,55 @@ new Vue({
 ```
 
 ### 模块化
+>   模块化开发目的是将项目划分为一个个小结构、
+>   这个结构中编写自己的`逻辑代码`,有`自己的作用域`，不会影响到其他结构
+>   这个结构也可将自己希望暴露的`变量`,`函数`,`对象`等导出给其他结构使用
+>   也可以通过某中方式导入其他结构的`变量`,`函数`,`对象`
+>   将程序按照种子方式开发就叫`模块化开发`
+>   核心就是`导入`和`导出`
+
+>   自从出现`ajax`前后的分离、SPA页面需要`路由 状态管理`、Nodejs还有编写后端程序，模块化更加重要了
+
 - 非模块化产生的问题
     - 多文件`全局变量命名冲突`
-        - 利用函数作用域`;(function(){xxx})()`
+        - 利用函数作用域`;(function(){xxx})()` 匿名函数自执行(IIFE)
         - 里面的`代码无法复用`
         - 升级自己的模块化
         ```javascript
         //fileA
         var modelA = (function(){
             let num = 1;
-            return 1
+            return { num }
         })()
         //fileB
         console.log(modelA.num) //1 
         ```
-- 什么是模块化
-    - 核心就是`导入`和`导出`
+        -  缺点
+            -   必须记得每个模块返回对象的命名如`modelA`
+            -   每个文件都要包裹要给匿名函数
+            -   没有适合的规范，每个人公司都有自己的写法
+            -   所以js社区出现了很多好用的规范`AMD`、`CMD`、`Commonjs`、`ES6 的模块化`
 - 常见模块化规范
     - `CommonJS`:
         - 运用于:`node`
 
         ```javascript
         //导入
-        let {obj1,obj2} = require("./xxxx")
+        // require 作用是拿到指定文件中 的exports对象地址，并返回
+        // node实现commonjs的本质就是对象的引用赋值
+        let {obj1,obj2} = require("./xxxx") //导入并解构
         let objs = require("./xxxx")
         
         //导出
         module.exports = {
             obj:obj,
         }
+        //或
+        exports.name = name;
+        // 两者一样的，内部 module.exports = exports;
+        // 如果最后手动 module.exports = {}; 前面的 exports 都没了
+        // 再改吧exports数据时是不会变的，他们是两个对像
+        // node 中 exports 是可以不要的，但是commonjs规范是有的
         ```
     - `ES6的Modules`
         - `script标签` 添加 `type="modules"`，设置为模块化文件

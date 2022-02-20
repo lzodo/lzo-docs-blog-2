@@ -12,7 +12,20 @@ title: nodejs基础
     -   所以NodeJs跨平台
     -   使js可以做很多浏览器网站之外的事情
     -   如:`Node的Electron开发的VsCode` 、`gulp`、`webpack`
-- 除了nodejs外其他js数组环境:浏览器
+-   除了nodejs外其他js数组环境:浏览器
+-   nodejs通过`V8 js引擎`，node API将任务放到libuv中(事件循环、文件系统、网络IO、线程池等)
+-   nodejs架构
+    -   js操作与Node提供的API(js编写)
+    -   解析js的V8（大部分C++）
+    -   libuv(C语言编写)
+-   应用场景
+    -   electron桌面程序开发
+    -   前端开发库（npm、yarn...）
+    -   使用nodejs作为web开发服务器
+    -   通过nodejs完成前后的渲染同构
+        -   在后端执行js代码，渲染出最终的html代码，让浏览器直接解析，优化项目
+    -   通过node编写自动化脚本
+-   终端输入node回车，进入nodejs的REPL(交互式测试编程环境)
 
 ### JS 引擎
 > 作用:将js转汇编转二进制最终变为cpu可以认识的数据
@@ -26,8 +39,6 @@ title: nodejs基础
     -   `V8`:Google开发
         -   `在Chrome中，只有Html的渲染采用了WebKit的WebCore代码，而在JavaScript上，重新搭建了一个NB哄哄的V8引`
         -   `谷歌浏览器体验好的原因之一`
-
-
 
 ## 基础操作
 

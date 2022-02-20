@@ -35,6 +35,7 @@ title: mongodb
     +   备份`mongodump`
         *   导出至少精确到集合，备份是整个数据库
         *   `mongodump -d pro-node-lagou -o D:\lzo-project\lzo-everyday\mongodb-export`
+            -   D:\MyData\projects\lzo-everyday\mongodb-export
         *   备份的数据默认存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个pro-node-lagou目录，
     +   恢复`mongorestore`
         *   `mongorestore D:\lzo-project\lzo-everyday\mongodb-export`

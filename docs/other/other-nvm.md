@@ -4,6 +4,7 @@ date: 2016-12-10 14:00:57
 tags:
     - 标记语言
 ---
+类似工具`n`和`nvm`至支持linux,`nvm-windows`就是win版的nvm
 
 window 的 node 管理器
 [下载地址](https://github.com/coreybutler/nvm-windows/releases/tag/1.1.7)
@@ -21,8 +22,15 @@ nvm list available //查看网络可以安装的版本
 ##### 安装
 
 ```shell
+# 设置镜像 npm.taobao.org/mirrors/node/   https://registry.npmmirror.com/binary.html ...
+nvm node_mirror npm.taobao.org/mirrors/node/
+nvm npm_mirror npm.taobao.org/mirrors/npm/
+
 nvm install <version> # 版本号 如: 12.10.0
 nvm alias default v4.3.0 # 设置默认版本
+nvm install latest #安装最新版本
+nvm install lts #安装最新lts版本
+
 ```
 
 ##### 切换版本
