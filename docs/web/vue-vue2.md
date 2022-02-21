@@ -278,9 +278,17 @@ new Vue({
         - 运用于:`node`
 
         ```javascript
-        //导入
-        // require 作用是拿到指定文件中 的exports对象地址，并返回
-        // node实现commonjs的本质就是对象的引用赋值
+        /* 导入
+         * require 作用是拿到指定模块中 的exports对象地址，并返回
+         * node实现commonjs的本质就是对象的引用赋值
+         * require("xxx")查找规则顺序
+         *      1.如果xxx是./  ../   /开头，就会去当前文件夹、上层文件夹、根目录下查找模块
+         *      2.查找优先级:xxx > xxx.js > xxx.json > xxx.node > xxx目录/index.js > xxx目录/index.json > xxx目录/index.node
+         *      3.如果不是这些开头而是字符串, 优先级:核心模块 > 当前目录下的node_modules > 上级目录下的node_modules > 上上...
+         * 相同模块只会被加载一次,之后会被加入到缓存,module的loaded属性变为true
+         * 循环嵌套引入:按顺序依次加载,最后模块没引入了,再返回最后一层的上一层继续执行,最后再执行第一个文件的后续代码,遇到加载过的则跳过
+         *      图结构的深度优先算法
+         */
         let {obj1,obj2} = require("./xxxx") //导入并解构
         let objs = require("./xxxx")
         
@@ -293,22 +301,23 @@ new Vue({
         // 两者一样的，内部 module.exports = exports;
         // 如果最后手动 module.exports = {}; 前面的 exports 都没了
         // 再改吧exports数据时是不会变的，他们是两个对像
-        // node 中 exports 是可以不要的，但是commonjs规范是有的
         ```
     - `ES6的Modules`
-        - `script标签` 添加 `type="modules"`，设置为模块化文件
+        - `script标签` 添加 `type="modules"`，设置为模块化文件,本地文件不支持
         ```javascript
-        //按需导入
+        //按需导入,与到处的名称对应
         import {num,str,funName} from "./xxxx.js"
         //全部导入
         import * as All from "./xxxx.js" 
+        //起别名
+        import {num as newnum,str as newstr} from "./xxxx.js"
         
         //导出
         export let str = 'str';
         export function funName(){}; //导出函数
         export class Person{}; //导出类
-        export {
-            num,xxx
+        export { //export的语法 不是对象
+            num,xxx, str as newstrname
         }
         
         //-------default
@@ -317,7 +326,9 @@ new Vue({
         ```
         - 研究默认导出是否可以与普通导出共存？？？？？
     - `AMD`
+        -   require
     - `CMD`
+        -   seajs 实现
 
 ### 转脚手架步骤
 - 默认
