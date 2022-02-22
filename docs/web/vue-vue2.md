@@ -288,6 +288,8 @@ new Vue({
          * 相同模块只会被加载一次,之后会被加入到缓存,module的loaded属性变为true
          * 循环嵌套引入:按顺序依次加载,最后模块没引入了,再返回最后一层的上一层继续执行,最后再执行第一个文件的后续代码,遇到加载过的则跳过
          *      图结构的深度优先算法
+         *
+         * 加载过程:运行时同步加载
          */
         let {obj1,obj2} = require("./xxxx") //导入并解构
         let objs = require("./xxxx")
@@ -311,8 +313,10 @@ new Vue({
         import * as All from "./xxxx.js" 
         //起别名
         import {num as newnum,str as newstr} from "./xxxx.js"
+        //先导入直接导出（方便所有文件的暴露统一导出）
+        export {xxx,xxx,xxx} from "./xxxx.js"
         
-        //导出
+        //导出 （导出的都是变量的引用）
         export let str = 'str';
         export function funName(){}; //导出函数
         export class Person{}; //导出类
@@ -324,7 +328,11 @@ new Vue({
         export default xxxx //default导出的只能有一个,可以让导入者自己命名
         import xxx from "./xxxx.js" //接收默认导出
         ```
-        - 研究默认导出是否可以与普通导出共存？？？？？
+        - import 不能再逻辑代码中导入
+            -   js引擎解析代码(词法分析，并没有执行)时，就要确认依赖关系了，而解析成二进制后才会运行代码
+            -   解析代码遇到类似if语句时，没有运行代码，不知道走哪条分支，也就不能确定是否要导入内部的依赖文件了
+            -   逻辑代码中可以用 `const promise = import("./xxx.js")`;异步函数
+            -   require()可以，是因为require是一个函数，是再运行阶段执行的   
     - `AMD`
         -   require
     - `CMD`
