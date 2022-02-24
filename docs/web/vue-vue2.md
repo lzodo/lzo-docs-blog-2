@@ -279,6 +279,7 @@ new Vue({
 
         ```javascript
         /* 导入
+         * node运行文件，每个js文件都是一个模块，一个commonjs的模块
          * require 作用是拿到指定模块中 的exports对象地址，并返回
          * node实现commonjs的本质就是对象的引用赋值
          * require("xxx")查找规则顺序
@@ -333,6 +334,21 @@ new Vue({
             -   解析代码遇到类似if语句时，没有运行代码，不知道走哪条分支，也就不能确定是否要导入内部的依赖文件了
             -   逻辑代码中可以用 `const promise = import("./xxx.js")`;异步函数
             -   require()可以，是因为require是一个函数，是再运行阶段执行的   
+            -   导出的是大括号中变量的引用，后期导出的内容变化，导入的也会跟着变
+                -   解析时`export` 到`import`时创建一块内存空间(模块环境变量 Module environment recode)
+                -   这块空间实时绑定（bindings）: `export {name}` -> 空间中 `const name = name` -> import 的时新定义的name
+                -   非引用类型:es发现name变化会删除原来的`const name = name值`,重新创建一个，import的永远时最新的，外面时`无法更改`的
+                -   引用类型:es发现name变化时`const name = name地址`,外面改变的是name地址指向的对象，是`可以更改`的
+        -   Node 对ES Module的支持
+            -   模块默认一样需要后缀
+            -   老版本node，默认不能使用
+                -   运行添加参数：`node index.js -experimental-modules`,实验阶段不稳定
+            -   新版本node，默认不能使用的，node默认值commonjs的module
+                -   方案1:在package.js 设置 "type":"module"
+                -   方案2:将相关当作模块的文件的文件后缀改为`mjs`
+        -  当前Node中ES Module 不能与 commonjs 交互的：ES Module，在解析是进行语法分析，commonjs是同步加载，实在运行时处理
+
+             
     - `AMD`
         -   require
     - `CMD`
