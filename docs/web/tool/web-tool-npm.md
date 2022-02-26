@@ -14,7 +14,7 @@ npm init -y //生成package.json
 
 ### npm安装包
 ```javascript
-npm install module-name --global | -g      //全局安装
+npm install module-name --global | -g      //全局安装 一般是工具
 npm install module-name --save | -S      //自动把模块和版本号添加到dependencies(生产环境)部分
 npm install module-name --save-dev | -D   //自动把模块和版本号添加到devDependencies(开发环境)部分,打包之后就没有用的依赖
 
@@ -23,6 +23,8 @@ npm i --production //只安装生成环境的包
 npm i git+ssh://git项目地址 //安装git项目
 
 npm list //依赖树
+
+npm rebuild  //强制重新安装
 
 //查看当前node全局安装路径
 npm config get prefix / npm root -g
@@ -48,6 +50,12 @@ npm config set registry https://registry.npm.taobao.org/  //设置淘宝源
 ```
 > 安装生产环境依赖的模块，即项目运行时的模块，例如react，react-dom,vue,jQuery等类库或者框架
 > 安装开发环境依赖的模块，即项目开发时的模块，例如babel、webpack等
+
+#### npm 缓存策略 package-lock.json
+```javascript
+npm config get cache //获取缓存存放位置
+```
+[npm 安装原理]("../../../static/img/npm-package-lock.jpg")
 
 ### 自定义npm包
 1. npmjs.com 注册账户
@@ -86,6 +94,7 @@ nrm test //测试速度
 ## npx npm5.2 新增自带
 
 ```shell
+# npm 5.2后自带
 npx gulp -v
 # 默认先找项目中是否有gulp
 # 再找本地全局是否有gulp
