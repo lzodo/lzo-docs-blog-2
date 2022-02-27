@@ -304,6 +304,9 @@ new Vue({
         // 两者一样的，内部 module.exports = exports;
         // 如果最后手动 module.exports = {}; 前面的 exports 都没了
         // 再改吧exports数据时是不会变的，他们是两个对像
+
+         exports.函数
+         module.exports = 函数 //必须 let objs = require("./xxxx")；导入，函数不能结构
         ```
     - `ES6的Modules`
         - `script标签` 添加 `type="modules"`，设置为模块化文件,本地文件不支持
