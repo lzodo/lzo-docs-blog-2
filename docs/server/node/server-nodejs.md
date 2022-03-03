@@ -43,10 +43,15 @@ title: nodejs基础
 ## 基础操作
 
 ### 主要组成部分
--   you code
-    -   编写fs.readFile()
--   V8引擎
--   libuv
+!(node模型)("../../../static/img/nodejs-model.png")
+Node.js 被分为了四层，分别是 `应用层`、`V8引擎层`、`Node API`层 和 `LIBUV层`。
+-   应用层：即 JavaScript 交互层，常见的就是 Node.js 的模块，比如 http，fs
+-   V8引擎层：  即利用 V8 引擎来解析JavaScript 语法，进而和下层 API 交互，(c++)
+-   NodeAPI层：  为上层模块提供系统调用，一般是由 C 语言来实现，和操作系统进行交互 。
+-   LIBUV层： 是跨平台的底层封装，实现了 事件循环、文件操作等，是 Node.js 实现异步的核心 
+
+-   Node.js 内部都是通过 线程池 来完成异步 I/O 操作
+    -   Node.js 的单线程仅仅是指 JavaScript 运行在单线程中，而并非 Node.js 是单线程。
 
 执行步骤:
     用户编写`编写fs.readFile()`
