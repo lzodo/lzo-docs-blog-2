@@ -105,6 +105,8 @@ npx --ignore-existing gulp -v # 只能直接安装，不允许使用本地安装
 ```
 
 
+## package.json
+    -   "license": "MIT"  限制协议 [licenses](https://spdx.org/licenses/)
 ## 同类型
 + [yarn](https://yarn.bootcss.com/docs/usage/)
 + [简书](https://www.jianshu.com/p/59e990b90483)
@@ -115,3 +117,4 @@ yarn global remove puer
 
 yarn global dir # 查看yarn全局安装模块路径
 ```
+
