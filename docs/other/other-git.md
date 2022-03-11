@@ -94,6 +94,9 @@ git commit -m '日志信息' # 将暂存区文件提交到版本库(状态变为
 git commit -a -m '日志信息' # 不用add 直接添加到版本库
 git commit 回车(进入编辑器) --> i(进入编辑模式) --> esc (退出编辑模式) --> :wq(保存并退出)
 
+git stash  # 工作区的修改和暂存区的修改
+git stash pop # 恢复
+
 git log # 查看日志记录
 	commit id  重要
 git log --oneline  //以简洁的一行显示，包含简洁哈希索引值
