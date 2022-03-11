@@ -40,7 +40,7 @@ npm updata //将配置文件中各个插件未锁定的版本位更新到最新
 x.x.x  全部锁定
 *      升级最新版本
 
-npm outdated //查看过期包 
+npm outdated //查看过期包 (相同功能的第三方包 david)
 
 npm cache clean --force //清除npm缓存，安装错误之后建议清一下再装
 
