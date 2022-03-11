@@ -1,17 +1,17 @@
 ---
  title: javascript
 ---
-## 早期js存在的一些问题
+### 早期js存在的一些问题
 > - var定义变量没有作用域
 > - 不能像常规语言一样使用class，js原型链方式是基于很早以前的`Self`语言的
 > - 没有模块化
 > - 无类型检测
 > - typeof null 为什么是 object
+### JS概念性问题
 
-## JS概念性问题
-### 跨域方案总结
+#### 跨域方案总结
 
-### 事件循环 EventLoop
+#### 事件循环 EventLoop
 正常情况下一个应用程序会有一个进程，包含着非常多线程，但是浏览器时多进程的
 
 浏览器的事件循环
@@ -56,7 +56,7 @@ Node 的事件循环
 
 [学习](https://www.bilibili.com/video/BV1gb4y1U7Un?spm_id_from=333.999.0.0)
 
-### call、apply、bind
+#### call、apply、bind
 
 -   共同点
     -   都能改变函数内部 this 指向
@@ -113,14 +113,14 @@ Function.prototype.call = function (thisArg, args) {
 };
 ```
 
-### new 内部做了什么？
+#### new 内部做了什么？
 
-### 作用域
+#### 作用域
 
 > 全局作用域、函数作用域、块级作用域、词法作用
 > js 用的`词法作用域`:这就意味着函数的执行依赖于函数`定义的时候`所产生（而不是函数调用的时候产生的）的`变量作用域`。
 
-### 闭包
+#### 闭包
 
 > 闭包就是外层函数中 return 出新函数,使新函数通过外层函数在外面可以使用，新函数中可以使用外层函数中定义的变量
 
@@ -145,7 +145,7 @@ c.fun2(2); // ?
 c.fun2(3);
 ```
 
-### Memoization
+#### Memoization
 
 > 算法技巧叫做`记忆华搜索`，目的:`为了减少重复计算`,如递归或其他重复计算多的场景适合使用
 
@@ -185,7 +185,7 @@ getTime(fibonacciWithCache, 40);
     用时：2830 毫秒，结果：102334155
     用时：0 毫秒，结果：102334155
 
-### 柯里化、偏函数、Compose、Pipe
+#### 柯里化、偏函数、Compose、Pipe
 
 > 收集函数多次调用的参数了列表
 
@@ -278,9 +278,9 @@ curry2(
 });
 ```
 
-### 函数式编程的纯函数与副作用
+#### 函数式编程的纯函数与副作用
 
-### JS 的内存管理
+#### JS 的内存管理
 
 > 本质上讲, 内存泄露就是不再被需要的内存, 由于某种原因, 无法被释放.
 > JS 中, 没隐藏了内存管理功能,有专门的内存管理接口, 所有的内存管理都是"自动"的. JS 在创建变量时, 自动分配内存, 并在不使用的时候, 自动释放. 这种"自动"的内存回收, 造成了很多 JS 开发者并不关心内存回收
@@ -293,13 +293,13 @@ let arr = [1, 2, 3, 4];
 arr = null; //手动赋值null， [1,2,3,4]这时没有被引用, 会被自动回收
 ```
 
-### JS 耗性能操作与时间复杂度
+#### JS 耗性能操作与时间复杂度
 
-### 事件对象鼠标位置
+#### 事件对象鼠标位置
 
 > 事件对象 clientX、screenX、pageX、offsetX、layerX、movementX 的差别
 
-### 所有浏览器 userAgent 都是 Mozilla?
+#### 所有浏览器 userAgent 都是 Mozilla?
 
 > 最初浏览器 NCSA Mosaic，简称 Mosaic,
 > 后面出现另外一款浏览器 Mozilla( Mosaic + Killer)，--> Mozilla 更名为 Netscape，也就是网景
@@ -329,7 +329,7 @@ arr = null; //手动赋值null， [1,2,3,4]这时没有被引用, 会被自动�
     -   Trident(IE)
     -   EdgeHTML(Edge 浏览器) --> 后期被 Blink 代替
 
-### 禁止通过控制台查看代码
+#### 禁止通过控制台查看代码
 ```javascript
 //https://www.mk2048.com/blog/blog_hjjahikh2hjaa.html
 var forbidDebug = function () {
@@ -481,7 +481,7 @@ if (localStorage.getItem("console") != "xxxx") {
 }
 ```
 
-### Date详解
+#### Date详解
 
 >   **lzo-web-project\JavaScript\ECMAScript\Date\index.js**
 
@@ -563,7 +563,7 @@ console.log('========end=============')
 
 
 
-### 进制
+#### 进制
 
 ```javascript
 /**
@@ -598,7 +598,7 @@ console.log('========end=============')
   *     屏幕画面是由一个个非常微小的像素的组成，每个像素点是有rgb三基色组成，红、绿、蓝的范围都是0-255，8位的二进制
   */
 ```
-### js 代码整洁之道
+#### js 代码整洁之道
 
 [暂时参考](https://zhuanlan.zhihu.com/p/159458364)
 [暂时参考](https://www.cnblogs.com/wenxinsj/p/14646550.html)
@@ -617,12 +617,12 @@ console.log('========end=============')
 
 
 
-### 断点调试
+#### 断点调试
 
 > 在某一行打下断点,当浏览器执行到这一行时，程序暂停，可以观察限制，代码状态，变量值等，在通过下一步下一步查看代码走向以及值的变化
 
-## JS功能性问题
-### js 判断服务器图片是否存在
+### JS功能性问题
+#### js 判断服务器图片是否存在
 
 ```javascript
 var ImgObj = new Image(); //判断图片是否存在
@@ -635,7 +635,7 @@ ImgObj.onerror = function () {
 };
 ```
 
-### js 插入样式
+#### js 插入样式
 
 ```javascript
 var style = "<style>#print .linetow{text-align:center}</style>";
@@ -644,7 +644,7 @@ ele.innerHTML = style;
 document.getElementsByTagName("head")[0].appendChild(ele.firstElementChild);
 ```
 
-### 类数组转数组
+#### 类数组转数组
 
 ```javascript
 function getArray() {
@@ -665,7 +665,7 @@ function getArray() {
 getArray(1, 2, 3);
 ```
 
-### 数组扁平化
+#### 数组扁平化
 
 ```javascript
 // 数组扁平化
@@ -689,13 +689,13 @@ console.log(flatten(arr));
 // 4. xxxx
 ```
 
-### Blob
+#### Blob
 
 > Blob(二进制大对象)对象是一个用来包装二进制文件的容器，File 继承于 Blob
 >
 > **IE9-浏览器不支持**
 
-#### Blob 创建
+##### Blob 创建
 
 ```javascript
 var myBlob = new Blob([1, 2, 3], { type: "text/plain" });
@@ -707,7 +707,7 @@ console.log(myBlob.type);
 // 通过input FileList获取文件Blob
 ```
 
-#### Blob 下载
+##### Blob 下载
 
 ```javascript
 <script type="text/javascript">
@@ -731,7 +731,7 @@ console.log(myBlob.type);
 </script>
 ```
 
-#### Blob 转地址
+##### Blob 转地址
 
 ```javascript
 // 把blob转化成当前页面的一个data:image/jpeg;base64内存地址
@@ -755,7 +755,7 @@ img.src = src;
     -   URL.revokeObjectURL 释放该地址
     -   data://URL 会对内容进行编码。blob://URL 只是对浏览器存储在内存中或者磁盘上的 Blob 的一个简单引用
 
-### JS 获取 base64 的方式
+#### JS 获取 base64 的方式
 
 > base64 是二进制数据的一个编码格式
 
@@ -795,7 +795,7 @@ image.onload = function () {
 image.src = "xxx.jpg";
 ```
 
-### 图片上传
+#### 图片上传
 
 [xxxx](https://www.cnblogs.com/pengdt/p/12037986.html)
 
@@ -809,7 +809,7 @@ image.src = "xxx.jpg";
 <button id="submit" onclick="uploadFile()">上传文件</button>
 ```
 
-#### FileReader
+##### FileReader
 
 > FileReader 是用来读取内存中的文件的 API，支持 File 和 Blob 两种格式。
 
@@ -850,7 +850,7 @@ fileReader.addEventListener("load", function () {
 });
 ```
 
-#### FormData
+##### FormData
 
 > 用一些键值对来模拟一系列表单控件：即把 form 中所有表单元素的 name 与 value 组装成 一个 queryString
 
@@ -867,7 +867,7 @@ formData.set(fieldName, file);
 formData.append(name, value, filename);
 ```
 
-#### 上传
+##### 上传
 
 ```javascript
 let config = {
@@ -885,7 +885,7 @@ axios
     });
 ```
 
-#### 大文件上传
+##### 大文件上传
 
     -	file继承Blob利用Blob的slice方法将文件切片
     -	确定每片大小
@@ -893,11 +893,11 @@ axios
     -	片段数量 (Math.ceil(总大小/每片大小))
     -	定义一个偏移量决定每次调接口传哪一段，每次调用便宜量++
 
-#### Canvas 图片上传
+##### Canvas 图片上传
 
     -	通过 canvas.toDataURL('image/jpeg') 上传base64上传
 
-### 字符串编码
+#### 字符串编码
 
 ```javascript
 /*
@@ -935,7 +935,7 @@ UTF-8:统一编码 汉字占三个字节
 */
 ```
 
-### 滚动条动态底部
+#### 滚动条动态底部
 
 ```javascript
 //变化的时候
@@ -944,7 +944,7 @@ this.$nextTick(() => {
 });
 ```
 
-### 指定时间触发定时器
+#### 指定时间触发定时器
 
 >   通过一个定时器找到指定时与分，关闭定时器，执行内容，定义第二个24小时执行一次的定时器
 
@@ -1062,7 +1062,7 @@ run();
 
 ```
 
-### iframe详细
+#### iframe详细
 
 ```html
 <iframe id="iframe"></iframe>
@@ -1146,7 +1146,7 @@ let iframe = document.getElementById("iframe");
 
 
 
-### 页面滚动到顶部
+#### 页面滚动到顶部
 
 ```javascript
 /*
@@ -1163,7 +1163,7 @@ const scrollToTop = () => {
 scrollToTop();
 ```
 
-### 数字转大写
+#### 数字转大写
 
 ```javascript
 let digitUppercase = (n)=> {
@@ -1219,11 +1219,168 @@ let digitUppercase = (n)=> {
 console.log(digitUppercase(86534.63))
 ```
 
-## 请求与响应
+#### cron 解析
+```javascript
+/**
+ * 不考虑这种 SUN, MON, TUE, WED, THU, FRI and SAT 单词表示法
+ * 周选项中 1表示周日、2表示周一.....
+ */
 
-### 响应参数
+export default class CronFormat {
+    constructor(cronstr) {
+        this.formaterr = null;
+        // this.isevery = [false, false, false, false, false, false];
+        this.cronstr = cronstr
+            .toString()
+            .split(" ")
+            .filter(item => !!item);
+    }
+
+    getString() {
+        let res = "";
+
+        if (!this.validator().visrule) {
+            return this.validator().msg;
+        }
+
+        if(this.cronstr[3] == "?"&&this.cronstr[5] == "?") return "格式错误,周或天只能选一个";
+        if (this.cronstr[5] == "?") {
+            res = `${this.getMonth()} ${this.getDay()} ${this.getHour()} ${this.getMinutes()} ${this.getSeconds()}`;
+        } else if (this.cronstr[3] == "?") {
+            res = `${this.getMonth()} ${this.getWeek()} ${this.getHour()} ${this.getMinutes()} ${this.getSeconds()}`;
+        } else {
+            return "格式错误,周或天必须选一个";
+        }
+
+        if (this.formaterr) {
+            return this.formaterr;
+        }
+        return res + "执行";
+    }
+
+    getSeconds() {
+        // 解析秒
+        return this.getValue(this.cronstr[0], "秒");
+    }
+    getMinutes() {
+        // 解析分
+        return this.getValue(this.cronstr[1], "分");
+    }
+    getHour() {
+        // 解析时
+        return this.getValue(this.cronstr[2], "时");
+    }
+    getDay() {
+        // 解析日
+        let sec = this.cronstr[3];
+        let value = "";
+        if (sec == "L") {
+            value = `最后一天的`;
+        } else if (sec == "LW") {
+            value = `最后一工作日的`;
+        } else if (/^\d{1,2}W$/.test(sec)) {
+            value = `第${sec.split("W")[0]}个工作日`;
+        } else if (/^\d{1,2}L$/.test(sec)) {
+            value = `最后一个星期${sec.split("L")[0]}`;
+        } else {
+            value = this.getValue(sec, "日");
+        }
+
+        return value;
+    }
+    getMonth() {
+        // 解析月
+        return this.getValue(this.cronstr[4], "月");
+    }
+    getWeek() {
+        // 解析周
+        let sec = this.cronstr[5];
+        let value = "";
+        if (sec == "*") {
+            value = "每周";
+        } else if (sec.includes(",") || /^\d$/.test(sec)) {
+            // 如果规则的周日是1,周六是7的的
+            value = `周${this.changeWeek(sec)}`;
+        } else {
+            value = sec;
+        }
+
+        return value;
+    }
+
+    getValue(sec, unit) {
+        let value = "";
+        if (sec == "*") {
+            value = `每${unit}`;
+        } else if (/\d{1,2}-\d{1,2}/.test(sec)) {
+            value = `${sec.split("-")[0]}到${sec.split("-")[1]}${unit}`;
+        } else if (/\d{1,2}\/\d{1,2}/.test(sec)) {
+            value = `从${sec.split("/")[0]}${unit}开始每隔${
+                sec.split("/")[1]
+            }${unit}`;
+        } else if (sec.includes(",") || /^\d{1,}$/.test(sec)) {
+            value = `${sec}${unit}`;
+        } else {
+            this.formaterr = `${sec} 处格式有误`;
+        }
+
+        return value;
+    }
+
+    changeWeek(sec) {
+        let val = "";
+        sec.split(",").forEach(item => {
+            switch (Number(item)) {
+                case 1:
+                    val = val + "日,";
+                    break;
+                case 2:
+                    val = val + "一,";
+                    break;
+                case 3:
+                    val = val + "二,";
+                    break;
+                case 4:
+                    val = val + "三,";
+                    break;
+                case 5:
+                    val = val + "四,";
+                    break;
+                case 6:
+                    val = val + "五,";
+                    break;
+                case 7:
+                    val = val + "六,";
+                    break;
+            }
+        });
+        console.log(val.split(","));
+        return val
+            .split(",")
+            .filter(item => item)
+            .join("、");
+    }
+
+    validator() {
+        if (this.cronstr.length < 6) {
+            return { visrule: false, msg: "cron表达式最少6项" };
+        }
+        if (this.cronstr.length > 7) {
+            return { visrule: false, msg: "cron表达式最多7项" };
+        }
+        if (/[^0-9\*\?\-\,\/#LCW]{1,}/.test(this.cronstr)) {
+            return { visrule: false, msg: "存在字符不合法" };
+        }
+        return { visrule: true };
+    }
+}
+```
+
+### 请求与响应
+
+#### 响应参数
 
 -   **X-Frame-Options**：iframe权限参数
 -   **Content-Security-Policy**:服务器通过发送一个 CSP 头部，来告诉浏览器什么是`被授权执行的`与`什么是需要被禁止的`
 
-### 请求参数
+#### 请求参数
