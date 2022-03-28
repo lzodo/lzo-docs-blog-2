@@ -27,6 +27,10 @@ tsc --init
 
 # 3.启动监视任务
 终端 -> 运行任务 -> 监视xx项目 tsconfig.json
+
+或 
+
+# tsc -p d:\lzo-project\lzo-everyday\tsconfig.json --watch 直接箭头指定的tsconfig
 ```
 ## ts语法
 ### 类型注解
@@ -236,11 +240,22 @@ function test(a: number = 123, b?: number,...args:number[]): number {
 test(1,2,3,4,5,6,7,8)
 ```
 
-#### 重载(未成功)
+#### 重载
 > 函数名字相同，但是参数类型或个数不同
 
 
 ```javascript
+function getInfo(name:string):void;
+function getInfo(age:number):void;
+function getInfo(str:any):void{
+    if(typeof str == "string"){
+        console.log("名字:",str)
+    }
+    if(typeof str == "number"){
+        console.log("年龄",str)
+    }
+}
+getInfo("zhangsan")
 ```
 
 #### 其他
