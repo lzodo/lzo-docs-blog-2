@@ -29,6 +29,9 @@ title: 微信小程序
 
 https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
 
+### 第三方包
+安装完成之后还需要 选择构建，构建npm 生成 miniprogram_npm 才能正常使用
+
 ### 快捷操作
 + 将页面新增到编译模式，不用将页面路径移到最前面，就能直接调试指定页面了 
 
