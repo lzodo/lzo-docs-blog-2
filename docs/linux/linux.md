@@ -357,7 +357,7 @@ title: linux
 
 -   高级权限
     -   访问控制列表`facl`
-        -   前面的权限针对，所属组、所属组、其他人三类进行限制
+        -   前面的权限针对，所有者、所属组、其他人三类进行限制
         -   优先级高于用户的基本权限
         -   `facl`可以针对某一个用户进行权限设置
             -   `setfacl -m u:UserName:rwx FilePath`:设置用户`UserName`对`FilePath`的 facl 控制权限为`rwx`
