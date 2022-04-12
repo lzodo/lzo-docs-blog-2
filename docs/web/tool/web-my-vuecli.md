@@ -15,7 +15,7 @@ title: 开发脚手架工具
     -   `program.command`:创建指令
     -   `clone 模板项目`
         -   `download-git-repo`:第三方npm库，可在项目中cloen GitHub项目
-    -   执行`npm install`
+    -   执行 `npm install`
 -   创建组件
     -   创建ejs模板
     -   定义一个指令 如`cmdname addcpn`

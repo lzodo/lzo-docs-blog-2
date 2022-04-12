@@ -41,7 +41,7 @@ if((value??'') !== ''){
 
 
 //??=
-a ??= b  ->   a = (a??b)
+a ??= b -> a = (a??b)
 
 //?. 可选链操作符
 // const host = config && config.db && config.db.host;
