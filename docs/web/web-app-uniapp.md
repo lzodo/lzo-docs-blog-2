@@ -266,7 +266,7 @@ uni.$on('update',function(data){
 			console.log("在实例初始化之后 无data数据")
 		},
 		created() {
-			console.log("在实例创建完成后 有data数据"")
+			console.log("在实例创建完成后 有data数据")
 		},
 		beforeMount(){
 			console.log("挂载到实例上去之前调用 无dom节点")
@@ -297,7 +297,9 @@ uni.request({
 	method
     data
     header
-	success: (res) => {}
+	success: (res) => {
+		
+	}
 	...
 });
 ```
