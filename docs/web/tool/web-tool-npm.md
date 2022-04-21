@@ -51,6 +51,8 @@ npm config set registry https://registry.npm.taobao.org/  //设置淘宝源
 > 安装生产环境依赖的模块，即项目运行时的模块，例如react，react-dom,vue,jQuery等类库或者框架
 > 安装开发环境依赖的模块，即项目开发时的模块，例如babel、webpack等
 
+#### npm run xxxx
+> 除了运行方便之外，script里还能执行 node_modules/.bin 里的可执行文件软连接
 #### npm 缓存策略 package-lock.json
 ```javascript
 npm config get cache //获取缓存存放位置
