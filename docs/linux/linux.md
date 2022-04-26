@@ -1022,7 +1022,16 @@ title: linux
 -   `echo $PATH` :查看环境变量
 -   `echo $?` :查看上一条命令执行结果的对错(0:正确，非 0:错误)
     `source ~/.bashrc`：更新配置文件立即生效
--   `uname` :查看系统信息
+
+### 查看系统信息
+-   `uname -a` :查看系统信息
+-   `cat /proc/version` :查看当前操作系统版本信息
+-   `cat /etc/issue`:查看当前操作系统发行版信息
+-   `cat /proc/cpuinfo`:CPU信息
+-   `getconf LONG_BIT`:多少位
+-   `cat /etc/sysconfig/network-scripts/xxx网卡`:查看网络配置
+-   `lsblk 、fdisk -l、df -h`:磁盘信息
+-   `free -mh`:查看内存信息
 
 ### 不常用
 
