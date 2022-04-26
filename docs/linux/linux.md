@@ -1032,6 +1032,8 @@ title: linux
 -   `cat /etc/sysconfig/network-scripts/xxx网卡`:查看网络配置
 -   `lsblk 、fdisk -l、df -h`:磁盘信息
 -   `free -mh`:查看内存信息
+-   `netstat -lntp`：查看监听的端口
+-   `cut -d: -f1 /etc/passwd`:查看所有用户
 
 ### 不常用
 
