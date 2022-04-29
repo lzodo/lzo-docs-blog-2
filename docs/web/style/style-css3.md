@@ -376,4 +376,6 @@ img {
 ```
 
 
+### 其他
 
+-   锚点平滑滚动 html添加 `scroll-behavior: smooth;`

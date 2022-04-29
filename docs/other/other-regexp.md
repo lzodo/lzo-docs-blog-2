@@ -213,4 +213,7 @@ console.log('18060849356'.replace(/(?!^)(?=(\d{3})+$)/g,'-'));
 ```javascript
 const carNoReg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋蒙陕吉闽贵粤青藏川宁琼使领A-Z]{1}[A-Z]{1}[A-Z0-9]{4}[A-Z0-9挂学警港澳]{1}$/
 ```
-
+- 判断单词是否由其他指定字符串组成
+```javascript
+/^(hello|word|add){1,}$/.test('helloword');
+```
