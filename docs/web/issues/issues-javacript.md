@@ -758,7 +758,17 @@ function getArray() {
 
 getArray(1, 2, 3);
 ```
-
+### 根据对象某属性去重
+> 通过reduce,判断list列表每一项的a属性,是否含有与next中a相等的，如果有不添加next，否则添加next
+```javascript
+let objList = [
+    { a: 3, b: 2 },
+    { a: 1, b: 2 },
+    { a: 2, b: 2 },
+    { a: 3, b: 2 },
+];
+console.log(objList.reduce((list,next)=>list.some((item)=>item["a"]==next["a"])?list:[...list,next],[]));
+```
 ### 数组扁平化
 
 ```javascript
