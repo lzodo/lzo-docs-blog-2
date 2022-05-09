@@ -233,6 +233,7 @@ title: linux
 ### 基本系统运用指令
 
 -   `ifconfig` ：查看 ip （ens33 格式、lo、virbr0 虚拟网卡）等网卡
+    -   `watch -n 1 ifconfig` 实时查看网络状态，RX:接收，TX:发送 => (KB = 数值/1000)
 -   `reboot|init 6` ：重启
 -   `poweroff|init 0` ：关机
 -   `shutdown`
