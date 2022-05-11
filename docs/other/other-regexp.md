@@ -221,3 +221,23 @@ const carNoReg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋
 ```javascript
 /^(hello|word|add){1,}$/.test('helloword');
 ```
+
+- split
+
+```javascript
+
+// 不保留符号
+"split>=1xx<=2xx&&3xx".split(/>=|<=|&&/) // ['split', '1xx', '2xx', '3xx']
+// 保留符号
+"split>=1xx<=2xx&&3xx".split(/(>=|<=|&&){1}/) // ['split', '>=', '1xx', '<=', '2xx', '&&', '3xx']
+// 优先级
+"split>=111=222>=333".split(/(>=|=){1}/) //['split', '>=', '111', '=', '222', '>=', '333']
+```
+
+- 范围
+    -   (Unicode官网)[https://www.52unicode.com/]
+    -   Unicode-中文 [\u4e00-\u9fa5] 专注于简体 (Unicode 汉字)[https://www.52unicode.com/cjk-unified-ideographs-zifu]
+        -   经测试 [\u4e00-\u9fe6] 都是汉字 => 9fa5龥 、9fa6龦
+        -   经测试 [\u9fe7-\u9FFF] 都是空白 
+        -   所以说 [\u4e00-\u9FFF] 验证中文都是可以的
+    -   十六进制-0到255 [\x00-\xFF]  => str.replace(/[^\x00-\xFF]/g,'**').length; 字符串字节长度
