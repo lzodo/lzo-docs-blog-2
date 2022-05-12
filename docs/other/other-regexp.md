@@ -236,7 +236,10 @@ const carNoReg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋
 
 - 范围
     -   (Unicode官网)[https://www.52unicode.com/]
-    -   Unicode-中文 [\u4e00-\u9fa5] 专注于简体 (Unicode 汉字)[https://www.52unicode.com/cjk-unified-ideographs-zifu]
+    -   (Unicode 汉字)[https://www.52unicode.com/cjk-unified-ideographs-zifu]
+    -   (ASCII)[https://www.habaijian.com/]
+
+    -   Unicode-中文 [\u4e00-\u9fa5] 专注于简体 
         -   经测试 [\u4e00-\u9fe6] 都是汉字 => 9fa5龥 、9fa6龦
         -   经测试 [\u9fe7-\u9FFF] 都是空白 
         -   所以说 [\u4e00-\u9FFF] 验证中文都是可以的
