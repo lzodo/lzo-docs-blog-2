@@ -11,6 +11,7 @@ title: 工作学习资源
 -   [CSS3 兼容情况 caniuse](https://caniuse.com)
 -   [线上代码编辑 codepan](https://codepen.io) [^②]
 -   [项目接口模拟生成](https://www.fastmock.site/#/)
+-   [电子书下载](https://www.jiumodiary.com/) 
 
 [^②]:
     创建基础案例 create > pen  
