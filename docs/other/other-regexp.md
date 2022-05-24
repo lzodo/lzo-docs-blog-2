@@ -15,12 +15,13 @@ title: 正则表达式
 
 -   创建正则
     -   `var reg = /^xxx/ig`：字面量方式
-    -   `var reg = new RegExp("^xxx","ig")`：构造行数创建
+    -   `var reg = new RegExp("^xxx","ig")` 或 `new RegExp(/xyz/i)`：构造行数创建
     -   第一中正则在编译时就创建，实例的正则在运行是才创建
 -   匹配模式(修饰符)
     -   表示正则的附加规则，放在最后面
     -   `i:ignore` 忽略大小写
     -   `g:global` 全局匹配，匹配字符串中所有匹配的词
+    -   `u`:Unicode 模式 可以匹配\uxxxx
 -   JS 正则对象提供的方法
     -   `reg.test("str");`:test 验证 str 中是否存在符合规则的子字符串
     -   `reg.test(["str1","str2","strn"])`:只要一个符合条件就返回true
@@ -138,6 +139,13 @@ exp1(?!exp2) 查找后面不是exp2的exp1
 -   `[^]或[!]`：除了中括号内字符外匹配任一个字符
 -   `{a,b,c}/{a..z}`:a 或 b 或 c / a 到 z
 
+#### es6正则扩展
+-    `new RegExp(/xyz/ig,"i")`：/xyz/i i覆盖ig
+-    `u`修饰符 
+    -   使`.`，或其他符号可以识别\uFFFF外的字符 `/^.$/u.test("𠮷")` `/^\S$/.test('𠮷')`
+    -   `/\u{61}/u.test('a')` // true
+    -   无效转义报错 `/\,/u.test(',')` 本来就不需要转
+    -   通过 `/xxx/.unicode` 查看是否始终了u字符
 #### linux 正则
 
 -   与通配符差别
@@ -246,7 +254,7 @@ const carNoReg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋
     -   十进制为0到255的字符 [\x00-\xFF]
         -   字符串字节长度 str.replace(/[^\x00-\xFF]/g,'**').length; 
         -   十六进制表示范围最大是0-255 [\x00-\xFF] => 和 [\u0000-\u00FF] 是一样的
-        -   超过255的如 `/[\x100]/.test('Ā')` = false; `/[\u0100]/.test('Ā')` = true;
+        -   超过255的如 `/[\x100]/.test('   ')` = false; `/[\u0100]/.test('Ā')` = true;
     -   unicode的字符编码和utf-8的存储编码表示是不同的
         ![utf8转换](../../static/img/20201231182051351.png)
     -   utf-8是变长的,UTF规定：
