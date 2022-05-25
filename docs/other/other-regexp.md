@@ -192,7 +192,26 @@ exp1(?!exp2) 查找后面不是exp2的exp1
     ```
 -   引用 `\k<组名>` 功能以前的\1效果一样
     -   `/^(?<word>[a-z]+)!\k<word>$/.test('abc!abc')`
-    
+-   匹配索引 reg.exec(str).indices `暂时不支持使用`
+    ```javascript
+    const s1 = "xaaaz";
+    const m1 = re1.exec(s1);
+    m1.indices[0][0] === 1;
+    m1.indices[0][1] === 5;
+
+    // 第一次匹配起始结束 位置 第三阶段提案， https://github.com/tc39/proposal-regexp-match-Indices
+    ```
+-   一次性取出所有匹配
+    ```javascript
+    const string = 'test1test2test3';
+    const regex = /t(e)(st(\d?))/g;
+
+    console.log(string.matchAll(regex)) //返回一个 Iterator遍历器
+
+    for (const match of string.matchAll(regex)) {
+    console.log(match);
+    }
+    ```
 #### linux 正则
 
 -   与通配符差别
