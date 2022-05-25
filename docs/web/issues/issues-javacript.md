@@ -188,6 +188,15 @@ getTime(fibonacciWithCache, 40);
     用时：2830 毫秒，结果：102334155
     用时：0 毫秒，结果：102334155
 
+### URI URL URN
+```javascript
+// URI = Uniform Resource Identifier 统一资源标志符
+// URL = Uniform Resource Locator 统一资源定位符
+// URN = Uniform Resource Name 统一资源名称
+
+// 去村子找个具体的人（URI），如果用地址：某村多少号房子第几间房的主人 就是URL， 如果用身份证号+名字 去找就是URN了。
+// 原来uri包括url和urn，后来urn没流行起来，导致几乎目前所有的uri都是url
+```
 ### 柯里化、偏函数、Compose、Pipe
 
 > 收集函数多次调用的参数了列表
@@ -897,6 +906,29 @@ image.onload = function () {
 }
 // 这个src可以是本地路径，服务器图片地址，也可以是上面fileReader的base64
 image.src = "xxx.jpg";
+```
+### 输入框光标
+```javascript
+let Input = document.getElementById("input");
+//vue ref => Input = this.$refs.exprInput.getInput()
+
+// 获取
+let start = Input.selectionStart; //获取开始位置
+let end = Input.selectionEnd; //获取结束位置
+
+//设置 vue需要 this.$nextTick(() => {}) 中
+this.$nextTick(() => {
+    Input.setSelectionRange(1,3);
+    //或
+    start.selectionStart = 1; // 设置光标开始的位置
+    end.selectionEnd = 3;// 设置光标结束的位置
+})
+
+// 案例 光标位置插入数据
+let inputval = "123456"
+let before = inputval.substring(0,start);
+let after = inputval.substring(end);
+let data = before +"newvalue" +after;
 ```
 
 ### 图片上传
