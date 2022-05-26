@@ -84,6 +84,21 @@ width and height:0;
 transform: scale(0);
 zoom: 0.00001;
 ```
+#### 清除浮动
+```css
+/* 1、最后加元素 或 伪元素:after clear: both;*/
+
+/* 2 display*/
+.parent{
+    display:flow-root;
+}
+
+/* ... */
+```
+
+#### position
+> 设置left right 等于设置了宽度
+> position:sticky; 子元素达到父元素某个位置时固定住，暂时只支持Firefox 
 
 #### ul list-style
 ```css
