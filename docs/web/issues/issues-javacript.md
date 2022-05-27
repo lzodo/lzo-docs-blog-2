@@ -115,7 +115,6 @@ Function.prototype.call = function (thisArg, args) {
     问题: 如何去除调用函数fn时内部this对象会出现fn自己的问题;
 };
 ```
-
 ### new 内部做了什么？
 
 ### 作用域
@@ -126,6 +125,7 @@ Function.prototype.call = function (thisArg, args) {
 ### 闭包
 
 > 闭包就是外层函数中 return 出新函数,使新函数通过外层函数在外面可以使用，新函数中可以使用外层函数中定义的变量
+> 局部数据共享
 
 ```javascript
 function fun(n, o) {
@@ -783,23 +783,38 @@ console.log(objList.reduce((list,next)=>list.some((item)=>item["a"]==next["a"])?
 ```javascript
 // 数组扁平化
 let arr = [1, 2, [3, 4], 5, [8, [9, 10]]];
-// 1. arr.flat默认两层 -> Infinity不限制层数
-console.log(arr.flat(Infinity));
-// 2. toString
-console.log(
-    arr
-        .toString()
-        .split(",")
-        .map((item) => Number(item))
-);
-// 3. reduce
-const flatten = (array) =>
+
+let m_concat = (...arg) => {
+    // 1、扁平化 flat
+    return arg.flat(Infinity)
+
+    // 2、reduct
+    // if (arg.length == 1) {
+    //     arg = arg[0];
+    // }
+    // return arg.reduce((a, next) => {
+    //     return a.concat(Array.isArray(next) ? m_concat(next) : next);
+    // }, []);
+
+    // 3、正则
+    // return JSON.stringify(arg).replace(/\[|\]/g,"").split(",");
+
+    // 4、数值变字符串，并将字符串数值变为number， arg+"" 一样
+    // return arg.toString().split(",").map((item) => (/^\d+$/.test(item) ? Number(item) : item));
+
+    // 5、while some
+    // while (arg.some((item) => Array.isArray(item))) {
+    //     arg = [].concat(...arg);
+    // }
+    // return arg;
+};
+
+const flatten = (array) => {
     array.reduce((acc, cur) => {
-        // console.log(acc, cur);
         return Array.isArray(cur) ? [...acc, ...flatten(cur)] : [...acc, cur];
     }, []);
+}
 console.log(flatten(arr));
-// 4. xxxx
 ```
 
 ### Blob
