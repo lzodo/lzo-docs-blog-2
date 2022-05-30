@@ -115,6 +115,28 @@ Function.prototype.call = function (thisArg, args) {
     问题: 如何去除调用函数fn时内部this对象会出现fn自己的问题;
 };
 ```
+### jQuery的链式操作
+
+```javascript
+function jQuery( selector, context) {
+    return new jQuery.fn.init( selector, context);
+}
+jQuery.fn = jQuery.prototype = { //fn即对应prototype
+    constructor: jQuery,
+    init: function( selector, context ) {
+        console.log(selector, context)
+        return this;
+    },
+    then:function(par){
+        console.log(par);
+        return this;
+    },
+}
+jQuery.fn.init.prototype = jQuery.fn;
+
+jQuery(1,2).then(4).then(5);
+
+```
 ### new 内部做了什么？
 
 ### 作用域
