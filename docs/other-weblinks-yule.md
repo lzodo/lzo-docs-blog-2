@@ -11,3 +11,4 @@ title: 非学习资源
 -   [PPT超级市场](https://pptsupermarket.com/)
 -   [照片动漫化](https://toonme.com/)
 -   [截图找动漫](https://trace.moe/)
+-   [gif生成工具](https://www.screentogif.com/)
