@@ -56,6 +56,7 @@ title: linux-manjaro
     -   `Qs key`:查询本地名字有 key 的程序
     -   `Qdt`:不需要的软件
     -   `pacman -R $(pacman -Qdtq)`:删除不需要的软件，最后 q 去除版本号
+    -   `whereis name` 查询程序安装位置
 
 -   `/etc/pacman.conf`:pacman 配置文件 添加源,
     -   `Color`:设置高亮变色
