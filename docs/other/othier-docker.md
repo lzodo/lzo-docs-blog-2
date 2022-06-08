@@ -73,14 +73,19 @@ title: docker
 docker pull centos
 ```
 -   容器命令
+    <!-- -   `docker linux大多数命令 容器id`:实现容器内部相应linux功能    -->
     -   `docker run [参数] centos`:新建容器并启动
-        -   `-name="Name"`:容器名称
+        -   `--name Name`:容器名称
         -   `-d`:后台运行
+            -   `后台运行必须有一个前台在使用的应用，否则启动后会自动停止`
         -   `-it centos /bin/bash`: 进入容器 交互运行,里面是单独的centos系统
             -   `exit`：停止并推出
             -   `Ctrl + p + q`:不停止推出
-            -   `docker exec -it <id|name> /bin/bash` 重新进入
-        -   `-小p IP:8080:8080`:指定容器端口
+            -   `docker exec -it <id|name> /bin/bash` 进入当前正在运行的容器,并开启新终端，可以操作 
+            -   `docker attach <id|name>` 进入当前正在运行的容器，正则运行的终端  
+            -   ``:重新进入停止的容器
+        -   `--rm`:用完就删除
+        -   `-小p IP:8080:8080`:指定容器端口，可以多个
             -   IP:主机端口:容器端口
         -   `-大P`:随机容器端口 
     -   `docker ps`:查看运行中的容器
@@ -91,14 +96,47 @@ docker pull centos
         -   `docker rm $(docker ps -aq)`:删除所有
         -   `docker rm -a -q|xargs docker rm`:通过Linux的xargs批量删除
         -   `-f`：强制删除运行的容器
-    -   -   `docker start|stop|restart|kill <容器id>`:启动停止容器
+    -   `docker start|stop|restart|kill <容器id>`:启动停止容器
+    -   `docker pause|unpause <容器id>`:暂停容器
+    -   `docker logs <容器 id>`:查看日志
+        -   `-f -t --tail number`
+    -   `docker inspect <容器 id>`:查看容器信息 
+    -   `docker top <容器 id>`:查看进程信息 
+    -   `docker stats`:查看资源占用
+
+    -   `docker cp <容器 id>:/容器内路径 外部路径`:docker文件拷贝
+
 - docker run 做了什么
     -   在本机寻找镜像，如果有运行镜像
     -   否则去远程仓库找，如果找到下载镜像到本地，在运行
     -   否则返回找不到
 
+### 基本案例
+- 安装nginx
+```shell
+# docker pull nginx // 下载
+# docker run -d --name=nginx1 -p 3344:80 nginx // 开启  容器内nginx启动80端口，暴露出来映射到外部主机的3344
+# curl localhost:3344  // 测试
+```
+
+- 安装 tomcat(默认暴露端口8080)
+- es+kibana
 ### 镜像
 ### 容器数据卷
+> 每次修改容器内配置需要进入很麻烦，我们可以在容器外不提供一个映射路径，达到容器外修改配置文件，容器内自动修改的技术
+
+### 可视化工具
+> portainer
+```shell
+docker run -d -p 8088:9000 \
+--restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer
+
+# 启动成功后 ip:8088 浏览器打开界面
+# 设置密码
+# 选择本地直接连接
+```
+
+> lazydocker
 ### DockerFile
 ### Docker网络原理
 ### IDEA真和Docker

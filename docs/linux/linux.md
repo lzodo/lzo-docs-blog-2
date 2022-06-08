@@ -1042,6 +1042,7 @@ title: linux
 -   `whereis cmmand`:查询指令的可执行文件,源码文件,帮助文件的位置
 -   `ntpdate -u ntp.api.bz`:矫正时间
 -   `/etc/os-release`:操作系统表示
+-   `curl url`:获取网站源码
 
 ### 网络相关
 -   `ping`:`ping www.baidu.com -c 6 -i 0.6` ,ping6次 间隔0.6秒
