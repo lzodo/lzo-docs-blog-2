@@ -79,6 +79,7 @@ docker pull centos
         -   `-it centos /bin/bash`: 进入容器 交互运行,里面是单独的centos系统
             -   `exit`：停止并推出
             -   `Ctrl + p + q`:不停止推出
+            -   `docker exec -it <id|name> /bin/bash` 重新进入
         -   `-小p IP:8080:8080`:指定容器端口
             -   IP:主机端口:容器端口
         -   `-大P`:随机容器端口 
