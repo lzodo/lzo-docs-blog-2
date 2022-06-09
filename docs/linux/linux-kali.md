@@ -34,6 +34,12 @@ sudo apt-get autoremove           # 删除系统不再使用的孤立软件
 ```
 
 ## 指令
+wsl 服务管理
+service --status-all  查看服务名称
+sudo service server-name start
+
+
+apt-get update
 
 ### apt-file
 > 查看指令属于哪个包

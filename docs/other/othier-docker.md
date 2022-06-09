@@ -88,6 +88,7 @@ docker pull centos
         -   `-小p IP:8080:8080`:指定容器端口，可以多个
             -   IP:主机端口:容器端口
         -   `-大P`:随机容器端口 
+    <!-- -   `docker update --restart=always <容器 id>` :更新参数 -->
     -   `docker ps`:查看运行中的容器
         -   `-a`:历史运行的容器
         -   `-n=1`:只看一个
@@ -96,7 +97,7 @@ docker pull centos
         -   `docker rm $(docker ps -aq)`:删除所有
         -   `docker rm -a -q|xargs docker rm`:通过Linux的xargs批量删除
         -   `-f`：强制删除运行的容器
-    -   `docker start|stop|restart|kill <容器id>`:启动停止容器
+    -   `docker start|stop|restart|kill <容器 id>`:启动停止容器
     -   `docker pause|unpause <容器id>`:暂停容器
     -   `docker logs <容器 id>`:查看日志
         -   `-f -t --tail number`
@@ -154,6 +155,11 @@ run -it 进入容器修改内容
 
 #### 使用
 >  方式一: 通过命令挂载  -v
+
+安全模块selinux把权限禁掉了，无法使用-v命令进行挂载
+有时-v 容器无法启动 `chcon -Rt svirt_sandbox_file_t /dir/x/x` 开放权限 重新run
+-R 递归处理所有的文件及子目录
+-t 设置指定类型的目标安全环境
 ```shell
 docker run -it -v 主机目录:容器内目录
 docker inspect <容器 id>  => Mounts 查看是否挂载成功
