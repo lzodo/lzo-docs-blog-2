@@ -122,8 +122,49 @@ docker pull centos
 - 安装 tomcat(默认暴露端口8080)
 - es+kibana
 ### 镜像
+> 镜像是一种轻量可执行的独立软件包，用来打包软件运行环境，和基于运行环境开发的软件，它包含运行某个软件所需的所有内容，包括`代码`、`库`、`运行时`、`环境变量`，`配置文件`等
+
+#### 镜像加载原理
+> UnionFS（联合文件系统）
+
+系统主要包含bootfs(公用，不包含镜像中)、rootfs（Linux的/dev,/proc等文件目录）和独立的应用配置
+
+是一种分层，轻量级高性能的文件系统(系统存在某个镜像，当拉去的二个镜像时，第一层如果与已有镜像相同，就不需要下载，直接拉取第二层);
+下载过的不会再下载，拉取时版本号后面提示`Already exists`
+
+Docker镜像都是只读的（镜像层），容器启动时，一个新的写入(用户操作 如:run)会被加载到镜像的顶部(自己的一层容器层)
+
+> commit镜像
+```shell
+# docker commit 提交容器
+# docker commit -m="描述信息" -a="作者" 容器id 目标镜像名:[TAG]
+
+下载官方tomcat
+run -it 进入容器修改内容
+正在运行的容器层有一个新的ID、
+通过这个id commit 做成镜像`存在本地`，(保存容器状态,相当于虚拟机快照)
+发布
+
+提交的时候上层的id都有存在信息中,pull的时候会先下载
+```
 ### 容器数据卷
+#### 概念
 > 每次修改容器内配置需要进入很麻烦，我们可以在容器外不提供一个映射路径，达到容器外修改配置文件，容器内自动修改的技术
+> 数据不能存在容器里面，`容器数据卷`可以 类似将容器内的目录挂在到主机上(但是它时同步过来的) 做到容器内外数据共享，容器间也可以
+
+#### 使用
+>  方式一: 通过命令挂载  -v
+```shell
+docker run -it -v 主机目录:容器内目录
+docker inspect <容器 id>  => Mounts 查看是否挂载成功
+```
+### DockerFile
+### Docker网络原理
+
+### IDEA真和Docker
+### Docker Compose
+### docker Swarm
+### CI\CD jenkins 
 
 ### 可视化工具
 > portainer
@@ -137,9 +178,3 @@ docker run -d -p 8088:9000 \
 ```
 
 > lazydocker
-### DockerFile
-### Docker网络原理
-### IDEA真和Docker
-### Docker Compose
-### docker Swarm
-### CI\CD jenkins 
