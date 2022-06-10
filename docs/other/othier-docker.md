@@ -44,6 +44,7 @@ title: docker
 ...
 ...
 ...
+`/var/lib/docker`:工作目录
 
 安装成功后
 `systemctl start docker.service` 启动服务
@@ -120,6 +121,15 @@ docker pull centos
 # curl localhost:3344  // 测试
 ```
 
+-   安装 mysql
+```shell
+docker pull mysql
+# 共享配置文件 数据文件 配置账号密码
+docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=初始密码 mysql --name some-mysql mysql   
+
+
+```
+
 - 安装 tomcat(默认暴露端口8080)
 - es+kibana
 ### 镜像
@@ -154,7 +164,7 @@ run -it 进入容器修改内容
 > 数据不能存在容器里面，`容器数据卷`可以 类似将容器内的目录挂在到主机上(但是它时同步过来的) 做到容器内外数据共享，容器间也可以
 
 #### 使用
->  方式一: 通过命令挂载  -v
+>  方式一: 通过命令挂载  -v （volume）
 
 安全模块selinux把权限禁掉了，无法使用-v命令进行挂载
 有时-v 容器无法启动 `chcon -Rt svirt_sandbox_file_t /dir/x/x` 开放权限 重新run
@@ -164,7 +174,43 @@ run -it 进入容器修改内容
 docker run -it -v 主机目录:容器内目录
 docker inspect <容器 id>  => Mounts 查看是否挂载成功
 ```
+
+#### 具名挂载与匿名挂载
+> -v juname:/inner/dir  具名挂载
+> -v /inner/der:rw    匿名挂载  rw可读可写 
+> -v /out/dir:/inner/dir:ro  指定路径挂载，到指定路径 ro只读
+
+`docker volume ls`:查看卷名,匿名的就是自动生成的数据
+`docker volume inspect juname`：查看详细位置，相关信息等
+#### 多个mysql或多个容器间数据共享
+```shell
+# 这里使用到了下面的 dockerfile的挂载 直接 -v也一样
+dockre run -it --name parent lzoxun/镜像名称 
+dockre run -it --name child1 --volumes-from parent 
+...
+# 父子容器挂载目录下的文件相互共享，parent就是数据卷容器
+# 所有用到的容器都停止，数据才会没？？？？？
+```
 ### DockerFile
+DockerFile是用构建docker镜像的文件，是一个命令脚本，通过这个脚本生成镜像
+> 步骤
+```shell
+# 创建dockfile文件，文件名自定义
+# 文件中的内容 格式: 大写指令 参数 
+FROM centos
+VOLUME ['volume01','name:volume02','/xx/xx:volume03']  #不用-v, volume01这连个是镜像内的目录，在生成镜像时直接挂载的数据卷目录
+
+CMD echo "---end---"
+CMD /bin/bash
+# volume01 数据卷目录外部一定有一个同步的目录
+
+# 一步一步构建镜像
+# 运行
+docker build -f /xx/xxx/dockerfile-name - t lzoxun/镜像名称:[tag?] .   
+dockre run -it lzoxun/镜像名称 /bin/bash 
+```
+
+
 ### Docker网络原理
 
 ### IDEA真和Docker
