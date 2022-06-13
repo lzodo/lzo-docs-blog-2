@@ -104,7 +104,7 @@ docker pull centos
     -   `docker pause|unpause <容器id>`:暂停容器
     -   `docker logs <容器 id>`:查看日志
         -   `-f -t --tail number`
-    -   `docker inspect <容器 id>`:查看容器信息 
+    -   `docker inspect <容器 id>`:查看容器信息 重要
     -   `docker top <容器 id>`:查看进程信息 
     -   `docker stats`:查看资源占用
 
@@ -131,7 +131,13 @@ docker pull centos
 ```shell
 docker pull mysql
 # 共享配置文件 数据文件 配置账号密码
-docker run -d -p 3310:3306 -v /home/mysql/conf:/etc/mysql/conf.d -v /home/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=初始密码 mysql --name some-mysql mysql   
+docker run -d -p 3306:3306 -v /tmp/mysql/conf:/etc/mysql/conf.d -v /tmp/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql --name some-mysql mysql   
+
+#  --
+直接关闭问题
+http://t.zoukankan.com/whereGo-p-12599723.html
+
+docker run -it -m 300M --memory-reservation 200M -p 3310:3306 -v /tmp/mysql/conf:/etc/mysql/conf.d -v /tmp/mysql/data:/var/lib/mysql -e MYSQL_ROOT_PASSWORD=123456 mysql --name some-mysql mysql /bin/bash
 
 
 ```
@@ -197,7 +203,8 @@ docker inspect <容器 id>  => Mounts 查看是否挂载成功
 ```shell
 # 这里使用到了下面的 dockerfile的挂载 直接 -v也一样
 dockre run -it --name parent lzoxun/镜像名称 
-dockre run -it --name child1 --volumes-from parent 
+# dockre run -it --name child1 --volumes-from parent 
+dockre run -it --name child3 --volumes-from parent 镜像2 /bin/bash  #child3 通过是镜像2的容器，并继承镜像1的卷
 ...
 # 父子容器挂载目录下的文件相互共享，parent就是数据卷容器
 # 所有用到的容器都停止，数据才会没？？？？？
@@ -206,10 +213,10 @@ dockre run -it --name child1 --volumes-from parent
 DockerFile是用构建docker镜像的文件，是一个命令脚本，通过这个脚本生成镜像,
 > 步骤
 ```shell
-# 创建dockfile文件，文件名自定义
+# 创建dockerfile文件，文件名自定义
 # 文件中的内容 格式: 大写指令 参数 
 FROM centos
-VOLUME ['volume01','name:volume02','/xx/xx:volume03']  #不用-v, volume01这连个是镜像内的目录，在生成镜像时直接挂载的数据卷目录
+VOLUME ["volume01","volume02","/xx/xx/volume03"]  #不用-v, volume01这连个是镜像内的目录，在生成镜像时直接挂载的数据卷目录
 
 CMD echo "---end---"
 CMD /bin/bash
