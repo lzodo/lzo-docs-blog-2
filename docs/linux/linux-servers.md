@@ -110,30 +110,7 @@ cp /etc/vsftpd.conf /etc/vsftpd.conf.back
 # 修改配置文件
 ```
 -   修改以下配置参数,监听 IPv4 或 IPv6 只能选择开启一个
-```shell
-
-# 例外用户列表文件的路径
-chroot_list_file=/etc/vsftpd/chroot_list
-```
-
--   新增以下配置参数，开启被动模式
-```shell
-
-# 开启被动模式
-pasv_enable=YES
-
-# 被动模式地址，本服务器的 IP 地址
-pasv_address=xxx.xx.xxx.xx
-
-# 被动模式使用的最小、最大端口
-pasv_min_port=40000
-pasv_max_port=45000
-```
-
--   创建并编辑配置中 chroot_list_file 指定的例外用户列表文件
-`touch /etc/vsftpd/chroot_list`
-
-重启
+-   重启
 ### nc
 
 -   安装 `nmap-ncat`或`nmap-netcat`
