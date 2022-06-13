@@ -754,6 +754,20 @@ title: linux
     -   安装rpm
         -   wget https://dl.google.com/linux/direct/google-chrome-stable_current_x86_64.rpm
         -   sudo yum install ./google-chrome-stable_current_*.rpm
+
+```shell
+# 案例
+# 下载新的repo文件
+wget https://mirrors.aliyun.com/repo/Centos-vault-8.5.2111.repo -O /etc/yum.repos.d/Centos-vault-8.5.2111.repo
+wget https://mirrors.aliyun.com/repo/epel-archive-8.repo -O /etc/yum.repos.d/epel-archive-8.repo
+
+# 替换源地址
+sed -i 's/mirrors.cloud.aliyuncs.com/mirrors.aliyun.com/g'  /etc/yum.repos.d/Centos-vault-8.5.2111.repo 
+sed -i 's/mirrors.cloud.aliyuncs.com/mirrors.aliyun.com/g'  /etc/yum.repos.d/epel-archive-8.repo
+
+yum clean all 
+yum makecache
+```
 ### debian 包安装
 
 -   `apt`
@@ -1042,17 +1056,22 @@ title: linux
 -   `whereis cmmand`:查询指令的可执行文件,源码文件,帮助文件的位置
 -   `ntpdate -u ntp.api.bz`:矫正时间
 -   `/etc/os-release`:操作系统表示
--   `curl url`:获取网站源码
 
 ### 网络相关
 -   `ping`:`ping www.baidu.com -c 6 -i 0.6` ,ping6次 间隔0.6秒
-### 端口服务进程号配置查询
+#### 端口服务进程号配置查询
+> 服务器中端口需要开放才能访问
 
 -   `ps`
     -   `ps -aux|-af |grep <server-name>`
 -   `netstat`
-    -   `netstat -anp|grep 21`:查询端口是否开启
+    -   `netstat -anp|grep 21`:查询端口是否被使用
     -   `netstat -antup|grep pid`:根据 pid 查看端口使用者
+-   `curl url`:获取网站源码
+-   `lsof`:需要安装
+    -   lsof abc.txt 显示开启文件abc.txt的进程
+    -   lsof -c abc 显示abc进程现在打开的文件
+    -   lsof -i :22  查看22端口现在运行什么程序
 
 ### 查看设备信息指令
 ### 注意事项

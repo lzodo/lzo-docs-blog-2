@@ -28,6 +28,12 @@ systemctl stop firewalld.service
 iptables -nL
 ```
 
+华为云开放端口使可以在页面访问
+1、安全组 Sys-WebServer 添加 端口
+2、防火墙开放端口或关闭防火墙
+服务器解析第三方域名
+服务器设置域名解析，添加第三方域名，第三方将域名dns配置设置服务器提供的dns
+
 ### iptables
 
 -   指令 ` iptables`,名称 `Netfilter`
@@ -60,7 +66,7 @@ anon_world_readable_only=YES　　　　　 　# 开启匿名用户下载权限
 # 功能性配置
 write_enable=YES #是否允许写入，否则不能上传文件
 chroot_local_user=YES #所有用户不能切换到上级
-allow_writeable_chroot=YES #如何文件不能上传 550 Permis....，可以加上这儿
+allow_writeable_chroot=YES #如果文件不能上传 550 Permis....，可以加上这儿
 ftpd_banner=Welcome to blah FTP service. #ftp链接成功提示
 chroot_list_enable=YES #是否启用限制用户名单
 # 我的arch配置
@@ -88,6 +94,46 @@ pam_service_name=vsftpd
 
 -   安装命令行 ftp 链接工具，`ftp localhost` 测试是否可以链接
 
+-   新建一个用户
+```shell
+# 配置一个用户
+useradd ftpuser
+passwd ftpuser
+
+# 权限目录
+mkdir /var/ftp/ftpupload
+chown -R ftpuser:ftpuser /var/ftp/ftpupload
+
+# 备份配置文件
+cp /etc/vsftpd.conf /etc/vsftpd.conf.back
+
+# 修改配置文件
+```
+-   修改以下配置参数,监听 IPv4 或 IPv6 只能选择开启一个
+```shell
+
+# 例外用户列表文件的路径
+chroot_list_file=/etc/vsftpd/chroot_list
+```
+
+-   新增以下配置参数，开启被动模式
+```shell
+
+# 开启被动模式
+pasv_enable=YES
+
+# 被动模式地址，本服务器的 IP 地址
+pasv_address=xxx.xx.xxx.xx
+
+# 被动模式使用的最小、最大端口
+pasv_min_port=40000
+pasv_max_port=45000
+```
+
+-   创建并编辑配置中 chroot_list_file 指定的例外用户列表文件
+`touch /etc/vsftpd/chroot_list`
+
+重启
 ### nc
 
 -   安装 `nmap-ncat`或`nmap-netcat`
