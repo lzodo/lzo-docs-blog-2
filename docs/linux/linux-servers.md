@@ -38,9 +38,23 @@ iptables -nL
 
 -   指令 ` iptables`,名称 `Netfilter`
 
-## 常用
+### FTP
 
-### 搭建 ftp 环境
+>   搭建好之后可以通过客户端上传现在服务器的文件
+
+#### 客户端
+
+---
+
+#### 服务端 vsftpd 搭建 ftp 环境
+
+1、vsftpd 基于 FTP 协议
+
+2、被动模式（Prot）：服务端打开好端口，让客户端主动来连（服务端被动）
+
+3、主动模式（Pasv）：服务端主动向客户端某个端口进行数据连接
+
+4、云服务器上你可以连接到服务器上某个端口，但是服务器连接不到你（云服务器最好用被动模式）
 
 -   安装 `vsftpd`
 -   创建访问用户(本地 linux 用户)
@@ -84,6 +98,13 @@ listen=YES
 seccomp_sandbox=NO # arch vsftpd 无法显示列表的原因之一
 pam_service_name=vsftpd
 
+
+---
+# 主动模式相关
+prot_enable:YES|NO # 是否取消主动模式 默认yes
+
+# 被动模式相关
+pasv_enable:YES|NO # 是否使用被动模式 默认yes
 ```
 
 -   `ftpusers`:不允许里面的用户登录服务器（manjaro 没有）
