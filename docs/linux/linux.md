@@ -704,7 +704,7 @@ title: linux
 -   `rpm -q 服务`:查询服务是否安装
     -   `rpm -qa | grep ssh`:查询已安装与 ssh 有关的软件包信息
     -   `-qi`:已安装软件包的详细信息
-    -   `-ql`:查看服务各个文件的安装目录
+    -   `-ql`:查看服务各个文件的安装目录（安装之后系统的相关文件）
         `-qc`:查看`服务配置文件`位置
         `-qf file`:查看`文件属于哪个服务安装`的
 
@@ -1067,6 +1067,9 @@ yum makecache
 -   `netstat`
     -   `netstat -anp|grep 21`:查询端口是否被使用
     -   `netstat -antup|grep pid`:根据 pid 查看端口使用者
+    -   `netstat -tlnp`:
+-   `ss`
+-   `ip xxx`
 -   `curl url`:获取网站源码
 -   `lsof`:需要安装
     -   lsof abc.txt 显示开启文件abc.txt的进程

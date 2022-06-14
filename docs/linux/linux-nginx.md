@@ -24,6 +24,7 @@ title: nginx
         -   重新加载 `./nginx -s reload`:配置文件修改时使用
     -   nginx 配置文件
         -   `/usr/local/nginx/conf/nginx.conf`
+        -   或 `/etc/nginx/nginx.conf`
 -   tomcat 安装
     -   [下载](https://tomcat.apache.org/download-70.cgi)
     -   解压进入`bin`
@@ -200,6 +201,7 @@ http {
 
 -   nginx 是一个`高性能`的`HTTP`和`反向代理服务器`,`占用内存少`、`并发能力强`
 -   `热部署`:持续运行，在不关闭服务情况下升级软件版本
+-   nginx -s reload 重新加载配置文件
 
 ## 代理
 

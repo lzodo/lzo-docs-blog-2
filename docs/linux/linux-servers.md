@@ -49,11 +49,8 @@ iptables -nL
 #### 服务端 vsftpd 搭建 ftp 环境
 
 1、vsftpd 基于 FTP 协议
-
 2、被动模式（Prot）：服务端打开好端口，让客户端主动来连（服务端被动）
-
 3、主动模式（Pasv）：服务端主动向客户端某个端口进行数据连接
-
 4、云服务器上你可以连接到服务器上某个端口，但是服务器连接不到你（云服务器最好用被动模式）
 
 -   安装 `vsftpd`
@@ -66,6 +63,7 @@ iptables -nL
 local_enable=YES #是否允许本地用户`如root`登录
 local_root=/home/ftpuser #设置本地用户登录后默认路径，否则默认在自己的家目录
 local_umask=022 #设置本地用户上传文件的权限
+
 # 匿名用户
 # 账户:anonymous或ftp 密码随意
 anonymous_enable=YES #是否允许匿名访问
@@ -77,6 +75,10 @@ no_anon_password=YES #匿名用户不用密码登录
 ftp_username=ftpuser #匿名登录后的使用者
 anon_other_write_enable=YES　　　　　 　  # 开启匿名用户可以删除目录和文件
 anon_world_readable_only=YES　　　　　 　# 开启匿名用户下载权限
+
+# 这两个默认的，默认被动模式
+prot_enable:YES|NO # 是否取消主动模式 默认yes
+pasv_enable:YES|NO # 是否使用被动模式 默认yes
 # 功能性配置
 write_enable=YES #是否允许写入，否则不能上传文件
 chroot_local_user=YES #所有用户不能切换到上级
@@ -97,25 +99,21 @@ banned_email_file=/etc/vsftpd.banned_emails
 listen=YES
 seccomp_sandbox=NO # arch vsftpd 无法显示列表的原因之一
 pam_service_name=vsftpd
-
-
----
-# 主动模式相关
-prot_enable:YES|NO # 是否取消主动模式 默认yes
-
-# 被动模式相关
-pasv_enable:YES|NO # 是否使用被动模式 默认yes
 ```
 
 -   `ftpusers`:不允许里面的用户登录服务器（manjaro 没有）
 -   `user_list`:
-
     -   `userlist_enable=YES`:启用这个配置文件
     -   如果`userlist_deny=NO`,就只允许里面的用户登录，否则 YES 表示不允许里面的用户登录
+-   `chroot_list`:文件是限制在主目录下的例外用户名单(里面的用户可以访问上级)
+    -   `chroot_list_enable=YES`                     #启用例外用户名单
+    -   `chroot_list_file=/etc/vsftpd/chroot_list`   #例外用户名单文件
+    -   `allow_writeable_chroot=YES` #所有用户都可以访问上级(与第一个互斥)
 
 -   安装命令行 ftp 链接工具，`ftp localhost` 测试是否可以链接
 
--   新建一个用户
+
+####  新建一个用户
 ```shell
 # 配置一个用户
 useradd ftpuser
@@ -128,10 +126,15 @@ chown -R ftpuser:ftpuser /var/ftp/ftpupload
 # 备份配置文件
 cp /etc/vsftpd.conf /etc/vsftpd.conf.back
 
-# 修改配置文件
+pasv_address=114.115.121.129
+pasv_enable=YES
+pasv_min_port=30000
+pasv_max_port=50000
+
+# 主机安全组配置30000-50000 和 21 端口的几率
+
+![华为主机配置](https://support.huaweicloud.com/bestpractice-ecs/zh-cn_topic_0115828034.html)
 ```
--   修改以下配置参数,监听 IPv4 或 IPv6 只能选择开启一个
--   重启
 ### nc
 
 -   安装 `nmap-ncat`或`nmap-netcat`

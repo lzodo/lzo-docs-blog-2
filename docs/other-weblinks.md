@@ -108,6 +108,13 @@ title: 工作学习资源
 -   [聚合类-设计导航](http://hao.shejidaren.com/)
 -   [聚合类-科塔学术](https://site.sciping.com/)
 -   [seeseed](https://www.seeseed.com/)
+
+## 可视化
+-   [grafana](https://grafana.com/)
+-   [cloudwise](https://www.cloudwise.ai/flyFish.html)
+    -   [video](https://www.bilibili.com/video/BV1z44y1n77Y/)
+-   [avuejs](https://avuejs.com/default/sign.html)
+
 ## web零散
 -   [cleanpng免抠PNG素材](https://www.cleanpng.com/)
 -   [png图片](http://pngimg.com/)

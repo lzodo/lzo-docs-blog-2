@@ -125,6 +125,12 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
 -   基本配置
     -   查看本地 `/etc/shells` 是否有 zsh (没有就安装)
     -   安装 `oh-my-zsh`
+        -   centos安装
+        ```shell
+        wget https://gitee.com/heyuanfly/install-oh-my-zsh/raw/master/centos-install-oh-my-zsh.sh
+        chmod +x centos-install-oh-my-zsh.sh
+        ./centos-install-oh-my-zsh.sh
+        ```
     -   根据提示将 .zshrc 复制到本地 ~/.zshrc
     -   将 shell 切换到 /bin/zsh `chsh -s /bin/zsh`
     -   重启
@@ -215,6 +221,7 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
 
 -   CentOS screenfetch
     cd /usr/local/src
+    git clone https://github.com/KittyKatt/screenFetch.git
     git clone https://github.com/liaozhongxun/screenFetch.git
     cp screenFetch/screenfetch-dev /usr/local/bin/screenfetch
     chmod 755 /usr/local/bin/screenfetch
@@ -594,6 +601,7 @@ sudo pacman -Syu || sudo pacman -Syudd(-dd 跳过全部检测)\_
 -   `tmate`:将终端共享给别人
 -   `howdio`
 -   `ag(the_silver_searcher)`:搜索工具
+-   `nvm`
 
 ### 网上存储
 
