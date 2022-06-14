@@ -22,9 +22,44 @@ title: nginx
         -   停止 `./nginx -s stop`
         -   安全退出 `./nginx -s quit`
         -   重新加载 `./nginx -s reload`:配置文件修改时使用
+        -   一般通过 `systemctl` 操作
     -   nginx 配置文件
         -   `/usr/local/nginx/conf/nginx.conf`
         -   或 `/etc/nginx/nginx.conf`
+-   nginx源   
+    ```shell
+    # 安装 yum-utils，此插件可让我们自主选择 yum 源
+    yum install yum-utils -y
+
+    # 添加
+    vim /etc/yum.repos.d/nginx.repo
+    [nginx-stable]
+    name=nginx stable repo
+    baseurl=http://nginx.org/packages/centos/$releasever/$basearch/
+    gpgcheck=0
+    enabled=1
+    module_hotfixes=true
+
+    [nginx-mainline]
+    name=nginx mainline repo
+    baseurl=http://nginx.org/packages/mainline/centos/$releasever/$basearch/
+    gpgcheck=0
+    enabled=0
+    module_hotfixes=true
+
+    # 切换 yum 源为 Nginx 稳定版本的 yum 源
+    yum-config-manager --enable nginx-stable
+
+    # 查看yum上的Nginx版本
+    yum info nginx
+
+    # 安装
+    yum install nginx -y 
+
+    # 启动服务，关闭防火墙或开发80端口，与服务器还需要去安全组开放80端口
+    xx.xx.xx.xx:80 
+    ```
+
 -   tomcat 安装
     -   [下载](https://tomcat.apache.org/download-70.cgi)
     -   解压进入`bin`
@@ -197,6 +232,8 @@ http {
 
 ```
 
+
+---
 ### 基本概念
 
 -   nginx 是一个`高性能`的`HTTP`和`反向代理服务器`,`占用内存少`、`并发能力强`
@@ -204,7 +241,7 @@ http {
 -   nginx -s reload 重新加载配置文件
 
 ## 代理
-
+> 你们各种用户全部来访问我(nginx),我把你们的请求转给其他各个服务
 ### 正向代理(客户端配置)
 
 -   在`客户端`配置`代理服务器`，通过`代理服务器`进行互联网访问
@@ -222,8 +259,10 @@ http {
 
 ![图6](../../static/img/linux-nginx6.png)
 
+## 轮询
+> 如果有三台服务器，先不管负载均衡的权重，第一请求转服务器1，第二请求转服务器2，第三请求转服务器3，第四转1，论这给
 ## 负载(压力)均衡
-
+-   资源大的服务器多接点，小的少接点
 -   场景:传统`发送服务器请求`->`处理数据`->`可能要操作SQL`->`返回结果`
 -   问题:信息数量、访问、数据、业务复杂度等增长造成请求`日益缓慢`，`并发量大`还容易造成服务器崩溃
 -   解决方案
@@ -256,12 +295,29 @@ proxy_pass http://myserver; # 上面定义的名称
 
 ## 动静分离
 
--   概念:动态请求与静态请求通过不同的服务器来解析,加快解析速度，降低单个服务器的压力
+-   概念:动态请求与静态请求通(静态资源)过不同的服务器来解析,加快解析速度，降低单个服务器的压力
 -   通过 location 指定不同后缀名实现不同转发
 -   expires 设置缓存过期时间，减少与服务器的交流，缓存后不会去服务器获取，只会返回 304，服务器通过对比文件最后更新时间是否发生变化，判断是否要重新下载
     ![图4](../../static/img/linux-nginx4.png)
     ![图7](../../static/img/linux-nginx7.png)
 
+## location 里的属性
+```shell
+location /img/ {
+    alias /var/www/image/;
+}
+#若按照上述配置的话，则访问/img/目录里面的文件时，ningx会自动去/var/www/image/目录找文件
+```
+
+```shell
+location /img/ {
+    root /var/www/image;
+    index index.html index.htm;
+
+}
+# 若按照这种配置的话，则访问/img/目录下的文件时，nginx会去/var/www/image/img/目录下找文件。
+# 按顺序先找index.html 如果没有再找 index.htm
+```
 ## nginx 配置高可以集群
 
 -   为了 nginx 挂了,程序还能正常执行
@@ -325,3 +381,9 @@ fi
 
 ### 内网穿透工具
     - natapp
+
+
+
+---
+[掘金](https://juejin.cn/post/6844903701459501070#heading-6)
+[菜鸟](https://www.runoob.com/w3cnote/nginx-setup-intro.html)

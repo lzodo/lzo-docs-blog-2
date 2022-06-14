@@ -11,15 +11,20 @@ title: linux服务
 -   `firewall-cmd --list-all`:开放的端口，以及其他信息
     -   `--list-ports`:开放的端口
     -   `--list-service`:查看防火墙已开通的服务
--   `firewall-cmd --add-port=8001/tcp --permanent`:新增开放端口
+-   `firewall-cmd --add-port=8001/tcp --permanent`:新增开放端口（permanent 表示设置为持久）
     -   `--add-port=8080-8083/tcp`:添加多个端口
     -   `--remove-port=81/tcp`:删除端口
--   `firewall-cmd --reload`:重启防火墙
+    -   `--query-port=81/tcp`:查询端口是否开放
+-   `firewall-cmd --reload`:重启防火墙(重启完设置才生效)
 -   `firewall-cmd --state`:查看防火墙状态
 
 ```shell
 # 开启防火墙
-systemctl start firewalld.service
+systemctl start firewalld.service | service firewalld start
+
+# 重启防火墙
+systemctl restart firewalld.service | service firewalld restart
+
 # 防火墙开机启动
 systemctl enable firewalld.service
 # 关闭防火墙
