@@ -239,6 +239,24 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
     -   `:Files`:搜索文件
         -   `c+jk`:上线移动
 
+-   安装fd-find[github](https://github.com/sharkdp/fd)
+centos需要原码安装 
+```shell
+wget https://github.com/sharkdp/fd/releases/download/v8.4.0/fd-v8.4.0-aarch64-unknown-linux-gnu.tar.gz
+
+tar -zxvf fd-v7.4.0-x86_64-unknown-linux-*.tar.gz
+cd fd-v7.4.0-x86_64-unknown-linux-*
+
+cp ./fd /usr/local/bin/
+cp ./fd.1 /usr/local/share/man/man1/
+mandb
+```
+```shell
+#界面展示这些参数在 fzf --help 中都有，按需配置即可 highlight 预览高亮可能需要安装
+export FZF_DEFAULT_OPTS="--border --preview '(highlight -O ansi {} || cat {}) 3> /dev/null | head -500'"
+# fzf查找配安装 fd-find
+export FZF_DEFAULT_COMMAND="fdfind --exclude={.git,.idea,.vscode,.sass-cache,node_modules,build} --type f --hidden"
+```
 ```shell
 " fzf#install() 确保你安装了最新的 fzf
 Plug 'junegunn/fzf', { 'do': { -> fzf#install() } }

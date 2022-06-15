@@ -32,7 +32,7 @@ let NERDTreeShowLineNumbers=1                   "显示行号
 let NERDTreeShowHidden=1                        "宽度为1
 let NERDTreeIgnore=['\.pyc','\~$','\.swp']      "忽略以下文件
 
-//文件操作
+# 文件操作
 m
     d:删除
     a:添加文件/文件夹（加斜杠）
