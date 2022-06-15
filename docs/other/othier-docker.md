@@ -211,7 +211,8 @@ dockre run -it --name child3 --volumes-from parent 镜像2 /bin/bash  #child3 �
 ```
 ### DockerFile
 DockerFile是用构建docker镜像的文件，是一个命令脚本，通过这个脚本生成镜像,
-> 步骤
+步骤
+
 ```shell
 # 创建dockerfile文件，文件名自定义
 # 文件中的内容 格式: 大写指令 参数 
@@ -309,7 +310,7 @@ docker push 镜像名:[tag] # 构造镜像的dockerfile的用户名需要与 doc
 ### CI\CD jenkins 
 
 ### 可视化工具
-> portainer
+portainer
 ```shell
 docker run -d -p 8088:9000 \
 --restart=always -v /var/run/docker.sock:/var/run/docker.sock --privileged=true portainer/portainer

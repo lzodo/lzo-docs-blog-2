@@ -172,9 +172,11 @@ exp1(?!exp2) 查找后面不是exp2的exp1
 -   `/abc/ig.flags`:es6 返回正则表达式的修饰符
 -   `\p{...}`: 匹配某一类Unicode字符
 -   具名组匹配
-    -   `/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/.exec('1999-12-31').groups.year;`
-        -   let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
-        -   '2015-01-02'.replace(re, '$<day>/$<month>/$<year>')
+```shell
+# -   `/(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/.exec('1999-12-31').groups.year;`
+#-   let re = /(?<year>\d{4})-(?<month>\d{2})-(?<day>\d{2})/u;
+#-   '2015-01-02'.replace(re, '$<day>/$<month>/$<year>')
+```
 -   解构赋值和替换 
     ```javascript
     '2015-01-02'.replace(re, (
