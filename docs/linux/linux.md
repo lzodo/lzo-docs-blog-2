@@ -1085,6 +1085,7 @@ yum makecache
 -   `echo $LANG`:查看当前编码
 -   `locale`:查看系统拥有的编码
 -   `yum groupinstall chinese-support`:安装中文包
+-   `yum install -y langpacks-zh_CN`:或安装这个
 -   `LANG="zh_CN.UTF-8"`:临时改成中文
 -   `yum-langpacks`:语言包
 -   `/etc/locale.conf`:centos7 语言配置文件
