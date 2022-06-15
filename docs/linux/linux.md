@@ -1060,7 +1060,27 @@ yum makecache
 -   `/etc/os-release`:操作系统表示
 
 ### 网络相关
+学习网络协议是计算机网络的核心概念
+协议是计算机网络进行数据交互而建立的一种规则、约定、或标准的集合
+网络协议与语言一样多种多样，后面出现了 TCP/IP网络协议标准已经是internet中的标准语言了（类似普通话）
+
+> 为了让不同计算机厂家的计算机能够进行沟通，在大范围进行网络同学，（ISO国际标准化组织）划分成了七层 - ISO七层模型
+
+- 7、应用层
+- 6、表示层
+- 5、会话层 
+- 4、传输层 
+- 3、网络层 
+- 2、数据链路层 
+- 1、物理层
+
 -   `ping`:`ping www.baidu.com -c 6 -i 0.6` ,ping6次 间隔0.6秒
+-   `curl url`:获取网站源码
+    -   curl url > xxx.html 下载网页源码
+    -   curl -o xxx.html 同样下载网页源码
+    -   curl -o /dev/null -s -w %{http_code} url 测试网页是否存活,返回状态码(echo $?测试是执行成功，0就说明成功了)
+    -   curl -o /dev/null -s -c xxx.txt url 获取指定网址提供的cookie保存到xxx中
+    -   curl -O xxxx.png 直接下载文件
 #### 端口服务进程号配置查询
 > 服务器中端口需要开放才能访问
 
@@ -1072,7 +1092,6 @@ yum makecache
     -   `netstat -tlnp`:
 -   `ss`
 -   `ip xxx`
--   `curl url`:获取网站源码
 -   `lsof`:需要安装
     -   lsof abc.txt 显示开启文件abc.txt的进程
     -   lsof -c abc 显示abc进程现在打开的文件
