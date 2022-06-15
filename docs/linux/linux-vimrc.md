@@ -8,7 +8,7 @@ title: vimrc
 
 ## vimplus
 
-### 安装
+### 安 装
 
 -   插件管理器`vimplus`
     -   `~/.vimrc为vimplus`的默认配置，一般不做修改
