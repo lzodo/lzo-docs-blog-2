@@ -179,6 +179,8 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
     -   //192.168.12.40/nmon /mnt/share cifs defaults,username=名字,password=你的密码
     -   //192.168.3.24/共享文件 /mnt/window cifs defaults,username=!·ujcliaozx,password=ujcliaozx123
 
+<!-- \\DESKTOP-2SHBVJE\hua-wei-share -->
+https://www.linuxprobe.com/basic-learning-12.html
 ### 启动项
 
 -   将 desktop 放到~/.config/autostart 、
@@ -287,6 +289,8 @@ Plug 'junegunn/fzf.vim'
     $ ln -s -f .tmux/.tmux.conf  #创建软连接
     $ cp .tmux/.tmux.conf.local . #复制local文件到当前文件夹 可以覆盖默认配置
     # tmux source-file ~/.tmux.conf  从新加载配置
+
+    # 找不到箭头 .tmux.conf.local -> tmux_conf_theme_left_separator_main='\uE0B0' 四个注释放开
     ```
 
 -   终端-编辑-首选项-勾选运行一个自定义命令-填写 tmux(默认直接打开 tmux)
