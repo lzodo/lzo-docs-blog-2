@@ -334,6 +334,7 @@ Plug 'junegunn/fzf.vim'
 -   复制粘贴
     -   `ctrl+b+[`:进入复制模式，选择内容直接复制
     -   `ctrl+b+]|c+s+v`:粘贴
+    -   ctrl+b,[ 进入复制模式，此时可以鼠标选择，松开复制，ctrl+b, ] 粘贴
         
 #### tmux 插件管理
 -   保存会话
@@ -620,6 +621,7 @@ sudo pacman -Syu || sudo pacman -Syudd(-dd 跳过全部检测)\_
 -   `colorls|exa`:ls指令加强版(gem install colorls),colors通过ruby安装
 -   `caniuse-cmd`:检查浏览器兼容性(npm 安装)
 -   `thefuck`:操作错误时，执行该命令，会告诉你为什么错 
+    -   sudo pip3 install thefuck  python安装
 -   `multitail|lnav|tial -f|cat...`:日志
 -   `jq`:linux 终端查看，格式化json
 -   `mycli`:终端mysql工具

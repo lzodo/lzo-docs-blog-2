@@ -768,6 +768,23 @@ sed -i 's/mirrors.cloud.aliyuncs.com/mirrors.aliyun.com/g'  /etc/yum.repos.d/epe
 yum clean all 
 yum makecache
 ```
+### DNF 
+> 新一代的RPM软件包管理器
+
+[文档](https://wangchujiang.com/linux-command/c/dnf.html)
+http://mirrors.aliyun.com/repo/  阿里云源下载列表
+
+centos8添加 epel源
+```shell
+dnf install https://dl.fedoraproject.org/pub/epel/epel-release-latest-8.noarch.rpm -y
+
+# 测试状态
+dnf repolist epel
+dnf repolist epel -v
+
+# 建立元数据缓存
+dnf makecache  
+```
 ### debian 包安装
 
 -   `apt`
@@ -1038,7 +1055,8 @@ yum makecache
 -   `$SHELL` :一般全大写的系统自带环境变量
 -   `echo $PATH` :查看环境变量
 -   `echo $?` :查看上一条命令执行结果的对错(0:正确，非 0:错误)
-    `source ~/.bashrc`：更新配置文件立即生效
+-   `source ~/.bashrc`：更新配置文件立即生效
+-   `wall` ：登陆的终端发送消息
 
 ### 查看系统信息
 -   `uname -a` :查看系统信息
@@ -1066,14 +1084,110 @@ yum makecache
 
 > 为了让不同计算机厂家的计算机能够进行沟通，在大范围进行网络同学，（ISO国际标准化组织）划分成了七层 - ISO七层模型
 
-- 7、应用层
-- 6、表示层
-- 5、会话层 
-- 4、传输层 
-- 3、网络层 
-- 2、数据链路层 
 - 1、物理层
+- 2、数据链路层 
+    -   1,2 -> 物理链路层
+    -   功能：以二进制的数据形式在物理媒介上进行传输数据
+    -   协议：ISO@2100
+- 3、网络层 
+    -   3   -> 网络
+    -   功能：为数据包选择路由(最快的路线)
+    -   协议：IP、ICMP、BGP、OSPF等
+- 4、传输层
+    -   4   -> 传输
+    -   功能：提供端对端的接口 IP Port
+    -   协议：TCP、UDP
+- 5、会话层 
+- 6、表示层
+- 7、应用层
+    -   5,6,7 -> 最接近用户的使用的三层
+    -   功能：提供文件传输、邮件、文件共享、数据加密等
+    -   协议：HTTP、SNMP、FTP、NFS、DNS等
 
+
+> 应用层
+通过进层间的数据交互来完成特定的网络应用
+对于不同的网络应用需要用不同的网络协议
+    域名解析系统 DNS协议
+    WEB服务应用 HTTP协议
+    邮件传输 SMTP协议
+我们把应用层交互的数据称为**报文**
+
+-   DNS协议
+域名解析系统，是一个互联网的分布式数据库，主要储存IP和域名的对应关系，使用户可以通过域名访问互联网
+
+-   HTTP协议
+超文本传输协议，是互联网上应用最广泛的网络协议，最初目的是为了发布和接收HTML文件的
+
+> 传输层
+向两台主机直接的进程进行提供数据传输,主要有两种(UDP/TCP)
+
+-   TCP 传输控制协议 
+    -   提供面向连接**可靠的**而数据传输协议
+    -   会与对方确认，没问题在给
+    -   可靠报文数据不重复不丢失
+-   UDP 用户数据协议
+    -   提供无连接的，尽到他最大努力进行数据传输，不保证数据的而安全
+    -   不会确认，直接把数据仍给他
+    -   没有报文的
+
+
+> 修改网络信息
+
+ifconfig 临时修改
+配置文件中才能永久修改
+```shell
+# 进入/etc/sysconfig/network-script,打开网卡文件
+BOOTPROTO="dhcp/static" # 动态/静态吗，static可以设置固定内网IP
+ONBOOT="yes" # 开机读取
+
+```
+
+> 网络命令
+
+-   ifconfig:可能要自己安装 
+    -   `ifconfig`
+        -   yum install net-tools 就有了
+        -   /etc/sysconfig/network-script 网卡文件位置
+        -   inet(IPV4地址)、netmask(子网掩码、broadcast(广播地址)
+        -   RX/TX packages 网卡收/发流量数据包大小
+        -   ether xx:xx:xx:xx MAC地址
+    -   ifconfig 网卡名 down/up：停止/启用网卡(危险操作)
+    -   ifconfig 可以临时更改网络信息ip mac地址等
+
+-   `route`:源主机数据到目标主机的转发过程路线，路由类似互联网中转站，网络中的数据包就是通过一个个路由转发到目的地的
+    -   静态路由：Linux机器配置的都是静态路由，运维人员通过route命令管理
+    -   动态路由：无需人为干预有路由器交换机自动分配规则
+    -   router -n：直接查看路由表
+        -   Destination：网络号
+        -   Gateway：网关地址，网络是通过改IP出口，0.0.0.0表示改路由信息是冲本机发出去的
+        -   Genmask：子网掩码地址，IP配合网整的子网掩码才是完整的网络信息
+        -   Flags：标记网络状态，
+            -   U 运行的状态
+            -   G 表示这个是网关路由器
+            -   H 这个网关是一个主机
+            -   ！当前路由已经禁止
+-   `ip`:
+    -   ip addr show：查看网络设备信息
+-   `ssh`:openssh软件包的套件命令，xshell远程需要依赖服务器上的sshd这个服务
+    -   window/linux 的终端
+        -   ssh username@IP 连接进目标机器
+        -   如果目标IP端口改了通过 -p xxx 指定
+        -   ssh username@IP "free -m" 控制远程服务器发送 free -m 这条指令
+-   `scp`:命令用于 Linux 之间复制文件和目录
+    -   scp -P 22 本机文件 root@对面IP:对面位置 => 文件上传
+    -   scp -r -P 22 本机文件夹 root@对面IP:对面位置 => 文件夹上传
+    -   scp -P 22 root@对面IP:对面文件位置 本机位置 => 文件下载
+    -   scp -r -P 22 root@对面IP:对面文件夹位置 本机位置 => 文件夹下载
+-   `wget`:非常稳定，断点续传，支持ftp http等协议 下载网络资源
+    -   wget url：直接下载
+    -   wget -o path/name url：下载并改名
+    -   wget --limit-rate=1k url：限制下载速度
+    -   wget -c --limit-rate=1k 下到一半的url：断点续传 
+    -   wget -b url：后台下载
+-   `telnet`:用于登入远程主机，以及监测远程端口是否打开，采用名文传输，安全性低，后来被ssh取代
+    -   telnet 111.111.111.111 8080
+    
 -   `ping`:`ping www.baidu.com -c 6 -i 0.6` ,ping6次 间隔0.6秒
 -   `curl url`:获取网站源码
     -   curl url > xxx.html 下载网页源码

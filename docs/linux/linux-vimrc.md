@@ -26,6 +26,7 @@ title: vimrc
 
 ```shell
 Plug 'scrooloose/nerdtree'
+# ,+n 打开
 ":NERDTreeToggle<cr>   "打开或关闭nerdtree，可自定义映射热键
 autocmd vimenter * NERDTree     "默认为打开nerdtree
 let NERDTreeShowLineNumbers=1                   "显示行号

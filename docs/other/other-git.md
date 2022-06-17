@@ -250,6 +250,15 @@ git clone https://github.com/liaozhongxun/xxx.git
 
 [参考资料 后续继续](https://www.bilibili.com/video/BV1yz4y1y7RQ?p=40)
 
+### linux 与 linux ssh 设置
+1、两个主机都生成公钥私钥
+2、连接主机 `ssh-copy-id -i ./id_rsa.pub root@114.115.212.129` 向目标主机114 上传公钥
+3、ssh root@xxx.xxx.xxx.xx 测试是否可用直接连接
+
+win 连 linux 可能需要在git bash上操作
+
+或
+远程主机直接将客户端的公钥加入 ~/.ssh/authorized_keys 文件中
 ## git 服务器环境搭建
 
 -   进入 /usr/src 下载 gitisos

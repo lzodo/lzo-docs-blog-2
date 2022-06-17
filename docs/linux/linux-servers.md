@@ -47,6 +47,20 @@ iptables -nL
 
 >   搭建好之后可以通过客户端上传现在服务器的文件
 
+#### 终端ftp
+window自带
+```shell
+# 登入
+> ftp
+ftp> open ip
+回车 依次输入用户名密码
+
+# help 查看支持的命令列表
+ftp> help 
+
+# LITERAL PASV 切换被动模式
+```
+
 #### 客户端
 
 ---
