@@ -10,16 +10,48 @@ title: shell
     - `shell`:接受与来自用户的命令与内核进行沟通，是`用户`与`内核沟通`的接口程序
     - `内核`:控制硬件进行工作，进程管理储存管理等
 - shell对本质是`对内核进行保护`，只有`shell能识别`的命令才能用了操控硬件
-- 脚本语言`不需要` 编译
+- 脚本语言`不需要` 编译,把命令写在文件中就是shell脚本了
 - `shell脚本`是shell命令的`有序集合`
 - `系统编程`:主要为了让用户更好更方便的操作硬件设备，并且对硬件也起到保护作用，我们所写的程序，本质就是对硬件进行操作，所以操作系统提供的接口本来就能对硬件进行操作的
 - `系统调用`: 
     - 步骤: shell、library rou(库函数)、applications(应用层接口) -> system calls(系统调用，提供直接操作内核的特殊接口) -> kernel(内核) -> 操作硬件设备
-    - 
+-   shell优势，处理操作系统底层的业务（大量命令为他做支持，grep awk sed 等）
 ### 开启 shell
 
 ```shell
-#!/bin/bash   指定使用bash解释器,必须顶格
+#!/bin/bash   指定使用bash解释器,必须顶格,linux 默认bash
+
+指定脚本的执行方式
+1、开头 #！
+2、执行文件的时候 bash install.sh
+3、/bin/bash 终端默认使用 bash
+
+shell 脚本的执行
+1、调用相关环境变量文件，脚本里可以随意使用里面的数据
+    /home/xx/.bashrc (3)
+    /home/xx/.bash_profile 
+    /etc/bashrc (4)
+    /etc/profile (2)
+    /etc/profile.d (优先级最高 1)
+
+2、执行shell的方式
+    bash shellfile | sh shellfile (脚本头没指定解释器)
+    path/shellfile | ./shellfile (没有x权限不能执行)
+    source shellfile | . shellfile（读入或加载指定shell脚本，可以将脚本中的变量传到当前shell里）
+
+3、基本规范
+    开头添加 #!/bin/bash 解释器
+    # Date 日期
+    # Author 作者
+    # Mail 联系方式
+    # Func 功能
+    # Version 版本 。。。
+
+    尽量不要用中文
+    扩展名以.sh结尾
+    成对的符号先敲好，不要一个个敲
+    [] 两端必须有空格($[]不算)
+
 cat /etc/passwd
 echo "hello word"
 
@@ -43,18 +75,27 @@ unset num #清除变量
 # ==================if语句
 #用do 和 down 表示其他语言的{}
 
-if [ 1 ]
+if [ 表达式 ]
 then
     echo "yes"
-elif [ 2 ];then
+elif [ 表达式 ];then
     echo "noyes nono"
 else
     echo "no"
 fi  # 结束语句
 
 
+if $num
+then
+    echo "num is true"
+elif ${num1};then
+    echo "num1 is true"
+else
+    echo "no"
+fi  # 结束语句
+
 # ================== case
-read "请输入任意字符" key
+read -p "请输入任意字符" key
 case "$key" in
     [a-z]|[A-Z])
         echo "这是英文字母"
@@ -96,12 +137,14 @@ while [ $i -le 100 ]
 do
     echo $i
     i=$[$i + 1]
+    或 i=`expr $i+1`
+    或 i=$(( $i+1 ))
 done
 
 # 操作文件
 while read line
 do
-    echo "${$line}-change"
+    echo "${line}-change"
 done < /etc/passwd
 
 # until
@@ -148,8 +191,10 @@ echo "$?" #获取返回值方式最大255
 -   算术运算符(`+、-、*、/、%、**`)
     -   `$[$a+$b]`:运算+不能直接用,`$[]`或`$(())`或`expr 1 + 2`里的东西当做运算处理'
 -   变量
-    -   `普通变量`
-    -   `环境变量`
+    -   `普通变量(只能在函数或脚本中用)`
+        -   num=1
+        -   命令定义成变量 xxx=`date +%F`| xxx=$(date +%F)   echo $xxx
+    -   `环境变量(全局变量，能在创建他们的shell和他们的子shell中用)`
         -   一般大写表示
         -   常用环境变量
             -   `$PATH`:用户命令路径
@@ -160,7 +205,12 @@ echo "$?" #获取返回值方式最大255
             -   `$PWD`:获取当前用户工作目录
             -   `$UID`:获取当前用户的 ID
             -   `$LANG`:语言
+            
+            -   `$SHLVL`:bash实例个数
+            -   `$TMOUT`:多少秒没操作就自动退出
+            -   `$PS1`:定义终端用户信息格式
         -   临时更改: PATH = xxxx
+        -   取消环境变量：unset 变量名
         -   定义环境变量
             -   `export NAME="name"`:NAM 只有当前 shell 和子 shell 生效
             -   添加扩展PATH:export PATH="/home/tuotu/bin:$PATH"
@@ -173,7 +223,9 @@ echo "$?" #获取返回值方式最大255
                     -   `/etc/profile.d/*.sh`:优先级高，所有符合条件的文件开机都会执行一次
                     -   `~/.bash_profile`:局部的
                 -   `source|. filename`:都能重新加载文件
-        - `env` 查看系统所有环境变量
+        - `env|set|export|printenv` 查看系统所有环境变量
+
+        -  大概顺序 etc/profile → /etc/profile.d/*.sh → ~/.bash_profile → ~/.bashrc → [/etc/bashrc]
     -   `位置变量$1-$9`:接收用户执行脚本的传参，超过9 `${10,...}`
     -   `预定于变量`
         -   `$?`:0:上一条命令执行结果为真,否则执行为假[ -z $1 ]
@@ -264,27 +316,31 @@ echo "$?" #获取返回值方式最大255
             -   `-r`:使用扩展正则
             -   `-i`:直接编辑文本
             -   `-e`:多点编辑
+                -   多点操作 sed -e "1,2a aaaa" -e 3,4a bbb file
             -   `-n`:不输出模式空间内容,配合`p`使用
             -   `-f` ：直接将 sed 的动作写在一个文件内， -f filename 则可以运行 filename 内的 sed 动作；
         -   脚本（在`哪个位置`做`某个事情`）
             -   /可以用#代替,都行
             -   地址定界
-                -   1、不指定地址,s默认全文编辑
+                -   1、不指定地址,默认全文编辑
                 -   2、单地址:`num`表示第几行,`$`表示最后一行
                 -   3、`/PATTERN/`:表示被次模式匹配到的行，可以是正则
                 -   4、地址范围:`num,num`表示从第几行`到`第几行，`num,+num`表示从第几行`向下`几行
                 -   5、步进:`num~num`从地几行开始，每几行
-            -   编辑命令
+            -   编辑命令(一次只能一个动作，-e，;可以多次操作)
                 -   `a`:新增 表示在指定行之后追加内容
+                -   `i`:插入 在指定行之前插入 (和a添加的位置相反)
                 -   `d`:删除
                 -   `c`:取代|修改 表示将指定行替换成新的内容
                 -   `p`:打印 输出模式空间被匹配到的内容
-                -   `i`:插入 在指定行之前插入
+                    -   sed -n "1,2p" file-name 只会输出1，2行，没-n全部输出
                 -   `w filename`:将指定内容另存为新的文件
                 -   `r filename`:读取某文件内容到指定行之后
                 -   `!`:取反
 
-                -   `s`:`s/旧内容/新内容/替换选项`,替换指定字符(存在/的内容可以用\转意或使用s#old#new#option)
+                -   `s`:取代 替换
+                    -   格式：`s/旧内容/新内容/替换选项`,替换指定字符(存在/的内容可以用\转意或使用s#old#new#option)
+                    -   旧内容:配合-r选项可以用正则
                     -   替换选项
                         - `g`:全局，每行所有匹配都替换
                         - `p`:只输出操作的内容，与`-n`配合，控制台只能看懂操作过的行
