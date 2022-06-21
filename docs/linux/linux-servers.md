@@ -213,3 +213,163 @@ pasv_max_port=50000
 
 #### lazydocker
 > docker gui管理插件
+
+### samba
+> 是一款linux系统应用微软文件资料的工具
+> 微软指定了`SMB协议`，用于`局域网`文件共享，
+
+特点：
+1、linux与Windows之间进行文件和打印机共享
+2、适用于linux与linux，和linux与window
+3、NFS个适合linux与linux的文件共享，所有samba一般用在 linux与window使用
+
+安装
+```shell
+# yum 安装配置文件一般在 /etc 下
+yum install samba -y
+cd /etc/samba
+
+
+# global 全局配置
+[global]
+    # 定义一个工作组
+	workgroup = SAMBA  
+    # 安全验证方式 user代表账号密码
+	security = user
+
+	passdb backend = tdbsam
+
+	printing = cups
+	printcap name = cups
+	load printers = yes
+	cups options = raw
+
+# 下面的都是独立局部配置，如:home下面的配置，只对homes文件夹生效 
+[homes]
+	comment = Home Directories
+	valid users = %S, %D%w%S
+	browseable = No
+	read only = No
+	inherit acls = Yes
+
+
+
+```
+案例
+1、建立共享文件夹
+```shell
+[testshare]
+# 描述
+	comment = All Printers
+# 共享路径
+	path = /var/tmp
+# 是否公开
+    public = no
+# 是否可以写入
+    writable = yes
+# 是否允许匿名用户登录
+    guest ok = yes
+
+```
+
+2、使用pdbedit 创建samba服务专用的密码信息
+3、使用pdbedit管理samba用户,这个用户必须是linux用户
+```shell
+# 创建用户
+pdbedit -a -u user-name
+
+```
+4、重启smb服务，并检查samba端口(445)是否存活
+5、检测防火墙
+iptables -L
+
+6、使用客户端链接
+
+```shell
+# window
+运行输入
+//sam服务器地址
+
+# macos
+smb://sma服务器地址
+
+
+```
+### NFS
+> 稳定的网络文件共享系统，与云服务器的共享
+> 软件共享存储，大公司有可能需要购买硬件设备分担压力,成本高
+> 统一存储网站静态数据
+![NFS](../../status/img/NFS1.png)
+
+> NFS 和 RPC
+1、NFS通过port传输数据，端口是随机的,主动再RPC进行注册（重启NFS，查看端口是否变化）
+2、所以需要通过`RPC`服务进行端口注册，实现告知用户NFS端口是什么
+3、所以RPC(远程过程调用)，NFS两个服务一起启动
+4、过程：NFS（客户端）发送请求(端口111)到RPC，从而得到一个端口，再拿端口去访问远程NFS服务端
+
+> 环境搭建
+1、安装 rpcbind
+2、安装 nfs-utils
+
+> 环境配置
+1、NFS是c/s模式，client,server 准备台机器
+2、NFSServer创建共享文件夹，并给与权限 
+3、修改NFSServer配置文件
+```shell
+# /etc/exports
+# 配置文件规则
+# NFS服务端共享目录 NFS客户端地址(参数...) NFS客户端地址2(参数...)
+/root/nfsshare *(ro)  #所有人可读
+/root/nfsshare 主机名(rw) 主机名2(rw)  允许这两个主机可读写
+/root/nfsshare IP(insecure,rw,root_squash) 允许这个IP可读写
+/root/nfsshare 192.168.178.0/24(rw) 允许整个178网段访问（24 子网掩码24位，255.255.255.0）
+
+# 权限参数
+insecure 允许客户端从大于1024的端口发请求(参数1必须加)
+ro  只读
+rw  读写
+root_squash 如果客户端以root访问服务端nfs时，会把该用户映射位匿名用户，UID GID会变成nfsnobody的信息
+no_root_squash 和上面相反不安全
+all_squash 无论是root还是非root，全部匿名，很安全
+sync 数据同步写入到磁盘和内存，保证数据安全，但效率低
+async 数据线写入到内存，再持久化到磁盘效率高
+
+```
+4、启动NFS服务的文件共享目录
+```shell
+# NFS基于RPC111端口，保证RPC以及启动,111 端口启动
+systemctl start rpcbind
+netstat -tunlp|grep 111
+
+# 写好NFS配置文件与挂载目录
+chmod -Rf 777 path  强制递归给与权限
+chown -r nfsnobody:nfsnobody path
+# 启动NFS
+systemctl start nfs-server.service （centos8专的版本）
+
+# 检测本地共享情况
+showmount -e 127.0.0.1
+
+# 检测共享参数
+/var/lib/nfs/etab
+```
+
+5、本地挂载测试
+mount -t nfs 114.115.212.xxx:/root/nfsshare /mnt
+umount /mnt 取消挂载 
+
+6、客户端挂载
+```shell
+# 确保安装了nfs-utils和rpcbind
+# 开启rpcbind
+# 检测服务端共享是否可用，如果通了就能进行挂载操作
+# 云服务器安全组需要开发111端口
+showmount -e 服务端IP 
+
+# mount -t -nfs xxxxx
+
+```
+
+
+
+

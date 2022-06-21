@@ -68,6 +68,7 @@ title: linux
 -   `passwd <user-name>` ：更改用户密码（需要交互）
     -   `echo '123' | passwd --stdin <user-name>`：直接设置
 -   `ln`: ln -s 源文件 快捷方式文件
+    -   源文件路径最好用绝对路径
 -   `alias`: 创建别名(`/home/xxx/.bashrc`)
     -   `alias`:查看系统中存在的别名
     -   `alias xxx ='cat /etc/passwd'` : xxx 的作用就是查看 passwd
@@ -75,6 +76,7 @@ title: linux
 -   `history`：
     -   `-d num`:删除指定历史指令
     -   `!num`:执行指定历史指令
+    -   `!!`:执行指上一次命令
     -   `-c`:清除缓存的历史命令
 -   `man` :查看帮助（help xxx 这里的 xxx 只能是内部指令）
 -   `clear|Ctrl+l`:清除屏幕
@@ -351,6 +353,7 @@ title: linux
                 -   +(添加)、-(减少)、=(直接设置新的权限)
                 -   `chmod o=r-x path`:指定其他用户只有读和执行权限
                 -   `chmod a+w path`:所有用户添加可写权限`a可省略`
+            -   chmod -Rf 777 path:强制递归授权
     
 -   归属
 
@@ -1062,6 +1065,20 @@ dnf makecache
 -   `wall` ：登陆的终端发送消息
 -   `alias`：查看定义了的别名
 -   `unalias name`:删除别名
+-   bash模式默认快捷键
+    -   ctrl+a 到行首
+    -   ctrl+e 到行尾
+    -   ctrl+u 删除光标之前的内容
+    -   ctrl+k 删除光标之后的内容
+    -   ctrl+l 清屏
+    -   tab 补全$PATH的存在内容
+-   查找相关统计
+    -   whoami
+    -   who
+    -   which
+    -   whereis
+
+
 
 ### 查看系统信息
 -   `uname -a` :查看系统信息
@@ -1179,7 +1196,7 @@ ONBOOT="yes" # 开机读取
         -   ssh username@IP 连接进目标机器
         -   如果目标IP端口改了通过 -p xxx 指定
         -   ssh username@IP "free -m" 控制远程服务器发送 free -m 这条指令
--   `scp`:命令用于 Linux 之间复制文件和目录
+   `scp`:命令用于 Linux 之间复制文件和目录
     -   scp -P 22 本机文件 root@对面IP:对面位置 => 文件上传
     -   scp -r -P 22 本机文件夹 root@对面IP:对面位置 => 文件夹上传
     -   scp -P 22 root@对面IP:对面文件位置 本机位置 => 文件下载

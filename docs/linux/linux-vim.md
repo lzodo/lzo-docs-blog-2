@@ -94,6 +94,7 @@ title: vim
     - `n C+6`:直接切换到第`编号为`n的文件
     - `:bn`:下一个文件
     - `:bp`:上一个文件
+    - `C+n`:PlugInstal 中可以使用
 -   水平垂直分屏`:new|vnew`
     `ctrl+w ,w`:切换窗格
     `ctrl+w ,j`:向下切换
