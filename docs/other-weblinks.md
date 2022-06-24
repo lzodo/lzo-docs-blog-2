@@ -130,6 +130,10 @@ title: 工作学习资源
 -   [加载动画生成](https://loading.io/)
 -   [css 流程指引](https://zh.learnlayout.com/display.html)
 -   [有道翻译2.0](http://fanyi.youdao.com/web2/)
+
+## 题库
+-   [牛客](https://www.nowcoder.com/)
+-   [leetcode](https://leetcode.cn/)
 ## 其他
 
 -   [total 手机投屏软件](http://tc.sigma-rt.com.cn/)

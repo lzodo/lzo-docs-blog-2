@@ -48,6 +48,7 @@ title: vim
         -   `"ap`: 粘贴暂存器 a 的内容
         -   `:reg`:查看暂存器内容
         -   `:set clipboard=unnamed`:与系统共享剪切板 plug
+        -   系统剪切板需要看vim 版本的clipboard前面是否为+
     -   `p`:p 向后粘贴、P 向前粘贴
 -   删除
     -   `d`
@@ -123,7 +124,7 @@ title: vim
     -   `:r !ls xxx`:将查到的东西粘贴到文件中
     -   `vimtutor zh_zw`:练习
     -   `:h xxx`:帮助
-    -   `.`：重复命令
+
 ### 宏操作
 -   q+宏名(随便一个字母)
 -   操作完成，再按q结束宏录制
@@ -131,6 +132,8 @@ title: vim
 -   9@宏名，使用9次
 -   或:指令模式下`:%normal! @d` %每一行,normal模式下 使用宏d
 -   :'<,'> normal @d :可是快,选择的行执行宏(:xxxg/^/ norm @a)
+-   :reg 寄存器中查看录制好宏
+-   .vimrc `let @a=":! node %"` 永久保存
 
 ## 词法
 

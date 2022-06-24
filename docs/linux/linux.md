@@ -556,6 +556,12 @@ title: linux
             -   不论指定那个目录作为挂载点，成功后都会与从原来的地方分离开，成为空目录，卸载后复原
             -   `mount [-t 文件系统类型] 设备文件名 挂载点目录`
                 -   `mount -a`:安装 `/etc/fstab` 配置项目自动挂载
+            -   autofs:如果挂载很多，有不经常用,光盘、U盘、NFS等 可以通过 autofs服务 动态挂载
+                -   autofs 守护进程他会在后台自动检测用户要访问却还未挂载的文件系统,自动检测该文件系统是否存在，如果存在则自动挂载，一段时间没有使用会自动卸载
+                -   缺点：不适合高并发场景
+                -   `/etc/auto.master` 里 `/misc /etc/auto.misc` 下 添加自动挂载配置文件 `/- /etc/auto.home`
+                -   `/etc/auto.home` => 本地文件夹位置/share -rw,soft,intr 远程IP:/xxxx/xx 
+                -   检测本地关注情况，systemctl start autofs 启动服务，访问/share 此时已经自动挂载好了
             -   `df`:查看所以以及挂载设备
                 -   `-h`
                 -   `-T`

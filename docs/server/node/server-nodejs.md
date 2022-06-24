@@ -370,6 +370,7 @@ npm install bcrypt -S
 
 
 ### node服务调用谷歌控制台
+node-dev 功能与nodemon类似
 + 通过 nodemon --inspect --inspect-brk? server.js 开启服务 
 + 配合debugger使用
 + 谷歌打开地址: chrome://inspect/#devices 

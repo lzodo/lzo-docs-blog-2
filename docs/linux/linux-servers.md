@@ -2,9 +2,9 @@
 title: linux服务
 ---
 
-## 防火墙
+### 防火墙
 
-### 安装防火墙服务 firewalld
+#### 安装防火墙服务 firewalld
 
 -   `firewall-cmd --zone=public --add-service=ftp --permanent`:防火墙开起 ftp 服务
     -   `--zone=public`:下面所以指令都能加
@@ -39,9 +39,18 @@ iptables -nL
 服务器解析第三方域名
 服务器设置域名解析，添加第三方域名，第三方将域名dns配置设置服务器提供的dns
 
-### iptables
+#### iptables
+> 软件防火墙 iptables，防火墙命令行工具，客户端代理，将用户配置的安全策略，执行到 `netfilter` 中
+> 真正实现过滤的是 `netfilter` ,处于内核空间
+> iptables+netfilter 实现软件防火墙
+> centos7下 才有`firewalld + nftables`代替了`iptables+netfilter`
 
--   指令 ` iptables`,名称 `Netfilter`
+- 默认防火墙规则
+
+```shell
+iptables -L
+```
+
 
 ### FTP
 
@@ -372,4 +381,5 @@ showmount -e 服务端IP
 
 
 
+### postfix + dovecot 收发邮件
 

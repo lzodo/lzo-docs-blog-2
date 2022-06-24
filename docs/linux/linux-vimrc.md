@@ -176,6 +176,21 @@ endtry
 source  $HOME/xxxx.vim "将配置模块话到一个个vim文件中
 ```
 
+### diff 对比差异
+> 将代码复制到.vimrc或相关配置文件中
+> **保存前** `:DiffSaved` 查看差异，`:q` 退出，`:diffoff` 退出差异视图
+
+```shell
+function! s:DiffWithSaved()
+    let filetype=&ft
+    diffthis
+    vnew | r # | normal! 1Gdd
+    diffthis
+    exe "setlocal bt=nofile bh=wipe nobl noswf ro ft=" . filetype
+endfunction
+com! DiffSaved call s:DiffWithSaved()
+```
+
 ### vscodevim
 
 ```javascript

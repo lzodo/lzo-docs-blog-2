@@ -23,6 +23,7 @@ npm i --production //只安装生成环境的包
 npm i git+ssh://git项目地址 //安装git项目
 
 npm list //依赖树
+npm list -g
 
 npm rebuild  //强制重新安装
 
