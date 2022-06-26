@@ -65,6 +65,7 @@ title: 工作学习资源
 -   [可视化库 AntV](https://antv.vision/zh)
 -   [amcharts](https://www.amcharts.com/)
 -   [Style:hover动画](https://github.com/IanLunn/Hover)
+-   [swiper](https://swiperjs.com/get-started)
 -   [通过设计搞生成布局](https://www.imgcook.com/)
     -   如果只是一些简单布局的静态页面倒还有用，原理倒是可以研究一下
 -   [JS代码混淆](https://www.obfuscator.io/)；
