@@ -151,6 +151,40 @@ augroup END
 ---
 注释：`"` 引号 ()
     
+#### 变量
+
+```shell
+# 普通变量定义
+let num = 0
+
+# 选项作为变量使用
+set textwidth = 80
+echo &textwidth &表示引用的是一个选项
+
+# 通过变量设置选项
+let &textwidth = 80
+可以将 textwidth 值设置位80，let 优点是可以得到运算的结果
+
+
+# 通过变量设置寄存器
+let @a = "hello!"
+echo @a 输出定义的寄存器值
+
+```
+#### 判断语句
+
+```shell
+#
+:if "foo" == "FOO"  # ==?  不区分大小写    ==# 强制区分大小写
+:    echom "if"
+:elseif "nope!"
+:    echom "elseif"
+:else
+:    echom "finally!"
+:endif
+```
+
+
 
 ### 小技巧
 
