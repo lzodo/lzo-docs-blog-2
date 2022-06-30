@@ -243,6 +243,7 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
 centos需要原码安装 
 ```shell
 wget https://github.com/sharkdp/fd/releases/download/v8.4.0/fd-v8.4.0-aarch64-unknown-linux-gnu.tar.gz
+replace 下载相应版本
 
 tar -zxvf fd-v7.4.0-x86_64-unknown-linux-*.tar.gz
 cd fd-v7.4.0-x86_64-unknown-linux-*
