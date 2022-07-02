@@ -945,7 +945,7 @@ dnf makecache
 
 ### 运行级别（目标）
 
-> 指定级别可启动的特定服务类型（os7 以前用 init 表示，现在 runlevel[0~6]）表示
+> 指定级别可启动的特定服务类型（os7 以前用 init 表示，现在 runlevel[0~6]）表示 ctrl+alt+f3
 
 -   目标(/usr/lib/systemd/system)
     -   `runlevel0.target`: poweroff.target(`不运行服务 关机`)

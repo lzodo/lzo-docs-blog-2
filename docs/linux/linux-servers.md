@@ -383,3 +383,28 @@ showmount -e 服务端IP
 
 ### postfix + dovecot 收发邮件
 
+### VNC 远程linux图形界面
+
+服务端
+```shell
+yum install tigervnc-server
+
+# 启动服务
+vncserver
+    输入至少六位密码
+    验证前面数的密码
+    第三个选n
+    等待服务开启....
+
+vncserver -list  查看端口与进程, 完成后去客户端
+
+防火墙开放这个端口或关闭防火墙
+```
+
+进入官网下载客户端 下载`vnc viewer`桌面程序
+    https://downloads.realvnc.com/download/file/viewer.files/VNC-Viewer-6.22.515-Windows-64bit.exe
+
+新建链接
+输入 ip与端口
+名称随意 root
+

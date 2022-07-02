@@ -91,6 +91,8 @@ module.exports = {
 ### 其他配置
 #### eslint roles
 ```js
+"indent": [2, 4],// 指定缩进只能2或4空格
+
 "no-alert": 0,//禁止使用alert confirm prompt
 "no-array-constructor": 2,//禁止使用数组构造器
 "no-bitwise": 0,//禁止使用按位运算符
@@ -180,7 +182,7 @@ module.exports = {
 "no-undef-init": 2,//变量初始化时不能直接给它赋值为undefined
 "no-undefined": 2,//不能使用undefined
 "no-unexpected-multiline": 2,//避免多行表达式
-"no-underscore-dangle": 1,//标识符不能以_开头或结尾
+"no-underscore-dangle": 1,//标识符不能以\_开头或结尾
 "no-unneeded-ternary": 2,//禁止不必要的嵌套 var isYes = answer === 1 ? true : false;
 "no-unreachable": 2,//不能有无法执行的代码
 "no-unused-expressions": 2,//禁止无用的表达式
@@ -216,11 +218,10 @@ module.exports = {
 "eqeqeq": 2,//必须使用全等
 "func-names": 0,//函数表达式必须有名字
 "func-style": [0, "declaration"],//函数风格，规定只能使用函数声明/函数表达式
-"generator-star-spacing": 0,//生成器函数*的前后空格
+"generator-star-spacing": 0,//生成器函数\*的前后空格
 "guard-for-in": 0,//for in循环要用if语句过滤
 "handle-callback-err": 0,//nodejs 处理错误
 "id-length": 0,//变量名长度
-"indent": [2, 4],//缩进风格
 "init-declarations": 0,//声明时必须赋初值
 "key-spacing": [0, { "beforeColon": false, "afterColon": true }],//对象字面量中冒号的前后空格
 "lines-around-comment": 0,//行前/行后备注
@@ -241,7 +242,7 @@ module.exports = {
 "prefer-const": 0,//首选const
 "prefer-spread": 0,//首选展开运算
 "prefer-reflect": 0,//首选Reflect的方法
-"quotes": [1, "single"],//引号类型 `` "" ''
+"quotes": [1, "single"],//引号类型
 "quote-props":[2, "always"],//对象字面量中的属性名是否强制双引号
 "radix": 2,//parseInt必须指定第二个参数
 "id-match": 0,//命名检测

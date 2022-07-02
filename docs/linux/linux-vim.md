@@ -92,6 +92,9 @@ title: vim
     -   `:tabe xxx,:e filepath`:新建 tab 页再打开文件
     -   `gt|gT`:切换 tab 页
     -   `vim -p files`:通过 tab 页方式打开多个文件
+-   从外部读取内容 到文件中
+    -   `:read !cat file`
+    -   `:read !ascii`
 -   多文件操作
     - vim file file2 filee ...
     - `:ls`:查看当前窗口文件列表以及`编号`

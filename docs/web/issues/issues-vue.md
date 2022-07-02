@@ -65,3 +65,13 @@ MyPlugin.install = function (Vue, options) {
 //使用
 Vue.use(MyPlugin, { someOption: true })
 ```
+### 彻底关闭eslint
+```shell
+"rules": {
+    "no-console":  "off",
+    "no-debugger":  "off",
+    "prettier/prettier": "off",
+    "no-unused-vars":"off",
+    "no-empty":"off"
+}
+```

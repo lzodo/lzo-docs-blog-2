@@ -641,6 +641,10 @@ sudo pacman -Syu || sudo pacman -Syudd(-dd 跳过全部检测)\_
 -   `howdio`
 -   `ag(the_silver_searcher)`:搜索工具
 -   `nvm`
+-   `ascii`:ascii表
+-   `curl cht.sh`:疑问查询  (curl cht.sh/js/class 指令/语言命名空间/功能)
+-   `curl "wttr.in/福州?lang=zh"`:天气预报
+-   `aria2`:下载工具
 
 ### 网上存储
 
