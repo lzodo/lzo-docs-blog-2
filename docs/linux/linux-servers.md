@@ -389,6 +389,9 @@ showmount -e 服务端IP
 ```shell
 yum install tigervnc-server
 
+# 设置分辨率
+vncserver -geometry 1920x1080
+
 # 启动服务
 vncserver
     输入至少六位密码

@@ -953,7 +953,7 @@ let Input = document.getElementById("input");
 let start = Input.selectionStart; //获取开始位置
 let end = Input.selectionEnd; //获取结束位置
 
-//设置 vue需要 this.$nextTick(() => {}) 中
+//设置 vue需要 this.$nextTick(() => {}) 中,当dom都加载完毕再执行
 this.$nextTick(() => {
     Input.setSelectionRange(1,3);
     //或
