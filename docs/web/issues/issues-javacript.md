@@ -12,6 +12,129 @@ title: javascript
 
 ## JS 概念性问题
 
+### 数据类型
+基础知识
+> - 弱类型或者说动态语言（一个变量可以保存不同的数据类型）
+> - 原始类型 Boolean、Null、Undefined、Number、String、Bigint（ecma 2020）、Symbols（ecma 2015）
+> - 一组属性的集合 对象 Object （Object、Array、Function、Date、）
+
+1、数据类型判断 - typeof
+>  返回一个字符串，代表检测数据的类型
+```javascript
+// 正常情况返回数据类型小写单词，一下特殊情况
+typeof Infinity === 'number';
+typeof NaN === 'number'
+typeof Number(1) === 'number';
+
+typeof 42n === 'bigint';
+
+typeof Symbol() === 'symbol';
+
+// 应用类型对象包含[[call]]方法 结果就返回function
+typeof function() {} === 'function';
+typeof Array === 'function';
+
+typeof {a: 1} === 'object';
+typeof [1, 2, 4] === 'object';
+typeof new Date() === 'object';
+typeof /regex/ === 'object'; // 历史结果请参阅正则表达式部分
+typeof new Boolean(true) === 'object';
+typeof new Number(1) === 'object';
+typeof new String('abc') === 'object'; //String {0:a,1:b,3:c,length:3,....}
+
+// 对象的类型标签是 0。由于 null 代表的是空指针（大多数平台下值为 0x00），因此，null 的类型标签是 0
+typeof null === 'object';
+```
+2、数据类型判断 - instanceof
+
+> - object instanceof constructor
+> - instanceof 运算符用来检测 constructor.prototype 是否存在于参数 object 的原型链上。上级没有找上上级
+> - 返回 true false
+> - 可以判断 Array、Object、Data 等
+```javascript
+function C(){}
+function D(){}
+
+var o = new C();
+o instanceof C; // true，因为 Object.getPrototypeOf(o) === C.prototype
+o instanceof D; // false，因为 D.prototype 不在 o 的原型链上
+o instanceof Object; // true，因为 Object.prototype.isPrototypeOf(o) 返回 true
+o instanceof Function; // false
+```
+
+3、数据类型判断 - prototype.toString
+```javascript
+Object.prototype.toString.call('') ;   // [object String]
+Object.prototype.toString.call(1) ;    // [object Number]
+Object.prototype.toString.call(true) ; // [object Boolean]
+Object.prototype.toString.call(Symbol()); //[object Symbol]
+Object.prototype.toString.call(undefined) ; // [object Undefined]
+Object.prototype.toString.call(null) ; // [object Null]
+Object.prototype.toString.call(new Function()) ; // [object Function]
+Object.prototype.toString.call(new Date()) ; // [object Date]
+Object.prototype.toString.call([]) ; // [object Array]
+Object.prototype.toString.call(new RegExp()) ; // [object RegExp]
+Object.prototype.toString.call(new Error()) ; // [object Error]
+Object.prototype.toString.call(document) ; // [object HTMLDocument]
+Object.prototype.toString.call(window) ; //[object global] window 是全局对象 global 的引用
+...
+```
+
+4、数据类型判断 - constructor
+
+> - null 和 undefined 是无效的对象
+> -  constructor 是不稳定的，这个主要体现在自定义对象上，当开发者重写 prototype 后
+```javascript
+const o = {}
+o.constructor === Object // true
+
+const o = new Object
+o.constructor === Object // true
+
+const a = []
+a.constructor === Array // true
+
+const a = new Array
+a.constructor === Array // true
+
+const n = new Number(3)
+n.constructor === Number // true
+
+// ========================================
+
+function F(){}
+let f = new F();
+f.constructor == F //true
+/*
+    F.prototype = {
+        constructor: ƒ F()
+        [[Prototype]]: Object
+    }
+*/
+
+f.prototype = {a:1}
+let f2 = new F();
+f2.constructor == F //false
+/*
+    F.prototype = {
+        a:1
+        [[Prototype]]: Object
+    }
+*/
+
+F.prototype.constructor = F;
+let f3 = new F();
+f3.constructor == F //true
+/*
+    F.prototype = {
+        a:1
+        constructor: ƒ F()
+        [[Prototype]]: Object
+    }
+*/
+```
+
+5、jquery.type('xxx')
 ### 跨域方案总结
 
 ### 事件循环 EventLoop

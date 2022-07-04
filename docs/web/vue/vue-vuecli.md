@@ -1,33 +1,29 @@
 ---
-title: vue-cli与脚手架
+ggtitle: vue-cli与脚手架
 ---
 ## vue-cli 
-[官网](https://cli.vuejs.org/zh/guide/)
+[https://cli.vuejs.org/zh/guide/](https://cli.vuejs.org/zh/guide/)
 
-安装
+安装[^①]
 ```
 npm i -g @vue/cli
 npm i -g @vue/cli@3.x
 
 yarn global add @vue/cli
 ```
-> 安装成功后能在命令行使用vue相关指令，如果使用vue3那么cli版本需要在4.3.1以上
 
-删除
+删除[^②]
 ```
 npm uninstall -g @vue/cli
 yarn global remove @vue/cli
 ```
-> @vue/cli是居于node的,如果删除不成功可以去node文件夹下直接删除vue相关文件
-
 图形化管理界面
-[官网](https://cli.vuejs.org/zh/guide/)
 ```
 vue ui
 ```
 
 ## 创建vue项目
-[相关网址](https://www.cnblogs.com/joe235/archive/2004/01/13/12448744.html)
+[https://www.cnblogs.com/joe235/archive/2004/01/13/12448744.html](https://www.cnblogs.com/joe235/archive/2004/01/13/12448744.html)
 
 ### vue-CLI 3+
 ```shell
@@ -71,3 +67,8 @@ npm run dev
     - `src`:源码
             - `assets`:里面的今天文件打包重命名，小的图片会被转成base64图片
     - `package-lock.json`:记录的是node_module安装的真实依赖版本
+
+
+---
+[^①]:安装成功后能在命令行使用vue相关指令，如果使用vue3那么cli版本需要在4.3.1以上
+[^②]:@vue/cli是居于node的,如果删除不成功可以去node文件夹下直接删除vue相关文件
