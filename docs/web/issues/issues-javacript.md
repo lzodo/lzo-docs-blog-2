@@ -60,9 +60,11 @@ o instanceof C; // true，因为 Object.getPrototypeOf(o) === C.prototype
 o instanceof D; // false，因为 D.prototype 不在 o 的原型链上
 o instanceof Object; // true，因为 Object.prototype.isPrototypeOf(o) 返回 true
 o instanceof Function; // false
+D instanceof Function; // true
 ```
 
 3、数据类型判断 - prototype.toString
+> 各个类型自己和自己prototype的toStrig结果不同意，有些是函数，有些是字面量，Math.toString()正常，所以统一用对象原型的
 ```javascript
 Object.prototype.toString.call('') ;   // [object String]
 Object.prototype.toString.call(1) ;    // [object Number]
@@ -135,6 +137,61 @@ f3.constructor == F //true
 ```
 
 5、jquery.type('xxx')
+
+
+### 字面量为什么能调用方法
+'a'.indexOf('a')
+
+1、实际上，每当读取一个基本类型的时候，js内部会自动创建一个基本包装类型对象，可以让我们调用一些方法来操作
+2、a'.indexOf('a')在调用过程中会先let str = new String('a')，然后调用indexOf，调用完毕str = null, 销毁该对象
+### 数据存储形式
+
+> - 栈 计算机为原始数据类型开辟了一块内存空间 number string
+> - 堆 计算机为应用数据类型开辟了一块内存空间 object
+> - `栈内存`是内存中用于存放临时变量的一片内存块(储存变量名称、原始变量值、引用变量地址)
+> - `堆内存`存储 地址和`栈内存中` 地址或指针指向的对象
+> - 赋值变量会将`栈内存的值`或`栈内存的地址`复制一份，拿给新的变量
+
+#### 存储空间
+
+硬件
+    内存：访问速度快、容量小、临时存在
+    硬盘：访问速度慢、容量大、永久存在
+软件
+    App 下载 硬盘
+    App 运行 内存
+运行
+    函数申明（函数体）：占用内存空间，运行期间永久存在
+    函数运行（执行上下文）：临时占用存储空间
+
+
+程序运行，计算机或浏览器会给程序`分配`一段连续的内存（栈内存和堆内存）
+
+如果分配了 0-1000 段的内存
+    栈内存 --> 管理函数执行，程序上下文执行，执行栈, 从高地址位向下使用(1000,999,998...)
+    堆内存 --> 存储对象，从低地址位向上使用(0,1,2...)
+        ?? 对象里面的原始类型是存在堆中的
+    
+内存溢出：当程序运行使用的内存超过`分配来的`这些，就会`内存溢出`（一般设定栈内存比较小的，大部分情况也是`栈溢出`）
+内存泄漏：当某一段内存我们失去了对它的控制、失去引用、回收机制也管理不了的情况
+
+#### 垃圾回收机制
+哪些被分配的内存确实已经不再需要了，自动回收
+JS会周期性变量内存空间，发现没有被引用的对象就会自动回收
+
+```javascript
+a=1    a=1
+b=a    b=1
+b++    b=2  1、1、2属与三块内存空间，b++后，b=1那个1的地址就是去了引用，下次清除周期到了将会被回收
+
+# 如果 b=1 的1 和2时同一块内存空间的话，那么说明内存是可以被覆盖的，不好
+
+```
+
+标记 - 清除算法
+    这个算法把“对象是否不再需要”简化定义为“对象是否可以获得”。
+
+
 ### 跨域方案总结
 
 ### 事件循环 EventLoop
@@ -261,6 +318,35 @@ jQuery(1,2).then(4).then(5);
 
 ```
 ### new 内部做了什么？
+
+1、创建新对象
+2、将新对象的原型链执行 我们new那个构造函数的prototype
+3、判断构造函数是否有返对象，如果有，那么构造函数有问题，直接返回他要返回的东西
+                             如果没有，返回刚刚创建的对象
+```javascript
+function Person(name) {
+    this.name = name;
+}
+
+
+function myNew(Con, ...args) {
+    // 创建一个新的空对象
+    let obj = {};
+    // 将这个空对象的__proto__指向构造函数的原型
+    // obj.__proto__ = Con.prototype;
+    Object.setPrototypeOf(obj, Con.prototype);
+
+    // 将构造函数里的属性方法复制一份给 obj
+    // 设置构造函数内 this指向，不然默认指向window，this.name 就变成window name了
+    let res = Con.apply(obj, args);
+    // 对构造函数返回值做判断，然后返回对应的值
+    return res instanceof Object ? res : obj;
+
+}
+
+```
+
+
 
 ### 作用域
 
