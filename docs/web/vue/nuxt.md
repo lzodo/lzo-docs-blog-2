@@ -60,3 +60,26 @@ SEO优化方案
         2.3 服务端渲染
             -   整个站点都需要seo
             -   起两个服务，Node server 和 后端接口服务，压力在服务端
+
+
+
+
+### Nuxt
+
+安装:[Nuxt2](https://nuxtjs.org/docs/get-started/installation#using-create-nuxt-app)
+
+目录结构
+-   pages           存放页面
+-   components      存放组件
+-   static          存放静态资源
+-   store           vuex状态树
+-   nuxt.config.js  配置文件
+
+概念
+    路由`不需要手动配置`，会更加pages目录下的文件自动生成
+    页面上用到的组件会自动去components目录查找，`不需要导入` -> 可配置
+
+
+
+#### 什么周期
+

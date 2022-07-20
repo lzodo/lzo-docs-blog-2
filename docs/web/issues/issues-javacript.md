@@ -139,11 +139,50 @@ f3.constructor == F //true
 5、jquery.type('xxx')
 
 
-### 字面量为什么能调用方法
-'a'.indexOf('a')
+### js常见的内置对象
 
-1、实际上，每当读取一个基本类型的时候，js内部会自动创建一个基本包装类型对象，可以让我们调用一些方法来操作
-2、a'.indexOf('a')在调用过程中会先let str = new String('a')，然后调用indexOf，调用完毕str = null, 销毁该对象
+3中包装对象 **Number** **String** **Boolean**
+
+包装对象的装箱与拆箱
+    装箱:把基本数据类型转化为对应引用数据类型的操作
+        通过new的方式得到实例
+    拆箱:把引用数据类型转化为对应基本数据类型的操作(数组对象也有拆箱)
+        调用实例的 valueOf()和toString() 实现拆箱
+
+        js内部有一个toPrimitive(input,type) 方法 判断传入的值是否为原始类型，是返回，不是就调用valueOf方法，结果还不是就掉toString方法
+        valueOf()  判断是否有基本类型值，有就返回，没有则返回对象本身 
+        toString() 得到的都是字符串类型 "123",valueOf 可以得到正常的 123
+        ```javascript
+        
+        console.log({} + []) [object object]
+        1、{} 调用toPrimitive()
+        console.log({}.valueOf()) => {}
+        console.log({}.toString()) => [object object]
+
+        2、[] 调用toPrimitive
+        console.log([].valueOf()) => {}
+        console.log([].toString()) => ""
+        
+        3、有些浏览器 会把前面的 {} 当做代码块 识别为 console.log(0 + []) 结果就是0，非[object object]
+        ```
+
+
+
+字面量可以调用方法的原因 'abc'.indexOf('a') (隐式装箱) 
+```javascript
+# 1
+var str = new String('abc');
+# 2
+str.indexOf("a");
+# 3
+str = null;
+
+```
+(1)实际上，每当读取一个基本类型的时候，js内部会自动创建一个基本包装类型对象，可以让我们调用一些方法来操作
+(2)'a'.indexOf('a')在调用过程中会先let str = new String('a')，然后调用indexOf，调用完毕str = null, 销毁该对象
+
+其他内置对象
+    Date、Math、Function、Array、
 ### 数据存储形式
 
 > - 栈 计算机为原始数据类型开辟了一块内存空间 number string

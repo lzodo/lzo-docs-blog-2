@@ -136,8 +136,12 @@ Vue.prototype.$vConsole = new vConsole();
 ```
 
 ### spy-debugger 移动真机调试
+已经废弃
+
 
 1、安装[github 入口](https://github.com/wuchangming/spy-debugger)
+
+集成weinre
 
 ```javascript
 npm install spy-debugger -g
@@ -148,6 +152,18 @@ npm install spy-debugger -g
 4、对应主机名与端口 保存  
 5、在生成的网址中调试手机访问的页面
 
+### weiner
+
+```javascript
+npm install weinre -g
+
+启动 weinre --httpPort 8082 --boundHost 192.168.4.123
+
+浏览器打开 http://192.168.4.123:8082
+
+要调试的页面添加 <script src="http://192.168.4.123:8082/target/target-script-min.js#anonymous"></script>
+```
+其他工具 vConsole、Charles
 ### 内网穿透 端口映射工具
 
 > 内网穿透,反向代理 大概意思是将您的本地主机公开到外网，公共端点和本地运行的 Web 服务器之间建立一个安全的通道，便于测试和共享
