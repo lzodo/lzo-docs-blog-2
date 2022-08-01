@@ -467,3 +467,58 @@ call 2.bat "调用其他文件
 -   `Get-Command -Name vim`:查看程序所在路径
 //192.168.3.24/共享文件 /mnt/window cifs defaults,username=liaozx,password=liaozx123
 
+### window 快捷键
+
+#### Win
+-   `win`：显示隐藏菜单
+-   `win + T`：循环浏览任务栏的程序
+-   `win + R`：运行
+    -   `control`：控制面板
+    -   `appwiz.cpl`：卸载程序
+    -   `dir path`：打开相应文件夹
+-   `win + D`：显示桌面
+-   `win + E`：打开资源管理器
+-   `win + L`：锁定计算机
+-   `win + M`：最小化所有被打开的窗口
+-   `win + I`：设置
+-   `win + Tab`：虚拟桌面
+-   `win + ↑↓ ← →`:打开程序窗口排版
+    -   `上中下`：最大化/默认状态/最小化隐藏
+    -   `左中有`：左半屏/默认状态/右半屏
+-   `win + G`：屏幕录制
+-   `win + Alt + PrintScreen`：屏幕截图
+-   `win + Home`：清除窗口，保留当前
+-   `win + ctrl + D`：新建桌面(win + tab切换)
+-   `win + x`：系统功能菜单
+    -   `win + x uu`：快速关机
+-   `win + v`：系统剪切板
+
+#### Ctrl
+-   `Ctrl + ESC`：win 菜单
+-   `Ctrl + Shift + ESC`：打开任务管理器 
+-   `Ctrl + (Shift)? + Tab`：切换浏览器tab
+
+#### Alt
+-   `Alt + F4`：关闭当前应用程序
+    -   桌面使用可以关机
+-   `Alt + Tab`：切换打开的应用程序
+-   `Alt + Enter/双击`：查看文件属性
+-   `Alt + 左/右`：文件管理器左右移动
+-   `Alt + Ctrl + Delete`：打开任务管理器
+
+#### Shift
+-   `Shift + F10`：右键菜单
+-   `Shift + delete`：永久删除文件
+
+
+
+
+
+
+
+
+-   `win + A`：操作中下(消息通知、wifi、网络等)
+-   `win + B`：任务栏右边工具(输入法网络。。。)
+-   `win + P`：投影仪输出设备
+-   `win + U`：辅助工具管理器
+-   `win + Q`：小娜语音

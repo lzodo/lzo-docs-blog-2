@@ -35,11 +35,6 @@ npm config get prefix / npm root -g
 npm view jquery versions //查看插件的所有版本 通过 jquery@x.x.x 安装指定版本
 
 npm updata //将配置文件中各个插件未锁定的版本位更新到最新
-版本符号:
-^x.x.x 开头，锁定主版本
-~x.x.x 开头，锁定主版本和次版本
-x.x.x  全部锁定
-*      升级最新版本
 
 npm outdated //查看过期包 (相同功能的第三方包 david)
 
@@ -59,6 +54,40 @@ npm config set registry https://registry.npm.taobao.org/  //设置淘宝源
 npm config get cache //获取缓存存放位置
 ```
 [npm 安装原理]("../../../static/img/npm-package-lock.jpg")
+
+### npm版本号
+
+版本符号:
+^x.x.x 开头，锁定主版本
+~x.x.x 开头，锁定主版本和次版本
+x.x.x  全部锁定
+星号或x  升级最新版本
+
+#### 标准版本号
+16.7.1
+    16 是它的 Major，主版本号，通常只有在重构、API不向下兼容时才会进行升级。
+     7 是它的 Minor， 次版本号，通常在增加向下兼容新特性时升级此版本号。
+     1 是它的 Patch，修订号，通常在发布向下兼容的问题修复时更新
+#### 先行版本号（pre-release)
+16.7.1-alpha.1      一个短横线 + 一个字符串组成
+                    内测、 公测、 生产候选 等种版本形式
+                    16.7.1-alpha.1 的版本号是 小于 16.7.1
+                    16.7.1-alpha.1 是 16.7.1 的内测版本
+
+约定的三种方式                    
+    16.7.1-alpha.1 ：16.7.1 内测的第一个版本
+    16.7.1-beta.1 ：16.7.1 灰度测试的第一个版本
+    16.7.1-rc.1 ：16.7.1 生产候选的第一个版本
+
+    16.7.1-alpha.1 < 16.7.1-beta.1 < 16.7.1-rc.1 < 16.7.1
+vue@latest
+    beta ： 灰度测试版本，当前匹配 3.2.34-beta.1 
+    latest ：3.2.37 最新正式版
+    next ： 3.2.36 下一代版本（在vue4出来前暂时没啥用了）
+    preview ： 3.0.3 预览版
+    csp：内容安全版本
+    legacy：历史稳定版
+
 
 ### 自定义npm包
 1. npmjs.com 注册账户

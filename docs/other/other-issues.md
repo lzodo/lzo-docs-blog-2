@@ -2,6 +2,9 @@
 title: 偏门问题
 ---
 
+### vue v-if
+v-if element控件 如果切换的内容相似错乱问题
+    el-form ref="childform" key="xx"
 ### 常见的兼容性问题
 
 ### 项目的难点
