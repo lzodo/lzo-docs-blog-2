@@ -38,3 +38,22 @@ title: vimium
 -   `i`:插入模式(屏蔽vimium快捷键)
 -   `v`:选择模式，w,e,b等选择字符
 -   `ctrl+h/ctrl+j/ctrl+shift+o`:历史，下载，书签
+
+#### Google 浏览快捷键
+标签页与窗口
+-   `Ctrl + 1-8/9`：跳转指定标签页面/9最后一个标签页
+-   `Alt + HOME`：当前页面打开主页
+-   `Ctrl + w/f4`：关闭当前标签页
+-   `Ctrl + Shift + w`：关闭浏览器以及所有标签页
+-   `Ctrl + Shift +n`：隐身模式下打开新窗口
+
+快捷功能
+-   `Ctrl + Shift + b`：显示隐藏书签栏
+-   `Ctrl + Shift + o`：打开书签管理器
+-   `Ctrl + h`：打开历史记录
+-   `Ctrl + j`：打开下载页
+-   `Shift + ESC`：打开谷歌任务管理器
+-   `Ctrl + Shift + j 或 F12`：开发者工具
+-   `Ctrl + Shift + del`：清除缓存
+-   `Ctrl + Shift + m`：登录用户面板
+-   ``：

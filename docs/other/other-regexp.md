@@ -308,6 +308,14 @@ const carNoReg = /^[京津沪渝冀豫云辽黑湘皖鲁新苏浙赣鄂桂甘晋
 ```javascript
 /^(hello|word|add){1,}$/.test('helloword');
 ```
+- 指定字符变色
+```javascript
+item.value = 'xxxxabcxxxx'
+let word = 'abc'
+let beflen = number;
+let reg = new RegExp(`(?<=.{${beflen}})${word}`);
+item.htmtmp = item.value.replace(reg,(item)=>`<span style="color:#f00;font-weight: bold;">${item}</span>`);
+```
 
 - split
 
