@@ -15,7 +15,7 @@ http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 display:grid|inline-gird;
 ```
 #### 设置行
--   `grid-template-rows:100px 100px 100px;`:设置为每行放3个项目，且每个宽度为100px
+-   `grid-template-rows:100px 100px 100px;`:设置为每行放3个项目，且每个宽度为100px(与columns反了)
     -   `100px`: 一一设置行每个项目宽度像素大小
     -   `25%`: 一一设置行每个项目宽度百分比
     -   `fr`: fraction 分配比例1fr(flex:1)、2fr(flex:2)
