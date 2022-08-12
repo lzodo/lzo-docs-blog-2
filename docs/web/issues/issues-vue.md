@@ -75,3 +75,9 @@ Vue.use(MyPlugin, { someOption: true })
     "no-empty":"off"
 }
 ```
+### vue add 与 npm install 
+```shell
+npm install 只会下载包不会改变项目中文件或文件内容
+vue add 不加会安装下载包，还好添加需要的配置文件，例如 vue add router 會幫你配置 router.js
+        安装 electron-builder 会在 package.js script自动添加上指令 和 src/background.js 主进程等
+```

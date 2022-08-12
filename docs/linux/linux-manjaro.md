@@ -323,6 +323,7 @@ Plug 'junegunn/fzf.vim'
         -   保存
             -   激活状态 -> d 关闭会话 -> 任意终端`tmux attach -t 会话名称`启用
             -   可以多用户共享同时操作
+        -   `Ctrl+d`:不用激活，退出并关闭
         -   其他
             -   `tmux ls`:查看 tmux 列表
             -   `tmux kill-session -t <session-name>`:彻底杀死会话

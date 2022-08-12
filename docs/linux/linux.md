@@ -1202,11 +1202,14 @@ ONBOOT="yes" # 开机读取
         -   ssh username@IP 连接进目标机器
         -   如果目标IP端口改了通过 -p xxx 指定
         -   ssh username@IP "free -m" 控制远程服务器发送 free -m 这条指令
-   `scp`:命令用于 Linux 之间复制文件和目录
+   `scp`:命令用于 Linux 之间复制文件和目录(全量完整复制，效率不太好)
     -   scp -P 22 本机文件 root@对面IP:对面位置 => 文件上传
     -   scp -r -P 22 本机文件夹 root@对面IP:对面位置 => 文件夹上传
     -   scp -P 22 root@对面IP:对面文件位置 本机位置 => 文件下载
     -   scp -r -P 22 root@对面IP:对面文件夹位置 本机位置 => 文件夹下载
+-   `rsync`:增量的复制
+    -   不同于 cp 或 scp 的一点是，使用 rsync 命令备份数据时，不会直接覆盖以前的数据（如果数据已经存在），而是先判断已经存在的数据和新数据的差异，只有数据不同时才会把不相同的部分覆盖。
+    -   `rsync -av /etc/passwd 192.168.188.128:/tmp/1.txt`
 -   `wget`:非常稳定，断点续传，支持ftp http等协议 下载网络资源
     -   wget url：直接下载
     -   wget -o path/name url：下载并改名
