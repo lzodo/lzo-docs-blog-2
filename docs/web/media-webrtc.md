@@ -1,6 +1,7 @@
 ---
 title: webrtc
 ---
+[mdn](https://developer.mozilla.org/zh-CN/docs/Web/API/WebRTC_API)
 
 **getUserMedia**
 该方法提醒用户是否允许使用音视频设备（摄像头、屏幕共享、麦克风等）
@@ -8,9 +9,16 @@ title: webrtc
 
 ```javascript
 
+// 如果需要兼容其他或老的浏览器
+navigator.mediaDevices = navigator.mediaDevices|| navigator.webkitGetUserMedia|| navigator.mozGetUserMedia;
+
 // constraints 指定请求媒体类型
 navigator.mediaDevices.getUserMedia(constraints).then((stream)=>{
-    console.log(stream)
+    // 成功获取视频流 直接播放
+    video.srcObject = stream;
+}).catch((err)=>{
+    // PermissionDeniedError: 被用户或系统拒绝
+    // NotFoundError: 找不到 constraints 类型
 })
 
 ```
