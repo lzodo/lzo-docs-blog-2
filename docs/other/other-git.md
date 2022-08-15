@@ -347,3 +347,22 @@ git push origin master
     -   找到线上项目,按句号，或者将项目添加1s,如:https://github1s.com/lzoxun/xxxxx.git直接编辑器方式打开项目
 -   查看项目信息
     -   `https://api.github.com/repos/用户名称/项目名称`
+
+
+### 命令行操作GitHub远程仓库
+生成token
+    GitHub主页 > settings > Developer settings > Personal access tokens --> Generate new token > 勾选权限 > 生成token令牌
+    类似 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lzO
+tolen使用场景文档
+    [DOCS](https://docs.github.com/cn/rest)
+命令行直接创建仓库
+    curl -u "$username:$token" https://api.github.com/user/repos -d '{"name":"'$repo_name'"}'
+    curl -u "liaozhongxunlzx:ghp_xxx" https://api.github.com/user/repos -d '{"name":"'lzo-name'"}'
+    就可以直接
+    git remote add origin https://github.com/liaozhongxunlzx/lzo-name.git
+
+获取GitHub项目列表
+    curl -H "Authorization: token ghp_xxxxx" https://api.github.com/users/liaozhongxun/repos
+    完整的仓库列表
+    curl -H "Accept: application/vnd.github+json" -H "Authorization: token ghp_xxx" https://api.github.com/users/liaozhongxun/repos\?page\=1\&per_page\=1000
+
