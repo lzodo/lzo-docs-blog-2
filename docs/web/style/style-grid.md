@@ -15,21 +15,22 @@ http://www.ruanyifeng.com/blog/2019/03/grid-layout-tutorial.html
 display:grid|inline-gird;
 ```
 #### 设置行
--   `grid-template-rows:100px 100px 100px;`:设置为每行放3个项目，且每个宽度为100px(与columns反了)
+-   `grid-template-rows:100px 100px 100px;`:设置为行，且每个宽度为100px
     -   `100px`: 一一设置行每个项目宽度像素大小
     -   `25%`: 一一设置行每个项目宽度百分比
     -   `fr`: fraction 分配比例1fr(flex:1)、2fr(flex:2)
     -   `auto`:剩余空间宽度自动分分配
-    -   `minmax(100px,200px)`:设置项目宽度最小100px,最大200px
     -   `repeat(3,33.33%)`: repeat行数(重复次数，重复大小)
     -   `repeat(2,100px 200px)`: repeat行数(重复次数，重复模式),相当于 100 200 100 200
+
+    -   `minmax(100px,200px)`:设置项目宽度最小100px,最大200px
     -   `auto-fill`:自动填充次数，repeat(auto-fill,100px)
     -   `[c1 cc1多名称] 1rf [c2] 1rf [c3] 2rf [c4]`: 网格线名称,三个格子四条网格线
 -   `row-gap:10px`:横向项目间距，原grid-row-gap    
 -   `gap:10px 20px`:同时设置行、列间距,原grid-gap
 -   `grid-auto-rows`:值同上（设置的是超出区域的宽度和行高，自定义区域才会产生这种）
 #### 设置列
--   `grid-template-columns:100px 100px 100px;`:设置列高度
+-   `grid-template-columns:100px 100px 100px;`:设置为每行放3个项目，且每个宽度为100px
     -   值同上
 -   `colunm-gap`:纵向项目间接,原grid-colunm-gap
 -   `grid-auto-columns`:值同上
