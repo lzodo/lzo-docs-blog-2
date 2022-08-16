@@ -629,7 +629,7 @@ sudo pacman -Syu || sudo pacman -Syudd(-dd 跳过全部检测)\_
 -   `thefuck`:操作错误时，执行该命令，会告诉你为什么错 
     -   sudo pip3 install thefuck  python安装
 -   `multitail|lnav|tial -f|cat...`:日志
--   `jq`:linux 终端查看，格式化json
+-   `jq`:linux 终端查看，格式化json `echo '{ "no": "bueno" }' | jq "."`
 -   `mycli`:终端mysql工具
 -   `httpie`:终端数据请求获取 `http -v github.com`
 -   `fpp(PathPicker)`:终端多文件操作，f|A,选择，回车默认编辑器打开,c 指令操作已选择

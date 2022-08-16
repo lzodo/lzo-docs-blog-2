@@ -366,3 +366,5 @@ tolen使用场景文档
     完整的仓库列表
     curl -H "Accept: application/vnd.github+json" -H "Authorization: token ghp_xxx" https://api.github.com/users/liaozhongxun/repos\?page\=1\&per_page\=1000
 
+搜索Github其他人的项目
+    curl -H "Accept: application/vnd.github+json" https://api.github.com/search/repositories\?q\=NAME\&sort\=stars\&page\=1\&per_page\=100``
