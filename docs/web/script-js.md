@@ -1,10 +1,10 @@
 ---
-id: script-js
 title: JavaScript 基础
 ---
 
-### 开启 JavaScript
 
+## JS 基础（ECMSscript）
+### 概念
 #### 认识 JavaScript
 
 > -   JS 的作用是给浏览器*指令*，负责和浏览器进行*沟通*
@@ -270,3 +270,29 @@ title: JavaScript 基础
 
 ### 重要概念
 `事件循环 EventLoop`、
+
+
+## JS API
+
+> 通过 JS 操作 html(DOM) 和 浏览器(BOM)
+
+### DOM
+> dom 文档对象模型，操作网页内容，实现特效和交互
+
+-   DOM 数对象(浏览器根据html标签生成的JS对象)
+    -   DOM 树对象包含所有标签
+    -   修改某个对象属性会映射到所有标签上
+```javascript
+
+// querySelector(css选择器 button | .class | #id | ul li...); 返回第一个匹配的对象，没有返回null
+// querySelectorAll 返回所有匹配 NodeList 伪数组(有长度、有索引、但是没有js pop push 等方法)
+let btn = document.querySelector("button")
+
+
+// 修改内容
+document.write("xxx"); //直接追加到文档
+btn.innerHTML = "xxx"; //识别标签
+btn.innerText = 'xxx'; //不识别标签
+
+
+```
