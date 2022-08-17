@@ -286,13 +286,121 @@ title: JavaScript 基础
 
 // querySelector(css选择器 button | .class | #id | ul li...); 返回第一个匹配的对象，没有返回null
 // querySelectorAll 返回所有匹配 NodeList 伪数组(有长度、有索引、但是没有js pop push 等方法)
-let btn = document.querySelector("button")
-
+let div = document.querySelector("div")
 
 // 修改内容
-document.write("xxx"); //直接追加到文档
-btn.innerHTML = "xxx"; //识别标签
-btn.innerText = 'xxx'; //不识别标签
+document.write("xxx"); // 直接追加到文档
+div.innerHTML = "xxx"; // 识别标签
+div.innerText = 'xxx'; // 不识别标签
+div.title='xxx'; // 修改属性
+div.style.background="#f0f"; //修改样式
+div.style.backgroundColor="#f0f"; // 驼峰换横杆 
 
+div.className='addClass'; //动态添加类 覆盖原有类名
+div.className+=" newclassName"; // 不会被覆盖
+
+div.classList // 获取样式列表 
+div.classList.add("xxx"); // 添加
+div.classList.remove("xxx"); // 删除
+div.classList.toggle("xxx"); // 切换
+
+// 表单操作
+let btn = document.querySelector("button");
+btn.disabled = false; //禁用按钮
+
+```
+-   节点(DOM树每个DOM下的属性内容等都是节点)
+    -   元素节点、属性节点、文本节点、空格换行...
+
+```javascript
+
+// 元素节点(DOM树的每一个标签)操作
+// 获取父节点
+eleNode.parentNode
+
+// 获取子节点
+eleNodeParent.children
+
+// 兄弟节点
+eleNode.nextElementSibling  //下一个节点
+eleNode.previousElementSibling // 上一个节点
+
+// 创建元素节点
+let div = document.createElement("div");
+div.className="xxx";
+
+eleNodeParent.appendChild(div) // 父元素最后最近新节点
+eleNodeParent.insertBefore(div,parentDom) //指定节点前插入  参数:新节点， 指定放在哪个节点前面
+
+// 克隆节点
+eleNode.cloneNodew(true)  // 可溶一个一样的节点，参数true代表连后代节点一起克隆
+
+// 删除节点
+eleNodeParent.removeChild(eleNodeParent.children[0]) //必先找到父节点，从父节点删除子节点
+
+
+```
+
+-   事件
+    -   事件监听(绑定事件、注册事件)，监测程序是否有注册的事件发生，如果有就立即调用一个函数做出响应
+
+```javascript
+
+// DOMLevel 0
+// 相同事件会被覆盖，事件冒泡
+// <input type="button" onclick="alert(0);" />
+ele.onclick = function(){}
+ele.onclick = null; // 清理
+
+// DOMLevel 2
+// 相同事件不会被覆盖
+// 事件源 ele 、事件名 args[0] 、事件触发做的事情 args[1]
+ele.addEventListener("event name",()=>{});
+
+// DOMLevel 3 一样的只是加了很多很多事件
+
+```
+-   环境对象 this
+    -   非箭头函数 谁调用this指向谁
+
+```javascript
+
+// this 指向
+function fn(){
+    console.log(this);
+}
+
+fn() == window.fn() == window;
+
+let obj = {
+    fn:function(){
+        console.log(this)
+    }
+}
+obj.fn() == obj
+
+
+// ele 被点击 this 是ele 
+ele.addEventListener("click",function(){
+    console.log(this)
+})
+
+// 面向对象
+function Obje(){
+    console.log(this,'default') // Obje {}
+    this.showthis = function(){
+        console.log(this,'showthis') // Obje {}
+    }
+}
+Obje.prototype.showprotothis = function(){
+    console.log(this,'showprotothis') // Obje {}
+}
+let sobj = new Obje();
+
+// call
+function testCall(){
+    console.log(this)  // Obje {}
+}
+testCall.call(Obje)
 
 ```
