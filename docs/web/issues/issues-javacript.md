@@ -807,7 +807,7 @@ console.log(new Date("2021-11-04T10:10:10")); //Thu Nov 04 2021 10:10:10 GMT+080
 console.log(new Date("2021-11-04T10:10:10")); //2021-11-04T02:10:10.000Z
 
 //获取当前时间(从格林威治1970.1.1 00:00:00 [国内 1970.1.1 08:00:00] 开始的毫秒数)
-console.log(new Date().getTime());
+console.log(new Date().getTime(),+new Date());
 //获取当前毫秒数(0-999)
 console.log(new Date().getMilliseconds());
 //获取一分钟后的毫秒数目
