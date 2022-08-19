@@ -282,125 +282,174 @@ title: JavaScript 基础
 -   DOM 数对象(浏览器根据html标签生成的JS对象)
     -   DOM 树对象包含所有标签
     -   修改某个对象属性会映射到所有标签上
-```javascript
+    ```javascript
 
-// querySelector(css选择器 button | .class | #id | ul li...); 返回第一个匹配的对象，没有返回null
-// querySelectorAll 返回所有匹配 NodeList 伪数组(有长度、有索引、但是没有js pop push 等方法)
-let div = document.querySelector("div")
+    // querySelector(css选择器 button | .class | #id | ul li...); 返回第一个匹配的对象，没有返回null
+    // querySelectorAll 返回所有匹配 NodeList 伪数组(有长度、有索引、但是没有js pop push 等方法)
+    let div = document.querySelector("div")
 
-// 修改内容
-document.write("xxx"); // 直接追加到文档
-div.innerHTML = "xxx"; // 识别标签
-div.innerText = 'xxx'; // 不识别标签
-div.title='xxx'; // 修改属性
-div.style.background="#f0f"; //修改样式
-div.style.backgroundColor="#f0f"; // 驼峰换横杆 
+    // 修改内容
+    document.write("xxx"); // 直接追加到文档
+    div.innerHTML = "xxx"; // 识别标签
+    div.innerText = 'xxx'; // 不识别标签
+    div.title='xxx'; // 修改属性
+    div.style.background="#f0f"; //修改样式
+    div.style.backgroundColor="#f0f"; // 驼峰换横杆 
 
-div.className='addClass'; //动态添加类 覆盖原有类名
-div.className+=" newclassName"; // 不会被覆盖
+    // left and offsetLeft ？？差别
 
-div.classList // 获取样式列表 
-div.classList.add("xxx"); // 添加
-div.classList.remove("xxx"); // 删除
-div.classList.toggle("xxx"); // 切换
+    div.className='addClass'; //动态添加类 覆盖原有类名
+    div.className+=" newclassName"; // 不会被覆盖
 
-// 表单操作
-let btn = document.querySelector("button");
-btn.disabled = false; //禁用按钮
+    div.classList // 获取样式列表 
+    div.classList.add("xxx"); // 添加
+    div.classList.remove("xxx"); // 删除
+    div.classList.toggle("xxx"); // 切换
 
-```
+    // 表单操作
+    let btn = document.querySelector("button");
+    btn.disabled = false; //禁用按钮
+
+    ```
 -   节点(DOM树每个DOM下的属性内容等都是节点)
     -   元素节点、属性节点、文本节点、空格换行...
 
-```javascript
+    ```javascript
 
-// 元素节点(DOM树的每一个标签)操作
-// 获取父节点
-eleNode.parentNode
+    // 元素节点(DOM树的每一个标签)操作
+    // 获取父节点
+    eleNode.parentNode
 
-// 获取子节点
-eleNodeParent.children
+    // 获取子节点
+    eleNodeParent.children
 
-// 兄弟节点
-eleNode.nextElementSibling  //下一个节点
-eleNode.previousElementSibling // 上一个节点
+    // 兄弟节点
+    eleNode.nextElementSibling  //下一个节点
+    eleNode.previousElementSibling // 上一个节点
 
-// 创建元素节点
-let div = document.createElement("div");
-div.className="xxx";
+    // 创建元素节点
+    let div = document.createElement("div");
+    div.className="xxx";
 
-eleNodeParent.appendChild(div) // 父元素最后最近新节点
-eleNodeParent.insertBefore(div,parentDom) //指定节点前插入  参数:新节点， 指定放在哪个节点前面
+    eleNodeParent.appendChild(div) // 父元素最后最近新节点
+    eleNodeParent.insertBefore(div,parentDom) //指定节点前插入  参数:新节点， 指定放在哪个节点前面
 
-// 克隆节点
-eleNode.cloneNodew(true)  // 可溶一个一样的节点，参数true代表连后代节点一起克隆
+    // 克隆节点
+    eleNode.cloneNodew(true)  // 可溶一个一样的节点，参数true代表连后代节点一起克隆
 
-// 删除节点
-eleNodeParent.removeChild(eleNodeParent.children[0]) //必先找到父节点，从父节点删除子节点
+    // 删除节点
+    eleNodeParent.removeChild(eleNodeParent.children[0]) //必先找到父节点，从父节点删除子节点
 
 
-```
+    ```
 
 -   事件
     -   事件监听(绑定事件、注册事件)，监测程序是否有注册的事件发生，如果有就立即调用一个函数做出响应
 
-```javascript
+    ```javascript
 
-// DOMLevel 0
-// 相同事件会被覆盖，事件冒泡
-// <input type="button" onclick="alert(0);" />
-ele.onclick = function(){}
-ele.onclick = null; // 清理
+    // DOMLevel 0
+    // 相同事件会被覆盖，都是事件冒泡
+    // <input type="button" onclick="alert(0);" />
+    ele.onclick = function(){}
+    ele.onclick = null; // 清理
 
-// DOMLevel 2
-// 相同事件不会被覆盖
-// 事件源 ele 、事件名 args[0] 、事件触发做的事情 args[1]
-ele.addEventListener("event name",()=>{});
+    // DOMLevel 2
+    // 相同事件不会被覆盖，可设置捕获和冒泡
+    // 事件源 ele 、事件名 args[0] 、事件触发做的事情 args[1]
+    ele.addEventListener("event name",()=>{},bool); //bool 代表是否使用捕获机制，true 捕获 false 冒泡
+    ele.removeEventListenet("event name","函数名称",bool) // 清除事件，匿名函数无法被清除
+    // DOMLevel 3 一样的只是加了很多很多事件
 
-// DOMLevel 3 一样的只是加了很多很多事件
-
-```
+    ```
+    -   事件对象
+    ```javascript
+    /**
+     * 监听函数回调的第一个参数 e event ...
+     * 包含与事件相关信息的对象
+     * 常用属性 e.
+     *      type：当前事件类型
+     *      clientX/clientY：获取光标相对于浏览器可见窗口左上角的位置（显示位置不包括状态栏等）      
+     *      pageX/pageY：获取光标相对于document文档左上角的位置(包括页面滚动的距离)      
+     *      offsetX/offsetY：获取光标相对于当前点击的DOM元素左上角的位置      
+     *      screenX/screenY：      
+     *      movementX/movementY：      
+     *      layerX/layerY：
+     *      key/code：获取检测操作的按键的值(以前的keyCode ascii码 废弃中)      
+     *      
+     *      
+     */ 
+    
+    ```
+    -   事件流
+    ```javascript
+    /**
+     * 事件流指的是事件完整执行过程中的流动路径
+     * 主要有两个阶段 事件捕获 和 事件冒泡 
+     * 事件捕获 (参数三设置true)
+     *    一个元 素事件被触发，先触发最父层，拥有该事件的元素
+     *    document 开始 -> html -> body -> 单前点击的元素      
+     * 事件冒泡
+     *    当一个元素事件被触发时，同样的事件会在该元素的祖先元素(父级、父父级。。document)依次触发，如果它们有监听这个事件的话
+     *    当前点击元素  -> body -> html -> document  
+     *
+     * 阻止事件流动 （事件冒泡，事件捕获）
+     *    监听注册事件的时候，冒到这个元素的这个事件就会停止
+     *    e.stopPropagation();
+     *
+     * 鼠标移入依次事件
+     *      mouseover 和 mouseout  这个移入移出默认有冒泡行为
+     *      mouseenter 和 mouseleave  这个移入移出不会有冒泡行为
+     *
+     * 阻止默认行为（阻止链接跳转，表单的默认就要的功能）
+     *      e.preventDefault()
+     *
+     * 事件流特性 实现事件委托
+     *      给父级注册事件，父级收到点击的时候，通过 e.target 获取具体点击的子元素
+     *
+     *
+     */
+    ```
 -   环境对象 this
     -   非箭头函数 谁调用this指向谁
 
-```javascript
+    ```javascript
 
-// this 指向
-function fn(){
-    console.log(this);
-}
+    // this 指向
+    function fn(){
+        console.log(this);
+    }
 
-fn() == window.fn() == window;
+    fn() == window.fn() == window;
 
-let obj = {
-    fn:function(){
+    let obj = {
+        fn:function(){
+            console.log(this)
+        }
+    }
+    obj.fn() == obj
+
+    // ele 被点击 this 是ele 
+    ele.addEventListener("click",function(){
         console.log(this)
+    })
+
+    // 面向对象
+    function Obje(){
+        console.log(this,'default') // Obje {}
+        this.showthis = function(){
+            console.log(this,'showthis') // Obje {}
+        }
     }
-}
-obj.fn() == obj
-
-
-// ele 被点击 this 是ele 
-ele.addEventListener("click",function(){
-    console.log(this)
-})
-
-// 面向对象
-function Obje(){
-    console.log(this,'default') // Obje {}
-    this.showthis = function(){
-        console.log(this,'showthis') // Obje {}
+    Obje.prototype.showprotothis = function(){
+        console.log(this,'showprotothis') // Obje {}
     }
-}
-Obje.prototype.showprotothis = function(){
-    console.log(this,'showprotothis') // Obje {}
-}
-let sobj = new Obje();
+    let sobj = new Obje();
 
-// call
-function testCall(){
-    console.log(this)  // Obje {}
-}
-testCall.call(Obje)
+    // call
+    function testCall(){
+        console.log(this)  // Obje {}
+    }
+    testCall.call(Obje)
 
-```
+    ```
