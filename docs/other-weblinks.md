@@ -5,6 +5,9 @@ title: 工作学习资源
 ## 工具网站
 
 -   [uTools](https://www.u.tools) [^①]
+-   [git GUI 工具](https://www.sourcetreeapp.com/)
+-   [charles 抓包](https://www.charlesproxy.com/) 监听计算机所有与互联网的请求链接
+-   [Mongodb MySql 等多数据库管理工具](http://www.navicat.com.cn/)
 
 [^①]: 包含内网穿透、学习文档....
 
@@ -73,6 +76,13 @@ title: 工作学习资源
     -   将代码转换成被人和自己非常难看懂的代码，不影响运行
 
 ---
+
+### css 库
+-   [css layout](https://csslayout.io/ribbon/)  常用布局代码生成
+-   [pure css](https://purecss.io/base/) css响应式插件
+-   [动画下载](https://loading.io/spinner/)  
+-   [grid 学习工具](https://griddy.io/)
+-   [grid 学习工具 2](https://cssgrid-generator.netlify.app/)
 ## 可s用素材
 
 ### 图库

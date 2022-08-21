@@ -1726,6 +1726,20 @@ let digitUppercase = (n) => {
 console.log(digitUppercase(86534.63));
 ```
 
+### 小技巧
+
+-   必传参数 ，把函数必传那个参数的默认值 设置成一个函数，函数的作用是抛出一个异常
+-   数字千分位格式化
+```javascript
+let num = 123456.78901;
+let formNum = num.toLocaleString("en-US",{
+    minimumFractionDigits:5  // 小数点后取五位
+});
+console.log(formNum)
+
+```
+
+
 ## 请求与响应
 
 ### 响应参数
