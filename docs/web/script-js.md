@@ -381,20 +381,31 @@ title: JavaScript 基础
     ele.removeEventListenet("event name","函数名称",bool) // 清除事件，匿名函数无法被清除
     // DOMLevel 3 一样的只是加了很多很多事件
 
+    // 创建自定义事件（新）
+    const event = new Event('build');
+    // 添加 e 的属性
+    const event = new CustomEvent('build', { detail: elem.dataset.time });
+    // 监听它
+    elem.addEventListener('build', (e) => { /* … */ }, false);
+    // 触发它
+    elem.dispatchEvent(event);
+
     ```
     -   事件对象
     ```javascript
     /**
      * 监听函数回调的第一个参数 e event ...
      * 包含与事件相关信息的对象
-     * 常用属性 e.
+     * 常用属性 e. (不同事件 e的属性不一样)
      *      type：当前事件类型
-     *      clientX/clientY：获取光标相对于浏览器可见窗口左上角的位置（显示位置不包括状态栏等）      
-     *      pageX/pageY：获取光标相对于document文档左上角的位置(包括页面滚动的距离)      
-     *      offsetX/offsetY：获取光标相对于当前点击的DOM元素左上角的位置      
-     *      screenX/screenY：      
-     *      movementX/movementY：      
-     *      layerX/layerY：
+     *      clientX/clientY：点击位置相对于浏览器可见窗口左上角的位置（显示位置不包括状态栏等）      
+     *      pageX/pageY：点击位置相对于document文档左上角的位置(包括页面滚动的距离)      
+     *      offsetX/offsetY：点击位置相对于当前点击的DOM元素左上角的位置      
+     *      screenX/screenY：点击位置相对于设备屏幕的位置      
+     *      layerX/layerY：点击位置，冒泡方向，有position定位元素，定位元素的 offsetX/offsetY 值,否则 == pageX/pageY
+     *      movementX/movementY：鼠标移动的时候，这次相对上次移动的距离（移动慢基本是 0 1 -1 -2）
+     *      tiltX/tiltY：指针（触控笔）的 XZ 平面与屏幕之间的角度,正值 向用户倾斜，不支持位0      
+     *
      *      key/code：获取检测操作的按键的值(以前的keyCode ascii码 废弃中)      
      *      
      *      
