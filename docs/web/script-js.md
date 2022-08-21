@@ -279,7 +279,7 @@ title: JavaScript 基础
 ### DOM
 > dom 文档对象模型，操作网页内容，实现特效和交互
 
--   DOM 数对象(浏览器根据html标签生成的JS对象)
+-   DOM 树对象(浏览器根据html标签生成的JS对象)
     -   DOM 树对象包含所有标签
     -   修改某个对象属性会映射到所有标签上
     ```javascript
@@ -294,9 +294,8 @@ title: JavaScript 基础
     div.innerText = 'xxx'; // 不识别标签
     div.title='xxx'; // 修改属性
     div.style.background="#f0f"; //修改样式
-    div.style.backgroundColor="#f0f"; // 驼峰换横杆 
-
-    // left and offsetLeft ？？差别
+    div.style.backgroundColor="#f0f"; // 驼峰换横杆
+    // div.style.width 这种只能操作行内的样式 
 
     div.className='addClass'; //动态添加类 覆盖原有类名
     div.className+=" newclassName"; // 不会被覆盖
@@ -305,6 +304,27 @@ title: JavaScript 基础
     div.classList.add("xxx"); // 添加
     div.classList.remove("xxx"); // 删除
     div.classList.toggle("xxx"); // 切换
+
+    // ========================================元素大小和位置 (三大家族 scroll offset client)
+    // scroll
+    div.scrollWidth // 返回div内容的宽高(内部超过自己元素,或文本的宽高，div overflow:auto; 后拉动滚动条后可以看到的宽高)
+    div.scrollHeight 
+    div.scrollTop  // 向上滚动了的，看不见的大小，默认0，可赋值修改
+    div.scrollLeft // 向右   最大的scrollLeft值 + 可见有内容的宽度 = div.scrollWidth
+    document.documentElement.scrollTop //整个文档滚动了的距离
+
+    // offset
+    div.offsetWidth  // 元素自己的宽高(包括 padding border 和 滚动条)
+    div.offsetHeight 
+    div.offsetTop // 获取自己上面，距离最近一个有定位父级的高度， 都没有就以浏览器左上角为准
+    div.offsetLeft
+    // 当document.xxx.scrollTop == 某个元素的 offsetTop 时，就是这个元素到顶的时候
+
+    // client
+    div.clientWidth // 获取元素可见部分宽高(只包括 padding)
+    div.clientHeight
+    div.clientTop  // 返回的是元素上左边框的厚度（border）,无边框为0
+    div.clientLeft
 
     // 表单操作
     let btn = document.querySelector("button");
@@ -410,6 +430,20 @@ title: JavaScript 基础
      *
      */
     ```
+    -   常用事件
+    ```javascript
+    // 滚动事件 scroll
+    window 或 ele.addEventListener("scroll",(e)=>{
+        
+    })
+
+    // load 和 DOMContentLoaded (document 的 dom被解析后就直接触发 无需等待样式表、图片等加载完成)
+    // pageshow 事件在每次加载页面时触发，即 onload 事件在页面从浏览器缓存中读取时不触发。 
+    // resize 当窗口发生变化时触发
+    // contextmenu 右键触发
+    // hashchange 该事件在当前 URL 的锚部分发生修改时触发
+    // pagehide 该事件在用户离开当前网页跳转到另外一个页面时触发
+    ```
 -   环境对象 this
     -   非箭头函数 谁调用this指向谁
 
@@ -453,3 +487,50 @@ title: JavaScript 基础
     testCall.call(Obje)
 
     ```
+### BOM 
+> 浏览器对象模型 ,最顶级 window 对象
+
+window 常见方法
+```javascript
+// window 的方法 都可以省略 window.
+// setInterval alter addEventListener requestAnimationFrame 全局函数...
+
+// 定时器
+window.setInterval
+window.clearInterval
+window.setTimeout
+window.clearTimeout
+window.requestAnimationFrame // 也是一个时间内调用此次回调函数，只是它的时间是系统决定的，不是用户决定的
+
+/**
+ * 本地存储
+ * 将数据存储在浏览器中，刷新或关闭浏览器都可以保留数据
+ *
+ * localStorage 5M 左右
+ *      生命周期永久存在，除非手动删除，或 或特殊浏览器(chromeium 就没办法保留)
+ *      相同浏览器 相同站点多页面共享
+ *      键值对方式储存
+ */
+
+ localStorage.setItem(key,value) // 添加普通数据
+ localStorage.setItem(key,JSON.stringify(Obj)) // 添加对象数据
+ localStorage.getItem(key) // 获取普通数据
+ JSON.parse(localStorage.setItem(key)) // 获取对象数据
+ localStorage.removeItem(key) // 删除
+
+
+// sessionStorage  临时储存，关闭浏览器数据消失
+```
+
+window 主要包含模块
+-   document (网页文档)
+    -   JS 执行机制
+-   location 对象
+    -   URL相关的操作
+    -   location.reload(true) 刷新页面，true == Ctrl + F5
+-   navigator 对象
+    -   浏览器相关信息
+-   history 对象
+    -   浏览器的前进/后退/上个页面 forward() 、back() 、go(-1)
+-   screen
+

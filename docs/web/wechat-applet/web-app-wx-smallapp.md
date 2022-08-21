@@ -5,6 +5,9 @@ title: 微信小程序
 
 [官方文档](https://developers.weixin.qq.com/miniprogram/dev/reference/configuration/app.html)
 ## 环境
+1、开发环境：一般网页运行浏览器中，小程序运行微信环境中
+2、API差异：小程序无法调用浏览器的DOM BOM API，但是有微信环境提供的各种API
+3、开发模式：账号 + 微信开发者工具 （开发设置获取AppID，创建项目需要用到）
 ### 关键字
 + openId:openid相当重要，它是用户的唯一标识id
 ## 目录结构
@@ -13,22 +16,55 @@ title: 微信小程序
 
 相关文件
 + index.js  (某页面js逻辑)
+    -   每个页面自己的 js
 + index.json  (某页面数据)
 + index.wxml  (某页面html)
+    -   与 html 的差异
+    -   标签名称不同、属性节点不同
+    -   提供类似vue的模板语法   
 + index.wxss  (某页面css)
+    -   rpx 适配
+    -   仅支持部分css属性，常用的基本都支持
+    -   app.wxss 全局样式表 页面中 自己的私有样式表
 
 ### util 文件夹
 > 存放一些工具方法
 
 ### 文件
 + app.js  (全局js逻辑)
+    -   app.js 项目入口文件
 + app.json  (全局配置)
+    -   "style":"v2" 用v2版本样式
 + app.wxss  (全局css)
 + project.config.json (一些配置项目配置信息)
+    -   setting (详情->本地设置的操作记录)
+    -   appid (网上的项目需要把这个appid换成自己的)
++ project.private.config.json，覆盖 project.config.json 相同属性的值
 + sitemap.json (设置爬虫文件)
 
 https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
 
+### 小程序宿主环境 微信
+-   通信模型支持
+    -   逻辑层 通过 微信客户端与选如此通信
+    -   逻辑层 通过 微信客户端与第三方服务通信 获取数据
+-   运行机制支持
+    - 程序 下载代码包 -> 解析 app.json 全局配置文件 -> 执行app.json 小程序入口文件 -> 渲染首页 启动完成
+    - 页面 加载解析页面的 .json 配置文件 -> 加载 wxml wxss 渲染层文件 -> 执行 .js 文件
+-   组件支持
+    -   视图容器
+    ```html
+    view  <!--类似div-->
+    scroll-view + scroll-y属性 <!--可滚动的视图区域-->
+    ```  
+-   API支持
+    -   事件监听API
+        -   以 on 开头 监听事件触发。wx. == window.
+    -   同步API
+        -   以 Sync 结尾的
+        -   结果可以直接获取，异常也会直接排除 
+    -   异步API
+        -   通过回调接收结果
 ### 第三方包
 安装完成之后还需要 选择构建，构建npm 生成 miniprogram_npm 才能正常使用
 
@@ -66,3 +102,7 @@ https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
 位置:云服务 -> 更多 -> 内容管理 -> 开通 -> 得到管理系统网址 
 使用:打开网址 -> 创建项目 -> 进入找到内容模型(模型与数据库表对应) -> 添加模板与记录 -> 开发者工具数据库直接刷新
 
+
+### 生物认证
+> 生物认证是指通过**指纹**、**手型**、**脸型**、**声音**、**虹膜和视网腊扫描**等物理特征识别人的一种认证方式
+> 微信目前仅支持指纹和人脸识别

@@ -311,14 +311,19 @@ new Vue({
     - `ES6的Modules`
         - `script标签` 添加 `type="modules"`，设置为模块化文件,本地文件不支持
         ```javascript
-        //按需导入,与到处的名称对应
+        // 默认导入
+        import model from "./xxx.js"
+        // 按需导入,与到处的名称对应
         import {num,str,funName} from "./xxxx.js"
-        //全部导入
+        // 全部导入
         import * as All from "./xxxx.js" 
-        //起别名
+        // 起别名
         import {num as newnum,str as newstr} from "./xxxx.js"
-        //先导入直接导出（方便所有文件的暴露统一导出）
+        // 先导入直接导出（方便所有文件的暴露统一导出）
         export {xxx,xxx,xxx} from "./xxxx.js"
+
+        // 同时导入默认的和其他的导出
+        import defModel, { a, b } from "./xxx.js"
         
         //导出 （导出的都是变量的引用）
         export let str = 'str';
@@ -353,7 +358,8 @@ new Vue({
 
              
     - `AMD`
-        -   require
+        -   define 定义 require 导入
+        -   require.js 引入后项目就可以支持AMD模块化了
     - `CMD`
         -   seajs 实现
 

@@ -4,6 +4,25 @@ title: uni-app
 > uni-app基于vue和微信小程序, 一套代码可以发布到ios、Android、h5、以及各种小程序平台
 
 ## 开启uniapp
+原生开发方式
+ios  ->  采用ObjectC、Swift语言
+安卓 ->  Java、Kotlin语言
+如果企业主要业务在app上，需要更好的用户体验，很多调用硬件api功能，且不惜成本与时间，就可以用原生来开发
+如果需求只是查找或者是浏览比较基础的功能，就可以用web paa 混合开发
+
+对比uniapp优点
+1、官方指定方案更受认可
+2、性能以及用户体验更好
+3、可以直接调用硬件能力
+缺点
+1、开发成本高
+2、开发周期长
+3、ios与安卓需要分开开发与维护
+
+常见跨端开发方式
+Vue技术栈（Uniapp、Weex）
+React技术栈（ReactNative、Taro）
+Flutter 这个需要Dart语言，不是通过js开发的
 ### 环境搭建
 > 安装编辑器HbuilderX [官网](https://uniapp.dcloud.io/)
 
@@ -384,3 +403,23 @@ uni.redirectTo({
 ```
 
 ## 发行
+
+
+## HBuilderX cli
+命令行操作开发环境,安装好 HBuilderX 把bin路径配置到环境变量中
+
+```shell
+# 打开编辑器
+cli.exe open
+
+# 登录
+cli.exe user login --username 869664233@qq.com  --password lzxxxxxxx
+
+# 退出
+cli user logout
+
+# 项目列表
+cli project list
+
+
+```
