@@ -31,6 +31,25 @@ PC端安装证书
 
 手机 https unkonwn
     Android7以上的系统无法对第三方https的App进行抓包了，因为7.0以上版本设置了安全策略，不再信任用户自己添加的认证证书，也就无法完美的进行抓包。
+
+
+安卓7.0以上处理证书问题
+    window http://slproweb.com/products/Win32OpenSSL.html 下载 openssl , 安卓 设置环境变量，重新打开cmd
+    charles 的 Help -> SSL Proxying -> Save Charles Root ... 导出证书(一定要 xxx/xxx.pem, 带上名字和单位)
+    `openssl x509 -subject_hash_old -in xxx.pem` 生成的数据上面有个8位hash值，将xxx.pem 重命名位 8位hash.0
+
+电脑安装 adb 
+    https://dl.google.com/android/repository/platform-tools-latest-windows.zip
+    解压  配置环境变量
+
+    手机连接USB
+    adb device 测试
+    adb remount 测试
+
+    adb -d 表示当前唯一连接USB的设备
+    adb push xxxxx/8位hash.0 /system/etc/security/cacerts
+
+    adb shell 可以进入shell模式
 ### 使用
 `重发`和`定时重发`
     定位到某个接口右键 `Repeat` 和 `Repeat Advanced`
