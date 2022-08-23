@@ -17,15 +17,46 @@ title: 微信小程序
 相关文件
 + index.js  (某页面js逻辑)
     -   每个页面自己的 js
+    -   
 + index.json  (某页面数据)
 + index.wxml  (某页面html)
     -   与 html 的差异
     -   标签名称不同、属性节点不同
     -   提供类似vue的模板语法   
+    -   wxml 采用 Mustause 语法 {{}}
+        -   绑定内容 : `{{xxx}}`、`{{num > 10 ? "大于十":"小于等于十"}}`、`{{num * 10}}`   绑定内容
+        -   绑定属性 : `src="{{xxx}}"` 
+            -   `hidden="{{bool}}"` 是否隐藏元素（hidden 与 wx:if  == 反 v-show 与 v-if）
+    -   判断语句 : `wx:if    wx:elif   wx:else`
+    -   列表渲染 : `wx:for="{{List}}"`
+        -  索引 {{index}}  每一项 {{item}}  
+        -  `wx:for-index="idx"` 重命名索引
+        -  `wx:for-item="itm"` 重命名每一项
+        -  `wx:key="id"`
+    -   绑定事件 : 
+        -   点击触发 `bindtap 或 bind:tap`
+        -   输入触发 `bindinput 或 bind:input`
+        -   状态改变 `bindchange 或 bind:change`
+        -   事件对象属性
+            -   target：指向触发事件的源头组件(类似 ul 事件委托的 li)
+            -   currentTarget：绑定事件的组件(类似 ul 事件委托的 ul)
+    -   事件传参
+        -   传递参数xxx，值为123 ：`data-xxx="{{123}}"`
+        -   获取 `event.currentTarget.dataset.xxx`
+        -   input bindinput 的最新值 `e.detail.value`
+    -   独特标签
+        -   block 包裹多个标签，渲染后不会该标签不存在
+    
 + index.wxss  (某页面css)
-    -   rpx 适配
-    -   仅支持部分css属性，常用的基本都支持
+    -   仅支持大部分css属性，常用的基本都支持，也有`自己的东西`
+        -   rpx 适配
+            -   将宽度分为 `750` 份，屏幕总宽度为 `750rpx`
+            -   换算px 
+        -   @import 样式导入
+            -   `@import "xxxx.wxss"`
     -   app.wxss 全局样式表 页面中 自己的私有样式表
+        -   局部权重(鼠标移入wxss类时显示权重 )大于等于全局时，就近原则，局部样式覆盖全局
+        -   
 
 ### util 文件夹
 > 存放一些工具方法
@@ -33,8 +64,11 @@ title: 微信小程序
 ### 文件
 + app.js  (全局js逻辑)
     -   app.js 项目入口文件
-+ app.json  (全局配置)
-    -   "style":"v2" 用v2版本样式
++ app.json  (全局配置文件)
+    -   `pages`:小程序所有页面路径存放
+    -   `windnow`:小程序全局窗口外观（默认标题栏，手机wifi栏，窗口背景等）
+    -   `tabBar`: 设置底部tabBar 菜单 
+    -   `"style":"v2"` 用v2版本样式
 + app.wxss  (全局css)
 + project.config.json (一些配置项目配置信息)
     -   setting (详情->本地设置的操作记录)
@@ -65,6 +99,17 @@ https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
         -   结果可以直接获取，异常也会直接排除 
     -   异步API
         -   通过回调接收结果
+
+### 发布流程
+`开发版本`用于程序自测，添加的测试人员都可以访问，修改完美在发布到`正式版本`
+开发者工具上传代码
+开发版本(可以设置成体验版本)  -> 审核中版本 -> 线上版本
+
+物料下载  - 设置 基本设置 可下载小程序二维码
+运营数据  - 统计 或 数据助手查看(扫描右上角手机数据)
+
+### 调试工具
+-   AppData  查看页面的所有数据
 ### 第三方包
 安装完成之后还需要 选择构建，构建npm 生成 miniprogram_npm 才能正常使用
 
