@@ -319,12 +319,14 @@ title: JavaScript 基础
     div.offsetTop // 获取自己上面，距离最近一个有定位父级的高度， 都没有就以浏览器左上角为准
     div.offsetLeft
     // 当document.xxx.scrollTop == 某个元素的 offsetTop 时，就是这个元素到顶的时候
+    // 与 window.outerWidth 类似
 
     // client
     div.clientWidth // 获取元素可见部分宽高(只包括 padding)
     div.clientHeight
     div.clientTop  // 返回的是元素上左边框的厚度（border）,无边框为0
     div.clientLeft
+    // 与 window.innerWidth 类似
 
     // 表单操作
     let btn = document.querySelector("button");
@@ -544,4 +546,24 @@ window 主要包含模块
 -   history 对象
     -   浏览器的前进/后退/上个页面 forward() 、back() 、go(-1)
 -   screen
+```javascript
+// 设备显示屏的宽高
+screen.width
+screen.height
+
+// 浏览器最大化后的宽高 与 距离上左的距离
+screen.availWidth
+screen.availHeight
+screen.availTop
+screen.availLeft
+
+screen.availHeight + screen.availTop == screen.height
+
+```
+-   其他 window 属性
+```javascript
+screenLeft // 窗口距离设备左边的距离
+screenTop // 窗口距离设备上边的距离
+
+```
 
