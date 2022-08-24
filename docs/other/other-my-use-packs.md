@@ -3,6 +3,7 @@ title: 常用第三方包
 ---
 
 ### web前端
+-   [视差效果动画插件](https://github.com/wagerfield/parallax)
 #### UI框架
 -   element-ui
 -   iview
