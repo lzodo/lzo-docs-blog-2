@@ -2,6 +2,8 @@
 title: nuxt
 ---
 
+[配套项目](https://github.com/liaozhongxun/lzo-nuxt-v2.0.git)
+
 优点
     1、多页面
     2、ssr seo 优化 每页有自己的tdk
@@ -85,6 +87,39 @@ SEO优化方案
 
 #### 生命周期
 服务端生命周期
-服务端与客户端的生命周期
-客户端的生命周期
+1. `nuxtServerInit` 在 store action 中
+    -   可初始化数据，比如获取token
+2. `middleware`, 全局从 `nuxt.config.js` 指定，局部重页面组件中指定 要执行的内容
+    -   可验证 token ，类似vue的路由的守卫
+3. `validate({params,query})`
+    -   校验参数是否正确,不正确 直接重定向到 404 页面
+4. `asyncData({store,params})`, 仅仅页面组件中用(page 下)，页面加载之前调用
+    -   常用于发送请求操作,获取数据 
+5. `fetch({app,store,params})`，页面加载前调用
+    -   asyncData类似，在`组件`和`页面`都能用(渲染页面前会填充页面状态树 store 数据)
 
+服务端与客户端 共有的 生命周期
+1. `beforeCreate` 和 `created`
+
+客户端的生命周期
+1. `beforeMount` 和 `mounted`
+2. `beforeUpdate` 和 `updated`
+3. `beforeDestroy` 和 `destroyed`
+
+
+#### 路由
+1、page 目录下默认生成路由，路由路径，根据目录结构生成
+2、子路由，如果page有`index.vue`,那么新建一个`同名的文件夹`，里面的页面，就是index的子路由
+3、动态路由，建一个 下划线开头的页面如 `_id.vue`
+4、重构还想用原来router.js 的话，需要通过插件 `@nuxtjs/router` 处理
+    -   npm install @nuxtjs/router -S
+    -   nuxt.config.js ,modules:["@nuxtjs/router"] 配置
+    -   把自己的 router.js 的懒加载干掉，再文件放到根目录 
+    -   修改一下 export 。。。  
+
+特点
+1、无需懒加载
+
+```javascript
+<nuxt-link to="/login">跳转登录页面</nuxt-link>
+```
