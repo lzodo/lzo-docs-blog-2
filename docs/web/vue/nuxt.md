@@ -86,7 +86,7 @@ SEO优化方案
 
 
 #### 生命周期
-服务端生命周期
+服务端生命周期(输出终端打印)
 1. `nuxtServerInit` 在 store action 中
     -   可初始化数据，比如获取token
 2. `middleware`, 全局从 `nuxt.config.js` 指定，局部重页面组件中指定 要执行的内容
@@ -98,10 +98,10 @@ SEO优化方案
 5. `fetch({app,store,params})`，页面加载前调用
     -   asyncData类似，在`组件`和`页面`都能用(渲染页面前会填充页面状态树 store 数据)
 
-服务端与客户端 共有的 生命周期
-1. `beforeCreate` 和 `created`
+服务端与客户端 共有的 生命周期（控制台 Nuxt SSR 中有，Nuxt SSR 外也有打印）
+1. `beforeCreate` 和 `created` 
 
-客户端的生命周期
+客户端的生命周期（输出仅控制台 Nuxt SSR 外才打印的）
 1. `beforeMount` 和 `mounted`
 2. `beforeUpdate` 和 `updated`
 3. `beforeDestroy` 和 `destroyed`
