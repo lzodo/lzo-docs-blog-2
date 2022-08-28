@@ -55,3 +55,7 @@ export default router
 ### 使用
 import router from './router'
 挂载 router 到将 Vue 实例中
+
+### 常用对象
+router 路由对象，可以进行跳转，等方法
+route  单个页面路路由，有路径，名称的信息

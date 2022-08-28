@@ -5,6 +5,7 @@ title: 样式问题
 #### 初始化
 
 normalize.css
+[reser.css](https://meyerweb.com/eric/tools/css/reset/index.html)
 
 #### 只在火狐生效
 ```css

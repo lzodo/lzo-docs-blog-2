@@ -295,6 +295,8 @@ linux其他终端 `DroidSansMono Nerd Font Blod`效果步长
         -   `del path1 path2`:删除
         -   `attrib`:查看文件属性（R(只读)、A(普通文件)、S(系统文件，默认不显示)、H(隐藏文件)、。。。）
             -   `attrib +h +s * /s /d`:隐藏当前文件夹下所有文件（命令可以看到）
+                -   attrib +h +s ./video /s /d
+                -   attrib +h -s ./video /s /d
             -   `attrib +h * /s /d`:相当于系统的隐藏文件，可以同感查看隐藏文件显示出来
         -   `findstr`:类似 grep
         -   `echo xxx>filename`:创建文件

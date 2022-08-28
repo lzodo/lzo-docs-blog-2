@@ -113,8 +113,7 @@ json-server --watch db.json
 ```
 
 ### vuex-persistedstate
-
-> vuex 持久化
+> vuex 持久化，`nuxt`
 
 ```shell
 import createPersistedState from "vuex-persistedstate"

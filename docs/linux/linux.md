@@ -560,7 +560,7 @@ title: linux
                 -   autofs 守护进程他会在后台自动检测用户要访问却还未挂载的文件系统,自动检测该文件系统是否存在，如果存在则自动挂载，一段时间没有使用会自动卸载
                 -   缺点：不适合高并发场景
                 -   `/etc/auto.master` 里 `/misc /etc/auto.misc` 下 添加自动挂载配置文件 `/- /etc/auto.home`
-                -   `/etc/auto.home` => 本地文件夹位置/share -rw,soft,intr 远程IP:/xxxx/xx 
+                -   `/etc/auto.home` => 本地文件夹位置/share -rw,soft,intr 远程IP:/xxxx/xx (或移动硬盘类型 /dev/sdb1)
                 -   检测本地关注情况，systemctl start autofs 启动服务，访问/share 此时已经自动挂载好了
             -   `df`:查看所以以及挂载设备
                 -   `-h`

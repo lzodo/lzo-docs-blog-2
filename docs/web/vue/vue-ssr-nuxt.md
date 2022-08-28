@@ -86,7 +86,7 @@ SEO优化方案
 
 
 #### 生命周期
-服务端生命周期(输出终端打印)
+服务端生命周期(输出终端打印,里面不能用浏览器相关的对象 如localStorage)
 1. `nuxtServerInit` 在 store action 中
     -   可初始化数据，比如获取token
 2. `middleware`, 全局从 `nuxt.config.js` 指定，局部重页面组件中指定 要执行的内容
@@ -98,13 +98,26 @@ SEO优化方案
 5. `fetch({app,store,params})`，页面加载前调用
     -   asyncData类似，在`组件`和`页面`都能用(渲染页面前会填充页面状态树 store 数据)
 
-服务端与客户端 共有的 生命周期（控制台 Nuxt SSR 中有，Nuxt SSR 外也有打印）
+服务端与客户端 共有的 生命周期（控制台 Nuxt SSR 中有，Nuxt SSR 外也有打印，也不能用浏览器相关对象）
 1. `beforeCreate` 和 `created` 
 
 客户端的生命周期（输出仅控制台 Nuxt SSR 外才打印的）
 1. `beforeMount` 和 `mounted`
 2. `beforeUpdate` 和 `updated`
 3. `beforeDestroy` 和 `destroyed`
+
+持久化存储，使`服务端`和`客服共享`的生命周期可以访问持久数据
+1、安装模块 `npm install cookie-universal-nuxt -S`
+2、nuxt.config.js -> modules 添加 `cookie-universal-nuxt`
+3、使用
+```javascript
+// 登入成功的时候,下次不用登录，也可以拿到这个数据，放到store.state中，服务端生命周期就可以通过sotore拿到这个数据
+// 代替localStorage.set("token","xxxxx")
+this.$cookies.set("token",'xxxxx')
+// 获取
+this.$cookies.get("token")
+
+```
 
 
 #### 路由
@@ -116,6 +129,15 @@ SEO优化方案
     -   nuxt.config.js ,modules:["@nuxtjs/router"] 配置
     -   把自己的 router.js 的懒加载干掉，再文件放到根目录 
     -   修改一下 export 。。。  
+    -   里面的`导航守卫`也属于服务端的生命周期,里面操作在终端打印
+
+导航守卫
+1. 自己定义的路由表，用法和vue一样
+2. nuxt 的导航守卫
+    -   中间件 middleware
+        -   配置文件 添加 router 配置，根文件夹新建 middleware 文件夹，里面存放做的事情
+        -   配置文件 设置全局，页面中设置 局部
+    -   插件 plugin
 
 特点
 1、无需懒加载
@@ -123,3 +145,38 @@ SEO优化方案
 ```javascript
 <nuxt-link to="/login">跳转登录页面</nuxt-link>
 ```
+
+#### nuxt.config.js
+> 里面的配置都是全局的
+
+1. head
+    -   ssr 每个页面如果没设置`自己独有的 tdk `等信息，就会用全局的
+    -   全局hander是一个对象信息，每个页面中的 是一个 head 函数,return出 里面的信息
+    -   局部 与 全局相同的属性可以不写,一般 标题 描述 关键字就可以了
+    ```javascript
+    export default {
+        head(){
+            return {
+                title: '页面独有 head 属性设置',
+            }
+        },
+    }
+    ```
+
+2. css
+    -    css模块添加 "~/static/xxx/style.css" 配置全局css
+    -    nuxt 中 `页面样式`如果`不写 scoped` ,页面间的样式`不会相互影响`，但是这个样式却会在`组件`中生效
+    -    scss 需要安装 `npm install sass sass-loader@10.1.1 -D`,只要安装上去就可以了，最新版本好像不能用 
+
+
+3. components
+    -   设置位 true 后，页面中使用组件就可以不用注册，就能直接使用了
+
+
+4. plugins
+    -   呈现页面之前要运行的插件
+    -   使用场景 `axios二次封装`、`第三方插件`、`ElementUi` ...
+        -   `~/plugin/xxxelementui.js`
+        -   css部分需要映入 `插件相关的css`
+        -   JS 中 再 import Vue 、import Element ， Vue.use(Element) 这些操作
+        -   

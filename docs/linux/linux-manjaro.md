@@ -179,6 +179,18 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
     -   //192.168.12.40/nmon /mnt/share cifs defaults,username=名字,password=你的密码
     -   //192.168.3.24/共享文件 /mnt/window cifs defaults,username=!·ujcliaozx,password=ujcliaozx123
 
+### 外接设备
+接入第二块移动硬盘后，系统多出 `/dev/sdb`
+先界面双击访问多出来的硬盘后
+`df -h` 可以看到插入usb后自动挂载到 `/run/media/UserName/DiskName`
+
+如果要手动挂载的话
+`mount -t ntfs /dev/sdb1 /mydata/data`
+
+wsl 挂载 ，E 替换成外接设备的盘符
+`sudo mount -t drvfs E: /mnt/WD-Elements`
+
+
 ### 启动项
 
 -   将 desktop 放到~/.config/autostart 、
@@ -593,7 +605,10 @@ map 或 cmap
 ### 版本更新报错
 
 1.首先更新一下密钥，如果没有安装 archlinux-keyring,请及时安装
-sudo pacman-key --refresh-keys 2.重新加载相应的签名密钥
+sudo pacman -Syy && sudo pacman -S archlinuxcn-keyring
+
+sudo pacman-key --refresh-keys 
+2.重新加载相应的签名密钥
 sudo pacman-key --init
 sudo pacman-key --populate
 3。清除 pacman 的缓冲文件
@@ -646,6 +661,7 @@ sudo pacman -Syu || sudo pacman -Syudd(-dd 跳过全部检测)\_
 -   `curl cht.sh`:疑问查询  (curl cht.sh/js/class 指令/语言命名空间/功能)
 -   `curl "wttr.in/福州?lang=zh"`:天气预报
 -   `aria2`:下载工具
+-   `FreeFileSync`: [数据备份软件](https://freefilesync.com/)
 
 ### 网上存储
 
