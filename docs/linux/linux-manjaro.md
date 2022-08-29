@@ -184,7 +184,7 @@ sudo pacman -Sy #安装 archlinuxcn、antergos、arch4edu
 先界面双击访问多出来的硬盘后
 `df -h` 可以看到插入usb后自动挂载到 `/run/media/UserName/DiskName`
 
-如果要手动挂载的话
+如果要手动挂载的话xxxx
 `mount -t ntfs /dev/sdb1 /mydata/data`
 
 wsl 挂载 ，E 替换成外接设备的盘符
