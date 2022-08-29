@@ -564,7 +564,7 @@ title: linux
                 -   检测本地关注情况，systemctl start autofs 启动服务，访问/share 此时已经自动挂载好了
             -   `df`:查看所以以及挂载设备
                 -   `-h`
-                -   `-T`
+                -   `-T`: 查看文件系统格式
             -   `umount 挂载点`:卸载
                 -   前提 设备不能处于 busy 状态
             -   Linux 至少`/`、`/boot(启动引导)`，swap 交换分区三个分区

@@ -93,10 +93,16 @@ SEO优化方案
     -   可验证 token ，类似vue的路由的守卫
 3. `validate({params,query})`
     -   校验参数是否正确,不正确 直接重定向到 404 页面
-4. `asyncData({store,params})`, 仅仅页面组件中用(page 下)，页面加载之前调用
-    -   常用于发送请求操作,获取数据 
-5. `fetch({app,store,params})`，页面加载前调用
+4. `asyncData({$axios,store,params})`, 仅仅页面组件中用(page 下)，页面加载之前调用
+    -   常用于发送请求操作,获取数据     
+    -   获取数据 `this.List = data` 变成 `return { List: data }`
+5. `fetch({$axios,app,store,params})`，页面加载前调用
     -   asyncData类似，在`组件`和`页面`都能用(渲染页面前会填充页面状态树 store 数据)
+    -   建议组件中才使用fetch
+        -   组件中没有 {$axios,app,store,params} 这些上下文对象，用 this.$axios 代替
+
+    -   this.List = data;this.存在的，但是拿不到数据，this.data.List = data;可能可以拿到？？ 
+    -   或者fetch页面中是拿来操作store的??
 
 服务端与客户端 共有的 生命周期（控制台 Nuxt SSR 中有，Nuxt SSR 外也有打印，也不能用浏览器相关对象）
 1. `beforeCreate` 和 `created` 
@@ -164,7 +170,8 @@ this.$cookies.get("token")
     ```
 
 2. css
-    -    css模块添加 "~/static/xxx/style.css" 配置全局css
+    -    全局引入：css模块添加 "~/static/xxx/style.css"
+    -    局部引入：@import "~/static/xxx/style.css";
     -    nuxt 中 `页面样式`如果`不写 scoped` ,页面间的样式`不会相互影响`，但是这个样式却会在`组件`中生效
     -    scss 需要安装 `npm install sass sass-loader@10.1.1 -D`,只要安装上去就可以了，最新版本好像不能用 
 
@@ -179,4 +186,36 @@ this.$cookies.get("token")
         -   `~/plugin/xxxelementui.js`
         -   css部分需要映入 `插件相关的css`
         -   JS 中 再 import Vue 、import Element ， Vue.use(Element) 这些操作
-        -   
+
+5. modules
+    -    `npm install @nuxtjs/axios -S` 创建项目如果有选中的话就不用安装了
+    -    modules 中添加 '@nuxtjs/axios' 配置nuxt内置的axios
+    -    接口注意事项：SSR是为了seo优化，所有请求接口一定先在服务端口拿到数据，再打开页面，所以一般都再服务端周期调用
+
+6. axios
+    -   配置代理
+    -   modules 安装并添加 `@nuxtjs/axios`,`@nuxtjs/proxy`
+    ```javascript   
+    {
+        modules: [
+             `@nuxtjs/axios`,
+             `@nuxtjs/proxy`
+        ],
+        axios: {
+            // 是否可跨域
+            proxy: true,
+            // 重发次数
+            retry: {retries:5},
+            // 不同环境下基本地址
+            baseURL: '/', // 开发环境 xxx 否则 xxx
+        },
+        proxy: {
+            '/api':{
+                target: 'http://localxxxxxx',
+                pathRewrite:{
+                    '^/api':''
+                }
+            }
+        }
+    }
+    ```
