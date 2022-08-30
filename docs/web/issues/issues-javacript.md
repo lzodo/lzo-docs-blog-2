@@ -1668,6 +1668,41 @@ const scrollToTop = () => {
 scrollToTop();
 ```
 
+### 点击复制
+```javascript
+// 1、 input 复制
+this.inputvmodel = 'xxxxxx';
+this.$nextTick(()=>{
+    this.$refs.inputref.select();
+    document.execCommand('copy'); //只能复制显示的input
+})
+
+
+/** 
+ * 2、 直接复制元素内容
+ *  getSelection 表示用户选择的文本范围或光标的当前位置
+ *  selectAllChildren 选中 操作元素所有子节点的innerHTML
+ *  document.execCommand 即将废弃 用 clipboard 代替
+ *
+ */
+if(navigator.clipboard.writeText){
+    navigator.clipboard.writeText(e.target.innerText); // 复制，写入剪切板
+    console.log('clipboard')
+}else{
+    window.getSelection().selectAllChildren(e.target);
+    document.execCommand("copy");
+    //console.log(window.getSelection().toString()); // 获取选择内容
+    window.getSelection().removeAllRanges(); //清除选择的内容
+    console.log('execCommand')
+}
+this.$message.success({showClose: true, message: '复制成功', duration: 1500});
+
+// 粘贴
+navigator.clipboard
+    .readText()
+    .then((clipText) => (e.target.innerText = clipText));
+```
+
 ### 数字转大写
 
 ```javascript

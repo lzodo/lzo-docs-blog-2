@@ -290,7 +290,8 @@ title: JavaScript 基础
 
     // 修改内容
     document.write("xxx"); // 直接追加到文档
-    div.innerHTML = "xxx"; // 识别标签
+    div.innerHTML = "xxx"; // 设置元素内容
+    div.outerHTML = ""; // 包括操作元素与元素内容
     div.innerText = 'xxx'; // 不识别标签
     div.title='xxx'; // 修改属性
     div.style.background="#f0f"; //修改样式
@@ -538,11 +539,15 @@ window.requestAnimationFrame // 也是一个时间内调用此次回调函数，
 window 主要包含模块
 -   document (网页文档)
     -   JS 执行机制
+    -   `document.execCommand('copy')` 复制文档中选中的内容
+    -   `document.activeElement` 获取操作页面上聚焦的元素，默认body
+    -   `document.designMode=on` 设置文档可编辑 ，设置为设计模式，所有功能失效
 -   location 对象
     -   URL相关的操作
     -   location.reload(true) 刷新页面，true == Ctrl + F5
 -   navigator 对象
     -   浏览器相关信息
+    -   navigator.clipboard 替代即将废弃的 `document.execCommand`
 -   history 对象
     -   浏览器的前进/后退/上个页面 forward() 、back() 、go(-1)
 -   screen
@@ -562,8 +567,8 @@ screen.availHeight + screen.availTop == screen.height
 ```
 -   其他 window 属性
 ```javascript
-screenLeft // 窗口距离设备左边的距离
-screenTop // 窗口距离设备上边的距离
+screenLeft/screenX // 窗口距离设备左边的距离
+screenTop/screenY // 窗口距离设备上边的距离
 
 ```
 
