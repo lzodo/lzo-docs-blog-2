@@ -278,9 +278,20 @@ http请求 无状态 服务器、客户端相互不认识
 - token应用场景:无状态请求、保存用户登录状态、第三方登录...  
 
 两种加密方式:
-非对称加密:RS256...
+非对称加密:RS256、RSA算法 ...
     通过私钥产生token、通过公钥解密token
     指加密和解密使用不同密钥的加密算法,也称为公私钥加密。
+    加密过程: 原文 + 公钥 = 密文
+    解密过程: 密文 + 私钥 = 原文
+
+    相对安全复杂
+
+对称加密:
+    加密解密预定一个密钥，加密和解密使用相同同密钥的加密算法
+    加密过程: 原文 + 密钥 = 密文
+    解密过程: 密文 - 密钥 = 原文
+
+    相对简单快速
 
 [官网]([ https://www.openssl.org/source/](https://www.openssl.org/source/))    [下载地址](http://slproweb.com/products/Win32OpenSSL.html)
 
@@ -314,7 +325,7 @@ function creatToken(playload) {
     //产生token
     playload.ctime = Date.now();
     playload.exp = 1000 * 60 * 30; //30分钟过期
-    // 签名 默认hs256加密方式
+    // 签名 默认HS256加密方式
     return jwt.sign(playload, scrict);
 }
 

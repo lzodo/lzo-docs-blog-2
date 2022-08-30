@@ -219,3 +219,43 @@ this.$cookies.get("token")
         }
     }
     ```
+
+7. loading
+    -   nuxt 默认每个页面加载都有一个黑条 `loading:false` 禁用，自己去axios配置
+    -   或更改样式
+    ```javascript
+    loading:{
+        color:red
+    }
+    ```
+    -   或指定loading 动画文件 `loading:'~/components/loading.vue'`
+    ```javascript
+    export default {
+        data(){
+            return {
+                loading: false,
+            }
+        },
+        methods:{
+            start(){ // 路由更新，浏览器地址发送变化时调用
+                this.loading = true;
+            },
+            finish(){ // 更新完毕，asyncData 调用完成，且页面完成加载时调用
+                this.loading = false
+            }
+            fial(){},
+            increase(num){ // 页面加载过程中调用，num 小于100
+
+            },
+        }
+    }
+    ```
+
+
+
+#### 项目上线
+1. `npm run build` 打包
+2. 打包好的 `.nuxt`,`static`,`nuxt.config.js`,`package.json`, 上传到服务器
+3. 服务器安装node环境，执行 `npm install`
+4. 在服务器上运行 `npm run start` 启动项目，创建 `localhost:3000` 服务
+5. 通过nginx将 `localhost:3000` 代理到需要用的域名 `www.xxxx.com` 中
