@@ -298,7 +298,7 @@ OpenSSL> rsa -in rsa_private_key.pem -pubout -out rsa_public_key.pem #(-in 私�
 
 
 插件  
-- jsonwebtoken
+-   [jsonwebtoken](https://www.npmjs.com/package/jsonwebtoken)
   
 ```javascript
 const jwt = require("jsonwebtoken");
@@ -335,6 +335,10 @@ module.exports = {
     creatToken,
     checkToken,
 };
+
+
+// token 解码
+var decoded = jwt.decode(token, {complete: true});
 
 ```
 
