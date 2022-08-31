@@ -70,6 +70,24 @@ title: mongodb
     - ['nosqlbooster'](https://nosqlbooster.com/downloads)
         - chmod a+x nosqlbooster4mongo*.AppImage
         - ./nosqlbooster4mongo*.AppImage
+5. centos 安装
+```shell
+# 配置源 vim /etc/yum.repos.d/mongodb-org-5.0.repo 
+[mongodb-org-5.0]
+name=MongoDB Repository
+baseurl=https://repo.mongodb.org/yum/redhat/$releasever/mongodb-org/5.0/x86_64/
+gpgcheck=1
+enabled=1
+gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
+
+#  yum install -y mongodb-org
+#  systemctl start mongod
+
+mongodb 数据默认存储目录为 /var/lib/mongo ,可以通过 cat /etc/mongodb.conf 查看或设置
+
+
+
+```
 ### 图形化工具
 [robo 3t](https://robomongo.org/)
 

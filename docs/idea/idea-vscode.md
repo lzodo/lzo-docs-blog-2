@@ -70,6 +70,7 @@ title: VsCode 编辑器
 - power mode (输入效果)[^①]
 - Polacode (代码图片生成 ctrl+shilt+p 输入 Polacode -> 选择需要的代码-生成)
 - Turbo Console Log(C+A+l、S+A+c、S+A+u、S+A+d)
+- MongoDB for VS Code (MongoDB 提示补全)
 - vim(Bracket Pairs Colorizer 2 ,  rainbow indent，关闭缓解卡顿问题)
 [^①]:Powermode: Enabled 开启插件  
 Powermode: Presets 设置效果  

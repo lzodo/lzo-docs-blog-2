@@ -257,5 +257,8 @@ this.$cookies.get("token")
 1. `npm run build` 打包
 2. 打包好的 `.nuxt`,`static`,`nuxt.config.js`,`package.json`, 上传到服务器
 3. 服务器安装node环境，执行 `npm install`
+    -   安装MongoDB数据库，mongoose 首先 mongod --dbpath /xx/xxx/data/db 运行数据库
+    -   启动服务器接口服务
+    -   `npm run start` 启动nuxt服务
 4. 在服务器上运行 `npm run start` 启动项目，创建 `localhost:3000` 服务
 5. 通过nginx将 `localhost:3000` 代理到需要用的域名 `www.xxxx.com` 中
