@@ -391,9 +391,10 @@ node-dev 功能与nodemon类似
 + 谷歌打开地址: chrome://inspect/#devices 
 + 点击 Open dedicated DevTools for Node -> Connection 添加域名端口号
 + 就能在 Open dedicated DevTools for Node -> console 中天使node项目了
-  
+
 ### 开发中常用插件
 + log4js //日志操作
++ pm2 // 自动化部署node项目
 
 [参考资料](https://www.bilibili.com/video/BV1Ci4y1L7gk?p=7)
 
