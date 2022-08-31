@@ -1332,6 +1332,8 @@ axios
 
     -	通过 canvas.toDataURL('image/jpeg') 上传base64上传
 
+### 字符集
+ASCII码字符集、
 ### 字符串编码
 
 ```javascript
