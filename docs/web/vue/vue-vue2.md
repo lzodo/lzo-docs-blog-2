@@ -492,7 +492,7 @@ npm install vue-loader vue-template-compiler -D //loader和编译插件
         -   `监听View的事件`，触发事件时去调用 Model 的方法
 -   `虚拟DOM（vdom)`  
 -  `runtime-only` 与 `runtime-compiler(编译类型)` 的差别
-    ![差异](../../static/img/vue-vue2-1.png)
+    ![差异](../../../static/img/vue-vue2-1.png)
     - vue解析过程
         - template --解析-> ast(抽象语法树) --编译-> render函数 --形成-> 虚拟dom(vdom) --> 真实DOM
         - `runtime-only`:直接从render开始无需编译(性能高、代码量少)

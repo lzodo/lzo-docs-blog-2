@@ -82,8 +82,8 @@ cih 就会删除选择的这些
     -   v
 -   Movement映射
     -   iw、i(、i"、  操作 单词内、所在括号内、所在引号内
-    -   t<chart> 操作到指定字符
-    -   <number>w
+    -   `t<chart> 操作到指定字符`
+    -   `<number>w`
 -   文本对象
     -   w 单词
     -   s 句子

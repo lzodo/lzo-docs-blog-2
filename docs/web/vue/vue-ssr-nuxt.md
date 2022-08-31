@@ -251,14 +251,21 @@ this.$cookies.get("token")
     }
     ```
 
+8. server 配置渲染node服务器端口
+```javascript
+server:{
+    prot:3000
+}
+```
+
 
 
 #### 项目上线
 1. `npm run build` 打包
 2. 打包好的 `.nuxt`,`static`,`nuxt.config.js`,`package.json`, 上传到服务器
 3. 服务器安装node环境，执行 `npm install`
-    -   安装MongoDB数据库，mongoose 首先 mongod --dbpath /xx/xxx/data/db 运行数据库
-    -   启动服务器接口服务
-    -   `npm run start` 启动nuxt服务
+    -   安装MongoDB数据库，mongoose 首先 systemctl 运行数据库，设置开机启动
+    -   直接启动 或 `pm2 start bin/www` 启动服务器接口服务
+    -  `npm run start` 或 `pm2 --name=nuxtName start npm -- run start` 启动nuxt服务
 4. 在服务器上运行 `npm run start` 启动项目，创建 `localhost:3000` 服务
 5. 通过nginx将 `localhost:3000` 代理到需要用的域名 `www.xxxx.com` 中

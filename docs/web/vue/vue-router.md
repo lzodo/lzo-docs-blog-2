@@ -4,7 +4,7 @@ title: vue-router
 ### 概念
 
 ### router 配置
-```js
+```javascript
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 
@@ -53,7 +53,7 @@ export default router
 ```
 
 ### 使用
-import router from './router'
+`import router from './router'`
 挂载 router 到将 Vue 实例中
 
 ### 常用对象
