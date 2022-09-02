@@ -5,11 +5,16 @@ title: VsCode 编辑器
 ## 基础运用
 
 ```javascript
-/**  快速注释
-光标定义到变量 -> 右键重命名符号(F2) -> 改名回车 全部引用都会一起改变
+/**  
+        改变引用：光标定义到变量 -> 右键重命名符号(F2) -> 改名回车 全部引用都会一起改变
+        显示缩进符号：Editor: Render Whitespase  -> `all`
+        设置tab缩进大小：Editor: Tab Size (Tab/Shift+Tab)
+        中文环境强制英文标点符号: `ctrl + .`  输入法可以设置 不限于vscode
+*/
+
 ```
 
-## 插件
+## 插件 
 
 ### 格式化插件
 
@@ -62,6 +67,7 @@ title: VsCode 编辑器
     -   更多模板生成 [指令](https://marketplace.visualstudio.com/items?itemName=sdras.vue-vscode-snippets)
 - EditorConfig (是一种被各种编辑器广泛支持的配置 .editorconfig)
 - live server (可运行的静态文件右键直接开启服务 电脑上也要全局安装)
+- open in browser (静态资源方式打开网页)
 - Better Comments (! * todo //美化注释)
 - Autoprefixer  2.2.0 (前缀 shift+ctrl+p 选择 autoprefixer CSS,电脑上也要全局安装)
 - Code Runner (右键运行各种服务端代码)

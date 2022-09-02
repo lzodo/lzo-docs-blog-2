@@ -511,16 +511,15 @@ call 2.bat "调用其他文件
 #### Shift
 -   `Shift + F10`：右键菜单
 -   `Shift + delete`：永久删除文件
-
-
-
-
-
-
-
-
 -   `win + A`：操作中下(消息通知、wifi、网络等)
 -   `win + B`：任务栏右边工具(输入法网络。。。)
 -   `win + P`：投影仪输出设备
 -   `win + U`：辅助工具管理器
 -   `win + Q`：小娜语音
+
+### win常用软件
+-   [potplayer 视频播放器](https://potplayer.daum.net/)
+-   chrome
+-   vscode
+-   xmind
+-   typora

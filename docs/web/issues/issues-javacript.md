@@ -617,12 +617,12 @@ arr = null; //手动赋值null， [1,2,3,4]这时没有被引用, 会被自动�
 > `因为网站开发者可能会因为你是某浏览器（这里是 Mozilla），所以输出一些特殊功能的程序代码（这里指好的特殊功能），所以当其它浏览器也支持这种好功能时，就试图去模仿 Mozilla 浏览器让网站输出跟 Mozilla 一样的内容，而不是输出被阉割功能的程序代码。大家都为了让网站输出最好的内容，都试图假装自己是 Mozilla，一个已经不存在的浏览器……`
 
 -   渲染引擎之间关系(内核也叫做排版引擎、渲染引擎、浏览器引擎等)
-    -   Gecko(Firefox)
+    -   Gecko 壁虎 (Firefox)  
     -   KHTML(linux Konqueror)
-    -   KHTML --> Webkit(Safari)
+    -   KHTML --> Webkit(Safari、移动端浏览器)
     -   KHTML --> Webkit --> Blink(chrome)
-    -   Presto(欧鹏) -> 欧鹏 Presto 后期被 Blink 代替
-    -   Trident(IE)
+    -   Presto 急板乐曲(欧鹏) -> 欧鹏 Presto 后期被 Blink 代替
+    -   Trident 三叉戟 (IE 360 搜狗 百度 uc)
     -   EdgeHTML(Edge 浏览器) --> 后期被 Blink 代替
 
 ### 禁止通过控制台查看代码
