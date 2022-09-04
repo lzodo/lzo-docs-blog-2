@@ -474,9 +474,17 @@ getTime(fibonacciWithCache, 40);
 
 ### URI URL URN
 ```javascript
-// URI = Uniform Resource Identifier 统一资源标志符
-// URL = Uniform Resource Locator 统一资源定位符
-// URN = Uniform Resource Name 统一资源名称
+// 
+// 
+// 
+/**
+ * URI = Uniform Resource Identifier 统一资源标志符
+ *      定位方式表示 URL
+ *          URL = Uniform Resource Locator 统一资源定位符
+ *      名字方式表示 URN
+ *          URN = Uniform Resource Name 统一资源名称
+ * 
+ * /
 
 // 去村子找个具体的人（URI），如果用地址：某村多少号房子第几间房的主人 就是URL， 如果用身份证号+名字 去找就是URN了。
 // 原来uri包括url和urn，后来urn没流行起来，导致几乎目前所有的uri都是url
@@ -888,7 +896,8 @@ console.log("========end=============");
 
 ```javascript
 /**
-  * 十进制:100
+  * 十进制:100  (逢10进1，最高位9   从0到9都是一位，10 变两位，进1，自生变0)
+  *   
   *   转二进制
   *     除二取余数，从下往上，就是二进制的从左到右
   *     (100).toString(2)
@@ -1333,11 +1342,14 @@ axios
     -	通过 canvas.toDataURL('image/jpeg') 上传base64上传
 
 ### 字符集
-ASCII码字符集、
+ASCII码字符集、Unicode 字符集
 ### 字符串编码
 
 ```javascript
 /*
+计算机的底层硬件实现就是用电量的 开 和 闭 两种状态来表示0 和 1 的
+
+
 ASCII 
 ASCII  使用一个字节表示一个字符(8bit)，不使用最高位
 二进制  0000 0000    十进制   0         
