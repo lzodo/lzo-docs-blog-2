@@ -12,64 +12,26 @@ title: mongodb
 
 [MongoDb Tools](https://www.mongodb.com/try/download/database-tools)
 
--   数据库相关工具
-    +   导入`mongoimport`
-        *   -h:指明数据库宿主机的IP
-        *   -u:指明数据库的用户名
-        *   -p:指明数据库的密码
-        *   -d:指明数据库的名字
-        *   -c:指明collection的名字
-        *   -f:指明要导出那些列
-        *   -o:指明到要导出的文件名
-        *   -q:指明导出数据的过滤条件
-        *   `mongoexport -d pro-node-lagou -c menus -o D:\lzo-project\lzo-everyday\mongodb-export\menus.dat`
-        *   `mongoexport -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -c 表名 -f 字段1，字段2 -q‘{条件导出}’ `--csv -o 文件名
-    +   导出`mongoexport`
-        *   -h:指明数据库宿主机的IP
-        *   -u:指明数据库的用户名
-        *   -p:指明数据库的密码
-        *   -d:指明数据库的名字
-        *   -c:指明collection的名字
-        *   -f:指明要导入那些列
-        *   `mongoimport -d pro-node-lagou -c menus menus.dat`
-    +   备份`mongodump`
-        *   导出至少精确到集合，备份是整个数据库
-        *   `mongodump -d pro-node-lagou -o D:\lzo-project\lzo-everyday\mongodb-export`
-            -   D:\MyData\projects\lzo-everyday\mongodb-export
-        *   备份的数据默认存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个pro-node-lagou目录，
-    +   恢复`mongorestore`
-        *   `mongorestore D:\lzo-project\lzo-everyday\mongodb-export`
-        
-    +   `mongofiles`保存大文件
-    +   `mongostat`是mongodb自带的状态检测工具
-    +   `mongotop`用来跟踪MongoDB的实例
-    
-
 ### 安装
 
 1. 安装
 
--   选择 complete 完全安装非自定义,不要勾选 Install MongoDB Compass
--   安装完成之后可能要配置环境变量
-
+   -   选择 complete 完全安装非自定义,不要勾选 Install MongoDB Compass
+   -   安装完成之后可能要配置环境变量
 2. 开启数据库
 
--   终端输入 mongod 执行(一般会提示缺少 C:/data/db 手动新建目录就行了)
--   或 mongod --dbpath d:/data/db 指定数据库路径
--   执行成功后后面有一闪一闪的光标,数据库开启成功(窗口不用关闭)
-
+   -   终端输入 mongod 执行(一般会提示缺少 C:/data/db 手动新建目录就行了)
+   -   或 mongod --dbpath d:/data/db 指定数据库路径
+       -   可设置配置文件 `mongod.conf`
+       -   通过 mongod -f mongod.conf
+   -   执行成功后后面有一闪一闪的光标,数据库开启成功(窗口不用关闭)
 3. 连接数据库
 
--   开启新终端 输入 mongo
--   输入 show dbs 出现数据库说明连接成功了
-
+   -   开启新终端 输入 mongo
+   -   输入 show dbs 出现数据库说明连接成功了
 4. linux arch系列
-- 安装aur:mongodb、 mongodb-tools
-- 创建并添加权限:chmod 777 /data/db
-- 图形化管理工具
-    - ['nosqlbooster'](https://nosqlbooster.com/downloads)
-        - chmod a+x nosqlbooster4mongo*.AppImage
-        - ./nosqlbooster4mongo*.AppImage
+   - 安装aur:mongodb、 mongodb-tools
+   - 创建并添加权限:chmod 777 /data/db
 5. centos 安装
 ```shell
 # 配置源 vim /etc/yum.repos.d/mongodb-org-5.0.repo 
@@ -85,11 +47,45 @@ gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
 
 mongodb 数据默认存储目录为 /var/lib/mongo ,可以通过 cat /etc/mongodb.conf 查看或设置
 
+# 重启或关闭可能造成，数据损坏，导致启动错误, 可以查看 /tmp/mongodb-27017.sock  ,有就删除
 
+正确的关闭方法
+mongo --prot 27017 进入mongo终端
+use admin
+db.shutdownServer()
+exit
 
 ```
-### 图形化工具
+### 连接数据库
+
+#### 图形工具连接
+
+[官方工具 compass](https://www.mongodb.com/try/download/compass)
+[navicat](http://www.navicat.com.cn/what-is-navicat-for-mongodb)
 [robo 3t](https://robomongo.org/)
+[nosqlbooster](https://nosqlbooster.com/downloads)
+
+#### 工具连接远程
+
+>   不连接远程ssh 默认本地连接
+
+<img src="D:\MyData\projects\lzo-docs-blog-2\static\img\mongodToolSSH.jpg" alt="ssh" style="zoom:50%;" /><img src="D:\MyData\projects\lzo-docs-blog-2\static\img\2022-09-04_231517.jpg" style="zoom:50%;" />
+
+####  命令行连接
+
+```shell
+```
+
+
+
+### 概念
+
+-   对比关系数据库
+    -   数据库(database) -> 集合(collectiion) -> 文档(document) -> 字段(field)   -> 索引(index)  -> _id     ->  视图(view) -> 聚合操作
+    -   数据库(databsse) -> 表(table) ->              行(row) ->                 列(column) -> 索引(index) ->  主键  ->  视图(view) -> 表链接
+-   适用场景
+    -   基于灵活的json文档模型，适合业务变化快，敏捷的快速开发
+    -   读写速度快，更适合处理大数据
 
 ## 指令
 
@@ -103,15 +99,26 @@ mongoose #node操作数据库的指令
 ### 数据库指令
 
 ```shell
-show dbs;                  #查看全部不为空的数据库
+# 数据库操作
+show dbs; | show databases                 #查看全部不为空的数据库
+db.getMongo()                              #查看db链接机器地址
+db.dropDatabase()                          #删除数据库
+use <db name>;             #切换数据库(或创建数据库)
+db;或者db.getName();        #查看当前所在数据库
 
-show collections;          #显示当前数据库中的集合（类似关系数据库中的表）
-    db.createCollection('user11');   #创建集合
-    db.user11.insert|save([{a:1,b:2}])       #插入数据
-    db.user11.update({a:1},{$set:{b:5}})       #修改数据
-    db.user11.delete({a:1})  #删除数据
-    db.user11.drop()       #删除名为user11的集合
-    db.user11.find()       #查询user11集合的信息
+# 切换到数据库后，当前数据库集合操作
+db.createCollection("user11") # 创建集合，新集合没数据可能不会显示
+show collections | show tables;          #显示当前数据库中的集合（类似关系数据库中的表）
+db.user11.drop()       #删除名为user11的集合
+
+# 文档操作
+db.user11.insert|save([{a:1,b:2}])       # 插入多个文档，不写中开括号就插入单个，save(废弃)
+db.user11.insertMany([{a:1,b:2}])        # 也是批量插入
+db.user11.delete({a:1})                  #删除 a=1的文档
+db.user11.update({a:1},{$set:{b:5}})     #修改文档
+
+
+db.user11.find()       #查询user11集合的信息
     db.user11.find({age:{$gt:20}}) #查找age大于2的：$gte 大于等于、 $lt 小于 、$lte 小于等于
     db.user11.find({age:{$gt:20,$lt:30}}) #20到30之间
     db.user11.find({$or:[{age:1},{age:2}]}) #或查询
@@ -128,14 +135,12 @@ show collections;          #显示当前数据库中的集合（类似关系数�
     db.user11.findOne(xxx) #只取一条
     db.user11.distinct("name")       #查询名称不重复的记录
 
-show users;                #查看当前数据库的用户信息
-use <db name>;             #切换数据库(或创建数据库)
-show collections           #查看集合列表
+show users;                #查看当前数据库的用户信息 xx
 db.menus.find()            #查询当前所在数据库，menus集合里面的列表文档内容
-db;或者db.getName();        #查看当前所在数据库
 
-db.getMongo()               #查看db链接机器地址
-db.dropDatabase()           #删除数据库
+
+
+
 ```
 
 ### mongoose
@@ -223,3 +228,40 @@ User.update({ age: 20 }, { us: "new123" })
     });
 
 ```
+
+
+
+## 导入导出备份
+
+-   数据库相关工具
+    +   导入`mongoimport`
+        *   `-h` : 指明数据库宿主机的IP
+        *   `-u` : 指明数据库的用户名
+        *   `-p` : 指明数据库的密码
+        *   `-d` : 指明数据库的名字
+        *   `-c` : 指明collection的名字
+        *   `-f` : 指明要导出那些列
+        *   `-o` : 指明到要导出的文件名
+        *   `-q` : 指明导出数据的过滤条件
+        *   
+        *   `mongoexport -d pro-node-lagou -c menus -o D:\lzo-project\lzo-everyday\mongodb-export\menus.dat`
+        *   `mongoexport -h IP --port 端口 -u 用户名 -p 密码 -d 数据库 -c 表名 -f 字段1，字段2 -q‘{条件导出}’ `--csv -o 文件名
+    +   导出`mongoexport`
+        *   `-h` : 指明数据库宿主机的IP
+        *   `-u` : 指明数据库的用户名
+        *   `-p` : 指明数据库的密码
+        *   `-d` : 指明数据库的名字
+        *   `-c` : 指明collection的名字
+        *   `-f` : 指明要导入那些列
+        *   `mongoimport -d pro-node-lagou -c menus menus.dat`
+    +   备份`mongodump`
+        *   导出至少精确到集合，备份是整个数据库
+        *   `mongodump -d pro-node-lagou -o D:\lzo-project\lzo-everyday\mongodb-export`
+            -   D:\MyData\projects\lzo-everyday\mongodb-export
+        *   备份的数据默认存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个pro-node-lagou目录，
+    +   恢复`mongorestore`
+        *   `mongorestore D:\lzo-project\lzo-everyday\mongodb-export`
+        
+    +   `mongofiles`保存大文件
+    +   `mongostat`是mongodb自带的状态检测工具
+    +   `mongotop`用来跟踪MongoDB的实例

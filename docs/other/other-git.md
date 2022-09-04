@@ -255,7 +255,7 @@ git clone https://github.com/liaozhongxun/xxx.git
 
 ### linux 与 linux ssh 设置
 1、两个主机都生成公钥私钥
-2、连接主机 `ssh-copy-id -i ./id_rsa.pub root@114.115.212.129` 向目标主机114 上传公钥
+2、连接主机 `ssh-copy-id -i ./id_rsa.pub root@114.115.212.xxx` 向目标主机114 上传公钥
 3、ssh root@xxx.xxx.xxx.xx 测试是否可用直接连接
 
 win 连 linux 可能需要在git bash上操作

@@ -15,8 +15,6 @@ Express.js、Koa、NestJS(基于Express)、Nuxt.js(Vue)
 
 
 ### pm2
-https://blog.csdn.net/dizuncainiao/article/details/119353769  临时
-
 pm2 启动的 node 进程关闭了会自动重启
 全局安装 pm2 `npm install pm2 -g`
 

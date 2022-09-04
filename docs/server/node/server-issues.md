@@ -3,13 +3,13 @@ title: 问题
 ---
 
 ### 短信服务
-> - 验证码发送功能需要腾讯云，阿里云等平台提供
-> - 去他们官网找云通信模块，里面用短信、语音、邮件等通信服务
-> - [腾讯云 node sdk 包与接入方式](https://github.com/qcloudsms/qcloudsms_js)
-> - 对接数据
->   - 需要去申请短信那里，创建应用找到应用ID （AppId）
->   - 进入应用找到（AppKey） 
->   - 选择模板ID(给与短信不同提示，发送不同内容)
+- 验证码发送功能需要腾讯云，阿里云等平台提供
+- 去他们官网找云通信模块，里面用短信、语音、邮件等通信服务
+- [腾讯云 node sdk 包与接入方式](https://github.com/qcloudsms/qcloudsms_js)
+- 对接数据
+  - 需要去申请短信那里，创建应用找到应用ID （AppId）
+  - 进入应用找到（AppKey） 
+  - 选择模板ID(给与短信不同提示，发送不同内容)
 
 ```javascript
 var QcloudSms = require("qcloudsms_js");

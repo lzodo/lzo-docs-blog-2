@@ -7,7 +7,7 @@ title: css
 
 `内联样式` `内部样式` `link href 外部样式` `选择器` `定位` `文档流` `伪类` `伪元素`  `单位` `继承` `盒子模型` 
 
-[官方文档](https://www.w3.org/TR/?tag=css)   MDN文档  [兼容性](https://caniuse.com)
+[官方文档](https://www.w3.org/TR/?tag=css)   [MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS)  [兼容性](https://caniuse.com)
 
 #### 外部样式
 
@@ -38,7 +38,7 @@ title: css
      2.   `text-align` 设置 `行内元素或内容`相对 `块父元素的` 水平对齐方式，块元素居中需要 `margin 0 auto`
           1.   `justify` 两端对齐，中间平均分配 (最后一行不生效, 一段文字如果最后一行只有连个词，一个做一个右不好看)
           2.   `text-align-last:justify` 这样最后一行就能生效了
-          3.   letter-spacing   word-spacing  字母或单词间距
+          3.   `letter-spacing   word-spacing`  字母或单词间距
 
      3.   单位
           1.   px
