@@ -48,6 +48,7 @@ gpgkey=https://www.mongodb.org/static/pgp/server-5.0.asc
 mongodb 数据默认存储目录为 /var/lib/mongo ,可以通过 cat /etc/mongodb.conf 查看或设置
 
 # 重启或关闭可能造成，数据损坏，导致启动错误, 可以查看 /tmp/mongodb-27017.sock  ,有就删除
+# 或 rm -f //xxx//x/data/db/*.lock  ,修复  mongod --repair --dbpath=//xx/x/x/data/db
 
 正确的关闭方法
 mongo --prot 27017 进入mongo终端
@@ -114,31 +115,56 @@ db.user11.drop()       #删除名为user11的集合
 # 文档操作
 db.user11.insert|save([{a:1,b:2}])       # 插入多个文档，不写中开括号就插入单个，save(废弃)
 db.user11.insertMany([{a:1,b:2}])        # 也是批量插入
-db.user11.delete({a:1})                  #删除 a=1的文档
-db.user11.update({a:1},{$set:{b:5}})     #修改文档
-
-
-db.user11.find()       #查询user11集合的信息
-    db.user11.find({age:{$gt:20}}) #查找age大于2的：$gte 大于等于、 $lt 小于 、$lte 小于等于
+db.user11.remove({})                     # 删除所有
+db.user11.remove({a:1})                  # 删除 a=1的文档
+db.user11.update({a:1},{b:5})            # 替换原有文档成 {b:5} 只有_id 会保留
+db.user11.update({a:1},{$set:{b:5}})     # 原有文档的基础上，修改或增加属性 (匹配到的1条)
+db.user11.update({a:1},{$set:{b:5}},{multi:true})     # 原有文档的基础上，修改或增加属性 (所有匹配到的)
+db.user11.update({a:0},{$inc:{b:NumberInt(1)}}) # 找到a=1的文档，让它的b属性自增1
+db.user11.find()       # 查询当前所在数据库，user11 集合里面的列表文档内容
+	db.user11.find({age:20}) # 查询年龄为20的文档
+	db.user11.find({age:20,name:1}) # 查询年龄为20,并且name为1的文档
+	db.user11.find({age:{$ne:20}}) # 查询年龄不为20的文档
+	db.user11.find({age:{$gt:20}}) #查找age大于2的：$gte 大于等于、 $lt 小于 、$lte 小于等于
     db.user11.find({age:{$gt:20,$lt:30}}) #20到30之间
-    db.user11.find({$or:[{age:1},{age:2}]}) #或查询
+    db.user11.find({$or:[{age:1},{name:2}]}) #或查询
+    db.user11.find({age:20,{$or:[{sex:1},{name:2}]}}) # 查找年龄20并且sex为1，或 年龄20并且name为2的文档
+    db.user11.find({age:{$type:"string"}}) # 查询age类型为字符串的文档
     db.user11.find({name:/^1/}) #正则查询
 
-    #查询指定列
-    db.user11.find({条件},{name:0,age:0}) #0表示不要，1表示要，只能全部0或全部1
+    # 查询指定列  
+    db.user11.find({条件},{name:0,age:0}) #0表示不要，1表示要，只能全部0（选择排除哪些字段）或全部1（选择哪些 ）
 
     db.user11.find(xxx).sort({age:1}) #1升序、-1降序
     db.user11.find(xxx).limit(3) #取指定数目
-    db.user11.find(xxx).limit(3).skep(n) #跳过n条再取指定数目 sort>skep>limit与书写顺序无关
+    db.user11.find(xxx).skep(n).limit(3) #跳过n条再取指定数目 sort>skep>limit与书写顺序无关
     db.user11.find(xxx).count() #统计数目
 
     db.user11.findOne(xxx) #只取一条
     db.user11.distinct("name")       #查询名称不重复的记录
 
-show users;                #查看当前数据库的用户信息 xx
-db.menus.find()            #查询当前所在数据库，menus集合里面的列表文档内容
 
+# 索引
+db.user11.createIndex({age:1,xxx:xxxx},{
+	background:true, # 是否后台创建
+	unique:true, # 设置的索引是否唯一
+	name:'xx' # 所有名称
+}) # 创建索引 ,多个就是复核索引
 
+db.user11.dropIndex("索引名称") # 删除_id之外的索引
+db.user11.dropIndexes() # 删除_id之外的所有索引
+db.user11.getIndexes() # 获取查看索引 _id 是默认的 
+
+mongo 的权限认证与登录，默认是不需要的
+1、进入 use admin 管理员库设置(默认没密码的)
+2、创建账户，并给root权限 
+	 db.createUser({user:"mongoroot",pwd:"123456",roles:["root"]})
+	 db.runCommand({rolesInfo:1,showBuiltinRoles:true})   查看 roles列表
+
+3、创建管理员账户，以后就需要密码了 ,管理的的 admin数据库
+	 db.createUser({user:"mongoadmin",pwd:"123456",roles:[{role:"userAdmin",db:"admin"}]})
+	 
+	xxxxx.....
 
 
 ```
