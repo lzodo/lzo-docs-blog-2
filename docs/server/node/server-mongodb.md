@@ -92,7 +92,15 @@ mongod -f /xx/xx/xx/mongod.conf 启动
 
 <img src="D:\MyData\projects\lzo-docs-blog-2\static\img\mongodToolSSH.jpg" alt="ssh" style="zoom:50%;" /><img src="D:\MyData\projects\lzo-docs-blog-2\static\img\2022-09-04_231517.jpg" style="zoom:50%;" />
 
+默认无密码登陆，如果设置了 --auth 就要选择密码连接
+
 ####  命令行连接
+#### mongoose 连接
+```javascript
+mongoose.connect("mongodb://localhost/pro-node-lagou", {})
+// 远程连接服务端，ip 设置0.0.0.0
+mongoose.connect('mongodb://mongoroot:xxxxxx@xxx.xxx.xxx.xxx:27017/pro-node-lagou?authSource=admin', {})
+```
 
 ```shell
 ```
@@ -198,6 +206,7 @@ readWrite # 允许用户读写指定数据库
 # 创建管理员账户，哪个创建的用户，默认归属那个数据库，只能操作那个数据库
 1、进入 use admin 管理员库设置管理员账号(默认没密码的)
 2、db.createUser({user:"mongoroot",pwd:"123456",roles:["root"]})
+3、db.createUser({user:"u1",pwd:"123456",roles:[{ role: "userAdminAnyDatabase", db: "admin" }]}) # 给u1指定库
 3、db.auth('mongoroot','123456') # 验证账号是否可用，1 成功
 
 # 查看用户信息 
