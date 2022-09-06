@@ -50,13 +50,33 @@ mongodb 数据默认存储目录为 /var/lib/mongo ,可以通过 cat /etc/mongod
 # 重启或关闭可能造成，数据损坏，导致启动错误, 可以查看 /tmp/mongodb-27017.sock  ,有就删除
 # 或 rm -f //xxx//x/data/db/*.lock  ,修复  mongod --repair --dbpath=//xx/x/x/data/db
 
-正确的关闭方法
-mongo --prot 27017 进入mongo终端
+```
+6.   源码安装
+
+```shell
+下载 解压
+# 创建存储数据和日志的目录
+mkdir -p /mongod/data /mongod/log
+
+# 进入mongodb加油目录 启动服务
+# --fork 后台启动
+# --auth 开启认证模式
+# --logappend 追加方式记录日志
+mongod --port=27017 --dbpath=/mongod/data --logpath=/mongod/log/mongodb.log --bind_ip=0.0.0.0 --fork
+
+# mongo控制台外关闭
+mongod --port=27017 --dbpath=/mongod/data --shutdown
+# 控制台中关闭
 use admin
 db.shutdownServer()
 exit
 
+# 指定配置文件/xx/xx/xx/mongod.conf
+mongod -f /xx/xx/xx/mongod.conf 启动
 ```
+
+
+
 ### 连接数据库
 
 #### 图形工具连接
@@ -155,19 +175,51 @@ db.user11.dropIndex("索引名称") # 删除_id之外的索引
 db.user11.dropIndexes() # 删除_id之外的所有索引
 db.user11.getIndexes() # 获取查看索引 _id 是默认的 
 
+```
+
+### 权限
+
+```shell
 mongo 的权限认证与登录，默认是不需要的
-1、进入 use admin 管理员库设置(默认没密码的)
-2、创建账户，并给root权限 
-	 db.createUser({user:"mongoroot",pwd:"123456",roles:["root"]})
-	 db.runCommand({rolesInfo:1,showBuiltinRoles:true})   查看 roles列表
 
 3、创建管理员账户，以后就需要密码了 ,管理的的 admin数据库
 	 db.createUser({user:"mongoadmin",pwd:"123456",roles:[{role:"userAdmin",db:"admin"}]})
 	 
 	xxxxx.....
+	
+# 查看角色列表
+show roles
+root  # 超级账号，超级权限，只在admin库中可用
+dbOwner # 允许用户在指定数据库中执行任意操作
+read  #允许用户读取指定数据库
+readWrite # 允许用户读写指定数据库
+...
 
+# 创建管理员账户，哪个创建的用户，默认归属那个数据库，只能操作那个数据库
+1、进入 use admin 管理员库设置管理员账号(默认没密码的)
+2、db.createUser({user:"mongoroot",pwd:"123456",roles:["root"]})
+3、db.auth('mongoroot','123456') # 验证账号是否可用，1 成功
+
+# 查看用户信息 
+# "db" : "user11" 表示用户只能操作 user11 数据库 
+show users
+
+# 普通数据库下创建用户，u2只能操作这一个数据库
+db.createUser({user:"u2",pwd:"123456",roles:["dbOwner"]})
+
+# 删除用户
+db.dropUser("u2")
+
+# 普通方式启动还是不需要账号密码就能登录，要以授权方式启动 --auth
+mongod --port=27017 --dbpath=/mongod/data --logpath=/mongod/log/mongodb.log --bind_ip=0.0.0.0 --fork --auth
+
+# 以账号登录,
+mongo -umongoroot -p123456 --authenticationDatabase=admin
+mongo -uu2 -p123456 --authenticationDatabase=user11
 
 ```
+
+
 
 ### mongoose
 
