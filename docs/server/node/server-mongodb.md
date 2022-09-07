@@ -95,6 +95,10 @@ mongod -f /xx/xx/xx/mongod.conf 启动
 默认无密码登陆，如果设置了 --auth 就要选择密码连接
 
 ####  命令行连接
+```shell
+mongo mongodb://mongoroot:mongopwd@114.115.xxx.xxx
+```
+
 #### mongoose 连接
 ```javascript
 mongoose.connect("mongodb://localhost/pro-node-lagou", {})

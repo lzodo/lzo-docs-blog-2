@@ -137,6 +137,7 @@ title: css
         -   比如给 span 设置padding，只要左右和下面有效果，并且`左右占据空间`，下面是`不占据空间`的
         -   比如给span 设置margiin，左右生效，上下不生效
 
+### 其他属性 
 -   `外轮廓 outline`
     -   语法和border一样 ，默认显示 boder 外面，`但不占据空间`
 
@@ -145,6 +146,41 @@ title: css
 
 -   `文字阴影 text-shadow`
     -   没有扩散
+
+-   `文本属性`
+    -   单行省略
+        -   `white-space:nowrap` 强制不换行，`overflow:hidden` 隐藏超出，·`text-overflow:ellipsis` 文本超出则涉略号显示
+        -   flex:1 的容器中会有问题
+    
+-   `设置背景`
+
+    ```css
+    /* */
+    background-color:#f00;
+    /* */
+    background-image:url(a.jpg),url(2.jpg);
+    /* 平铺 */
+    background-repeat:no-repeat;
+    /* 尺寸 cover 缩放 铺满 保持比例裁剪 ，contain 缩放 宽或者高铺满 保持比例 无需裁剪*/
+    background-size:auto|cover|contain|100% 100%|100px 100px:
+    /* 背景位置 */
+    background-position:100px -100px|top left|top "不设置bottom默认永远保持居中";
+    /* 滚动 默认scroll不滚动，local跟随容器滚动，fixed相对浏览器窗口固定，滚动页面，容器向上，背景却停留原来位置*/
+    background-attachment:scroll|local|fixed;
+    /* background */
+    background:color url 定位/尺寸 repeat local;
+    
+    /* 对比img */
+    img 是一个元素 占用空间 右键可看地址 不支持精灵图(CSS Sprite) 对搜索以前友好
+    background 相反
+    
+    图片作为网站重要组成部分，像logo，产品图等最好用img
+    修饰美观的部分可以用 background
+    ```
+
+    
+
+
 
 
 ### 选择器
