@@ -113,14 +113,29 @@ mongoose.connect('mongodb://mongoroot:xxxxxx@xxx.xxx.xxx.xxx:27017/pro-node-lago
 
 ### 概念
 
+-   NoSQL **( Not Only SQL )** 非关系型数据库，是 不`同于传统关系型数据库` 的统称
+    -   关系，表和表之间通过**主键**和**外键**是有联系的
+    -   一个主表，相关的东西，因为**类型属性不同**，需要存储到**其他表**中，用的时候，通过**主外键取来**使用
+    -   非关系型就不需要，相关的东西直接存放到文档，子属性中就行，`容易设计,且速度快`
+
 -   对比关系数据库
     -   数据库(database) -> 集合(collectiion) -> 文档(document) -> 字段(field)   -> 索引(index)  -> _id     ->  视图(view) -> 聚合操作
     -   数据库(databsse) -> 表(table) ->              行(row) ->                 列(column) -> 索引(index) ->  主键  ->  视图(view) -> 表链接
 -   适用场景
     -   基于灵活的json文档模型，适合业务变化快，敏捷的快速开发
-    -   读写速度快，更适合处理大数据
+    -   读写速度快，更适合处理大 数据
+-   NoSQL 的优点/缺点
+    -   分布式计算 : 当数据多了，快存不下了 ，添加扩展一个节点就可以继续存放了 
+    -   ...
 
-## 指令
+-   默认数据库
+    -   **admin** : 管理员权限数据库
+    -   **local** ：这个数据库永远不会被复制，可以用来储存本地服务器的任意集合
+    -   **config**：保存分片相关信息
+
+-   
+
+## 操作指令
 
 ```shell
 mongodb  #数据库名
@@ -129,7 +144,7 @@ mongo  #连接数据库
 mongoose #node操作数据库的指令
 ```
 
-### 数据库指令
+### 数据库增删改查
 
 ```shell
 # 数据库操作
@@ -144,15 +159,30 @@ db.createCollection("user11") # 创建集合，新集合没数据可能不会显
 show collections | show tables;          #显示当前数据库中的集合（类似关系数据库中的表）
 db.user11.drop()       #删除名为user11的集合
 
+直接使用js语句操作
+for(var i=0;i<10;i++){db.testusers.insert({name:`Name${i}`,age:10+i})}
+
 # 文档操作
 db.user11.insert|save([{a:1,b:2}])       # 插入多个文档，不写中开括号就插入单个，save(废弃)
+	-	直接往不存在的集合插入文档，默认会自动创建这个集合
 db.user11.insertMany([{a:1,b:2}])        # 也是批量插入
 db.user11.remove({})                     # 删除所有
 db.user11.remove({a:1})                  # 删除 a=1的文档
+
 db.user11.update({a:1},{b:5})            # 替换原有文档成 {b:5} 只有_id 会保留
-db.user11.update({a:1},{$set:{b:5}})     # 原有文档的基础上，修改或增加属性 (匹配到的1条)
-db.user11.update({a:1},{$set:{b:5}},{multi:true})     # 原有文档的基础上，修改或增加属性 (所有匹配到的)
-db.user11.update({a:0},{$inc:{b:NumberInt(1)}}) # 找到a=1的文档，让它的b属性自增1
+    db.user11.update({a:1},{$set:{b:5}})     # 原有文档的基础上，修改或增加属性 (匹配到的1条)
+    db.user11.update({a:1},{$set:{b:5}},{multi:true})     # 原有文档的基础上，修改或增加属性 (所有匹配到的)
+        -	参数 query,更新对象，不存在记录是否插入0|1，是否更新所有匹配（0|1 简写）
+    db.user11.update({a:0},{$inc:{b:NumberInt(1)}}) # 找到a=1的文档，让它的b属性自增1
+    db.user11.update({a:0},{$unset:{age:1}}) # 删除指定的 key,值随意
+    db.user11.update({a:0},{$push:{list:"ele"}}) # 所有匹配记录，list (必须不存在的或是数组类型)字段push一个元素
+    db.user11.updateMany({name:"Name9"},{$push:{"list":{$each:["up3","up4"]}}}) # 添加多个 $pushAll 不能用
+    db.user11.update({a:0},{$addToSet:{list:"no repeat ele"}) # 如果值存在，不添加，不存在才添加
+    db.user11.update({a:0},{$pop:{list:1}},0,1) #1 从后面删除，-1 从前面删除 
+    db.user11.update({a:0},{$pull:{list:"ele"}},0,1) # 通过值删除 
+    db.user11.update({a:0},{$pullAll:{list:["ele1","ele2"]}},0,1) # 删除多个 
+    # $pop 删除
+    
 db.user11.find()       # 查询当前所在数据库，user11 集合里面的列表文档内容
 	db.user11.find({age:20}) # 查询年龄为20的文档
 	db.user11.find({age:20,name:1}) # 查询年龄为20,并且name为1的文档
@@ -162,9 +192,15 @@ db.user11.find()       # 查询当前所在数据库，user11 集合里面的列
     db.user11.find({$or:[{age:1},{name:2}]}) #或查询
     db.user11.find({age:20,{$or:[{sex:1},{name:2}]}}) # 查找年龄20并且sex为1，或 年龄20并且name为2的文档
     db.user11.find({age:{$type:"string"}}) # 查询age类型为字符串的文档
+    db.user11.find({name:{$all:["Name0"]}}) # 找出全部 name 为 Name0 的文档
+    db.user11.find({list:{$all:["test1","test2"]}}) # 找出 list 中同时存在 test1 和 test2 的所有文档
+    db.user11.find({list:{$in:["test1","test2"]}}) # 找出 list 中存在 test1 或 test2 的所有文档
+    db.user11.find({list:{$nin:["test1","test2"]}}) # 找出 list 中不存在 test1 和 test2 的所有文档
     db.user11.find({name:/^1/}) #正则查询
+     # 其他查询关键词 $lte 小于等于，$gte 大于等于 
+     
 
-    # 查询指定列  
+    # 对找到的内容进行二次操作
     db.user11.find({条件},{name:0,age:0}) #0表示不要，1表示要，只能全部0（选择排除哪些字段）或全部1（选择哪些 ）
 
     db.user11.find(xxx).sort({age:1}) #1升序、-1降序
@@ -175,8 +211,32 @@ db.user11.find()       # 查询当前所在数据库，user11 集合里面的列
     db.user11.findOne(xxx) #只取一条
     db.user11.distinct("name")       #查询名称不重复的记录
 
+ # 方法
+ .find().pretty()  # 容易阅读的格式返回 
+ .find().explain() # 显示查询时间
+ 	# "executionStats"   查看 executionTimeMillis
+ var sfind = db.testusers.find();
+ sfind.next() # 查找下一个文档 .hasNext() 查看是否存在下一个文档
 
-# 索引
+```
+
+### 索引
+
+```shell
+# 索引操作 提高查询效率
+# 创建
+db.user11.ensureIndex({key:1}) # 单字段创建，key 创建索引的字段，1 按升序建，-1 按降序建
+db.user11.ensureIndex({key:1,name:1}) # 创建复合索引（索引一般给查询语句关联的字段建立）
+
+# 查询
+# 删除
+
+
+
+
+
+
+
 db.user11.createIndex({age:1,xxx:xxxx},{
 	background:true, # 是否后台创建
 	unique:true, # 设置的索引是否唯一
@@ -186,8 +246,9 @@ db.user11.createIndex({age:1,xxx:xxxx},{
 db.user11.dropIndex("索引名称") # 删除_id之外的索引
 db.user11.dropIndexes() # 删除_id之外的所有索引
 db.user11.getIndexes() # 获取查看索引 _id 是默认的 
-
 ```
+
+
 
 ### 权限
 
