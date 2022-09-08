@@ -214,7 +214,7 @@ db.user11.find()       # 查询当前所在数据库，user11 集合里面的列
  # 方法
  .find().pretty()  # 容易阅读的格式返回 
  .find().explain() # 显示查询时间
- 	# "executionStats"   查看 executionTimeMillis
+ 	# queryPlanner.indexFilterSet:false   表示未使用索引查询
  var sfind = db.testusers.find();
  sfind.next() # 查找下一个文档 .hasNext() 查看是否存在下一个文档
 
@@ -225,8 +225,8 @@ db.user11.find()       # 查询当前所在数据库，user11 集合里面的列
 ```shell
 # 索引操作 提高查询效率
 # 创建
-db.user11.ensureIndex({key:1}) # 单字段创建，key 创建索引的字段，1 按升序建，-1 按降序建
-db.user11.ensureIndex({key:1,name:1}) # 创建复合索引（索引一般给查询语句关联的字段建立）
+db.user11.createIndex({key:1}) # 单字段创建，key 创建索引的字段，1 按升序建，-1 按降序建
+db.user11.createIndex({key:1,name:1}) # 创建复合索引（索引一般给查询语句关联的字段建立）
 
 # 查询
 # 删除
