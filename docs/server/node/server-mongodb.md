@@ -293,7 +293,6 @@ db.testuser.group({
 
 ```shell
 # 数据通过多个管道进行处理
-# 聚合表达式 平均数($avg)、求和($sum)、第一个($first)、最后一个($last)、最大/小($max/$min)、得到的数据放到数组中($push)
 # db.testuser.aggragate([{操作1},{操作2:{xxx}}])
 
 # 通过 sex 字段分组，得到每组的平均 height，保存到 avgerxxx 中
@@ -304,7 +303,7 @@ db.testuser.aggragate([{$group:{_id:"$sex",minval:{$min:"$height"}}}])
 db.study.aggregate([{$group:{_id:"$sex",heiarr:{$push:"$height"}}}])
 
 # 多管道
-# 身高大于180，男女生的数量    =>     $match 表达式属性不要 $
+# 身高大于180，男女生的数量
 db.study.aggregate([
 	{$match:{height:{$gt:180}}},
 	{$group:{_id:"$sex",sums:{$sum:1}}}
