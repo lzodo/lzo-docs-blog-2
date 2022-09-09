@@ -155,66 +155,66 @@ use <db name>;             #切换数据库(或创建数据库)
 db;或者db.getName();        #查看当前所在数据库
 
 # 切换到数据库后，当前数据库集合操作
-db.createCollection("user11") # 创建集合，新集合没数据可能不会显示
+db.createCollection("testuser") # 创建集合，新集合没数据可能不会显示
 show collections | show tables;          #显示当前数据库中的集合（类似关系数据库中的表）
-db.user11.drop()       #删除名为user11的集合
+db.testuser.drop()       #删除名为testuser的集合
 
 直接使用js语句操作
 for(var i=0;i<10;i++){db.testusers.insert({name:`Name${i}`,age:10+i})}
 
 # 文档操作
-db.user11.insert|save([{a:1,b:2}])       # 插入多个文档，不写中开括号就插入单个，save(废弃)
+db.testuser.insert|save([{a:1,b:2}])       # 插入多个文档，不写中开括号就插入单个，save(废弃)
 	-	直接往不存在的集合插入文档，默认会自动创建这个集合
-db.user11.insertMany([{a:1,b:2}])        # 也是批量插入
-db.user11.remove({})                     # 删除所有
-db.user11.remove({a:1})                  # 删除 a=1的文档
+db.testuser.insertMany([{a:1,b:2}])        # 也是批量插入
+db.testuser.remove({})                     # 删除所有
+db.testuser.remove({a:1})                  # 删除 a=1的文档
 
-db.user11.update({a:1},{b:5})            # 替换原有文档成 {b:5} 只有_id 会保留
-    db.user11.update({a:1},{$set:{b:5}})     # 原有文档的基础上，修改或增加属性 (匹配到的1条)
-    db.user11.update({a:1},{$set:{b:5}},{multi:true})     # 原有文档的基础上，修改或增加属性 (所有匹配到的)
+db.testuser.update({a:1},{b:5})            # 替换原有文档成 {b:5} 只有_id 会保留
+    db.testuser.update({a:1},{$set:{b:5}})     # 原有文档的基础上，修改或增加属性 (匹配到的1条)
+    db.testuser.update({a:1},{$set:{b:5}},{multi:true})     # 原有文档的基础上，修改或增加属性 (所有匹配到的)
         -	参数 query,更新对象，不存在记录是否插入0|1，是否更新所有匹配（0|1 简写）
-    db.user11.update({a:0},{$inc:{b:NumberInt(1)}}) # 找到a=1的文档，让它的b属性自增1
-    db.user11.update({a:0},{$unset:{age:1}}) # 删除指定的 key,值随意
-    db.user11.update({a:0},{$push:{list:"ele"}}) # 所有匹配记录，list (必须不存在的或是数组类型)字段push一个元素
-    db.user11.updateMany({name:"Name9"},{$push:{"list":{$each:["up3","up4"]}}}) # 添加多个 $pushAll 不能用
-    db.user11.update({a:0},{$addToSet:{list:"no repeat ele"}) # 如果值存在，不添加，不存在才添加
-    db.user11.update({a:0},{$pop:{list:1}},0,1) #1 从后面删除，-1 从前面删除 
-    db.user11.update({a:0},{$pull:{list:"ele"}},0,1) # 通过值删除 
-    db.user11.update({a:0},{$pullAll:{list:["ele1","ele2"]}},0,1) # 删除多个 
+    db.testuser.update({a:0},{$inc:{b:NumberInt(1)}}) # 找到a=1的文档，让它的b属性自增1
+    db.testuser.update({a:0},{$unset:{age:1}}) # 删除指定的 key,值随意
+    db.testuser.update({a:0},{$push:{list:"ele"}}) # 所有匹配记录，list (必须不存在的或是数组类型)字段push一个元素
+    db.testuser.updateMany({name:"Name9"},{$push:{"list":{$each:["up3","up4"]}}}) # 添加多个 $pushAll 不能用
+    db.testuser.update({a:0},{$addToSet:{list:"no repeat ele"}) # 如果值存在，不添加，不存在才添加
+    db.testuser.update({a:0},{$pop:{list:1}},0,1) #1 从后面删除，-1 从前面删除 
+    db.testuser.update({a:0},{$pull:{list:"ele"}},0,1) # 通过值删除 
+    db.testuser.update({a:0},{$pullAll:{list:["ele1","ele2"]}},0,1) # 删除多个 
     # $pop 删除
     
-db.user11.find()       # 查询当前所在数据库，user11 集合里面的列表文档内容
-	db.user11.find({age:20}) # 查询年龄为20的文档
-	db.user11.find({age:20,name:1}) # 查询年龄为20,并且name为1的文档
-	db.user11.find({age:{$ne:20}}) # 查询年龄不为20的文档
-	db.user11.find({age:{$gt:20}}) #查找age大于2的：$gte 大于等于、 $lt 小于 、$lte 小于等于
-    db.user11.find({age:{$gt:20,$lt:30}}) #20到30之间
-    db.user11.find({$or:[{age:1},{name:2}]}) #或查询
-    db.user11.find({age:20,{$or:[{sex:1},{name:2}]}}) # 查找年龄20并且sex为1，或 年龄20并且name为2的文档
-    db.user11.find({age:{$type:"string"}}) # 查询age类型为字符串的文档
-    db.user11.find({name:{$all:["Name0"]}}) # 找出全部 name 为 Name0 的文档
-    db.user11.find({list:{$all:["test1","test2"]}}) # 找出 list 中同时存在 test1 和 test2 的所有文档
-    db.user11.find({list:{$in:["test1","test2"]}}) # 找出 list 中存在 test1 或 test2 的所有文档
-    db.user11.find({list:{$nin:["test1","test2"]}}) # 找出 list 中不存在 test1 和 test2 的所有文档
-    db.user11.find({name:/^1/}) #正则查询
+db.testuser.find()       # 查询当前所在数据库，testuser 集合里面的列表文档内容
+	db.testuser.find({age:20}) # 查询年龄为20的文档
+	db.testuser.find({age:20,name:1}) # 查询年龄为20,并且name为1的文档
+	db.testuser.find({age:{$ne:20}}) # 查询年龄不为20的文档
+	db.testuser.find({age:{$gt:20}}) #查找age大于2的：$gte 大于等于、 $lt 小于 、$lte 小于等于
+    db.testuser.find({age:{$gt:20,$lt:30}}) #20到30之间
+    db.testuser.find({$or:[{age:1},{name:2}]}) #或查询
+    db.testuser.find({age:20,{$or:[{sex:1},{name:2}]}}) # 查找年龄20并且sex为1，或 年龄20并且name为2的文档
+    db.testuser.find({age:{$type:"string"}}) # 查询age类型为字符串的文档
+    db.testuser.find({name:{$all:["Name0"]}}) # 找出全部 name 为 Name0 的文档
+    db.testuser.find({list:{$all:["test1","test2"]}}) # 找出 list 中同时存在 test1 和 test2 的所有文档
+    db.testuser.find({list:{$in:["test1","test2"]}}) # 找出 list 中存在 test1 或 test2 的所有文档
+    db.testuser.find({list:{$nin:["test1","test2"]}}) # 找出 list 中不存在 test1 和 test2 的所有文档
+    db.testuser.find({name:/^1/}) #正则查询
      # 其他查询关键词 $lte 小于等于，$gte 大于等于 
      
 
     # 对找到的内容进行二次操作
-    db.user11.find({条件},{name:0,age:0}) #0表示不要，1表示要，只能全部0（选择排除哪些字段）或全部1（选择哪些 ）
+    db.testuser.find({条件},{name:0,age:0}) #0表示不要，1表示要，只能全部0（选择排除哪些字段）或全部1（选择哪些 ）
 
-    db.user11.find(xxx).sort({age:1}) #1升序、-1降序
-    db.user11.find(xxx).limit(3) #取指定数目
-    db.user11.find(xxx).skep(n).limit(3) #跳过n条再取指定数目 sort>skep>limit与书写顺序无关
-    db.user11.find(xxx).count() #统计数目
+    db.testuser.find(xxx).sort({age:1}) #1升序、-1降序
+    db.testuser.find(xxx).limit(3) #取指定数目
+    db.testuser.find(xxx).skep(n).limit(3) #跳过n条再取指定数目 sort>skep>limit与书写顺序无关
+    db.testuser.find(xxx).count() #统计数目
 
-    db.user11.findOne(xxx) #只取一条
-    db.user11.distinct("name")       #查询名称不重复的记录
+    db.testuser.findOne(xxx) #只取一条
+    db.testuser.distinct("name")       #查询名称不重复的记录
 
  # 方法
  .find().pretty()  # 容易阅读的格式返回 
- .find().explain() # 显示查询时间
- 	# queryPlanner.indexFilterSet:false   表示未使用索引查询
+ .find().explain() # 查询分析
+ 
  var sfind = db.testusers.find();
  sfind.next() # 查找下一个文档 .hasNext() 查看是否存在下一个文档
 
@@ -225,27 +225,113 @@ db.user11.find()       # 查询当前所在数据库，user11 集合里面的列
 ```shell
 # 索引操作 提高查询效率
 # 创建
-db.user11.createIndex({key:1}) # 单字段创建，key 创建索引的字段，1 按升序建，-1 按降序建
-db.user11.createIndex({key:1,name:1}) # 创建复合索引（索引一般给查询语句关联的字段建立）
-
-# 查询
-# 删除
-
-
-
-
-
-
-
-db.user11.createIndex({age:1,xxx:xxxx},{
+db.testuser.createIndex({key:1}) # 单字段创建，key 创建索引的字段，1 按升序建，-1 按降序建
+db.testuser.createIndex({key:1,name:1}) # 创建复合索引（索引一般给查询语句关联的字段建立）
+db.testuser.createIndex({age:1,xxx:xxxx},{
 	background:true, # 是否后台创建
-	unique:true, # 设置的索引是否唯一
+	unique:true, # 是否设置唯一索引，索引字段不可重复，有重复值的字段也不能是唯一索引
 	name:'xx' # 所有名称
 }) # 创建索引 ,多个就是复核索引
 
-db.user11.dropIndex("索引名称") # 删除_id之外的索引
-db.user11.dropIndexes() # 删除_id之外的所有索引
-db.user11.getIndexes() # 获取查看索引 _id 是默认的 
+# 查询
+db.testuser.getIndexes() # 获取查看索引 _id 是默认的 
+
+# 删除
+db.testuser.dropIndex({age:1}) # 删除_id之外的索引
+db.testuser.dropIndexes() # 删除_id之外的所有索引
+
+# 使用
+db.xxx.find(xx).explain()
+
+"inputStage" : {
+    "stage" : "IXSCAN", # 值为 IXSCAN 表示基于索引扫描，如果 COLLSCAN 全局扫描
+    "keyPattern" : { # 使用了这些索引
+        "age" : 1
+    },
+    "indexName" : "age_1", # 索引名称  
+    "isUnique" : true, # 是否是唯一索引
+}
+```
+
+### 分组(group)
+
+```shell
+# 分组统计 
+# 统计各组身高不高于170的人数
+db.testuser.group({
+	key:{sex:1},  # 分组字段，指定根据什么来分组 -- 如果通过性别 可分为两组 
+	cond:{height:{$lt:170},	# 查询条件  --   通过条件筛选，只对符合条件的进行操作
+	initial:{counter=0},	# 初始化 -- 这边这样每组调用 reduce前 都会把counter从0开始
+	# 聚合函数， 每组都会调用 reduce,参数一 是该组的每一个文档 ，result 全局属性
+	reduce:function(item,result){result.counter +=1 }, 
+	finalize:function(result){} # 每统计一组后的回调函数，比如平均值就需要 reduce 相加完，来这里操作
+})
+
+# 通过分支最终的到的结果中留下 [{sex:m, counter:10},{sex:g, counter:20}]
+# group 不支持分布式运算
+```
+
+### 聚合(aggragate)
+
+>   主要对集合中的数据进行各种统计，并返回统计后的数据结果
+
+1.   常用管道操作
+     1.   $group : 将集合的统计结果进行分组
+     2.   $match : 用于过滤数据，找出符合条件的文档 ( 类似 where 子句)
+     3.   $project : 修改输入文档的结构，增加删除字段等
+     4.   $limit : 限制管道返回的文档数量
+     5.   $skip : 跳过指定属性的文档
+     6.   $sort : 将文档排序后输出
+     7.   $unwind : 将文档中某一个数组字段，拆分成多条，每条包含数组的一个值
+2.   常用管道表达式
+     1.   平均数($avg)
+     2.   求和($sum)
+     3.   第一个($first)
+     4.   最后一个($last)
+     5.   最大/小($max/$min)
+     6.   得到的数据放到数组中($push)
+
+```shell
+# 数据通过多个管道进行处理
+# 聚合表达式 平均数($avg)、求和($sum)、第一个($first)、最后一个($last)、最大/小($max/$min)、得到的数据放到数组中($push)
+# db.testuser.aggragate([{操作1},{操作2:{xxx}}])
+
+# 通过 sex 字段分组，得到每组的平均 height，保存到 avgerxxx 中
+db.testuser.aggragate([{$group:{_id:"$sex",avgerxxx:{$avg:"$height"}}}])
+# 通过 sex 字段分组，得到每组的最矮的人的高
+db.testuser.aggragate([{$group:{_id:"$sex",minval:{$min:"$height"}}}])
+# 把各组没人身高放到储存起来
+db.study.aggregate([{$group:{_id:"$sex",heiarr:{$push:"$height"}}}])
+
+# 多管道
+# 身高大于180，男女生的数量    =>     $match 表达式属性不要 $
+db.study.aggregate([
+	{$match:{height:{$gt:180}}},
+	{$group:{_id:"$sex",sums:{$sum:1}}}
+])
+
+# 身高大于180，男女生的数量，只输出属性
+ db.study.aggregate([
+ 	{$match:{height:{$gt:170}}},
+ 	{$group:{_id:"$sex",sums:{$sum:1}}},
+ 	{$project:{_id:0,sums:1}}
+ ])
+ 
+ # 身高大于180，男女生的数量,排序输出 -1 降序
+  db.study.aggregate([
+ 	{$match:{height:{$gt:170}}},
+ 	{$group:{_id:"$sex",sums:{$sum:1}}},
+ 	{$sort:{sums:-1}} 
+ ])
+ 
+ # 找出女生，降序后，第2-3个，的名字与高度
+ db.study.aggregate([
+ 	{$match:{sex:"g"}},
+ 	{$sort:{height:-1}},
+ 	{$skip:1},
+ 	{$limit:2},
+ 	{$project:{_id:0,name:1,height:1}}
+ ])
 ```
 
 
@@ -275,7 +361,7 @@ readWrite # 允许用户读写指定数据库
 3、db.auth('mongoroot','123456') # 验证账号是否可用，1 成功
 
 # 查看用户信息 
-# "db" : "user11" 表示用户只能操作 user11 数据库 
+# "db" : "testuser" 表示用户只能操作 testuser 数据库 
 show users
 
 # 普通数据库下创建用户，u2只能操作这一个数据库
@@ -289,7 +375,7 @@ mongod --port=27017 --dbpath=/mongod/data --logpath=/mongod/log/mongodb.log --bi
 
 # 以账号登录,
 mongo -umongoroot -p123456 --authenticationDatabase=admin
-mongo -uu2 -p123456 --authenticationDatabase=user11
+mongo -uu2 -p123456 --authenticationDatabase=testuser
 
 ```
 
