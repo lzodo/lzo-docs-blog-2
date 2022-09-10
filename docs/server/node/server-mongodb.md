@@ -75,8 +75,6 @@ exit
 mongod -f /xx/xx/xx/mongod.conf 启动
 ```
 
-
-
 ### 连接数据库
 
 #### 图形工具连接
@@ -106,11 +104,114 @@ mongoose.connect("mongodb://localhost/pro-node-lagou", {})
 mongoose.connect('mongodb://mongoroot:xxxxxx@xxx.xxx.xxx.xxx:27017/pro-node-lagou?authSource=admin', {})
 ```
 
+
+## 安全
+###  用户管理权限
+
 ```shell
+mongo 的权限认证与登录，默认是不需要的，通过 --auth 开启的mongo服务，才需要
+	
+# 查看角色列表
+show roles
+root  # 超级账号，超级权限，只在admin库中可用
+dbOwner # 允许用户在指定数据库中执行任意操作
+read  #允许用户读取指定数据库
+readWrite # 允许用户读写指定数据库
+...
+
+# 创建管理员账户，哪个创建的用户，默认归属那个数据库，只能操作那个数据库
+1、进入 use admin 管理员库设置管理员账号(默认没密码的)
+2、db.createUser({user:"mongoroot",pwd:"123456",roles:["root"]})
+3、db.createUser({user:"u1",pwd:"123456",roles:[{ role: "userAdminAnyDatabase", db: "admin" }]}) # 给u1指定库
+4、db.auth('mongoroot','123456') # 验证账号是否可用，1 成功
+
+# 查看用户信息 
+# "db" : "testuser" 表示用户只能操作 testuser 数据库 
+show users
+
+# 普通数据库下创建用户，u2只能操作这一个数据库
+db.createUser({user:"u2",pwd:"123456",roles:["dbOwner"]})
+
+# 删除用户
+db.dropUser("u2")
+
+# 普通方式启动还是不需要账号密码就能登录，要以授权方式启动 --auth
+mongod --port=27017 --dbpath=/mongod/data --logpath=/mongod/log/mongodb.log --bind_ip=0.0.0.0 --fork --auth
+# 配置文件添加 auth
+security:                                                                                                   	authorization: enabled
+
+# 以账号登录,
+mongo -umongoroot -p123456 --authenticationDatabase=admin
+mongo -uu2 -p123456 --authenticationDatabase=testuser
+
+# 普通连接，授权放方式登录
+mongo
+# use 到某个数据库test
+db.auth('testRoleRser','123456')
+
+```
+
+###  副本集(replication)
+
+1.   一个活跃节点( **Primary** ) + N 个备份节点( **Secondary** )
+     1.   数据同步备份
+          1.   备份节点`定期，轮询`获取`主节点`的`数据库操作`，自己数据库副本`执行这些操作`，来`实现数据同步`
+     2.   若活跃接点奔溃，数据库会将其中一个北方接点审计为活跃接点
+     3.   备份节点不能主动去操作，想看的话先执行`rs.slaveOk()`
+
+```shell
+# 启动三个服务器，并设置所属的副本集 为 rs0
+mongod --port 27017 --dbpath "D:/mongod/data1" --replSet rs0
+mongod --port 27018 --dbpath "D:/mongod/data2" --replSet rs0
+mongod --port 27019 --dbpath "D:/mongod/data3" --replSet rs0
+
+# 登录任意一个端口的 mongo，设置，初始化副本集
+# 设置配置对象
+replSet_config = {
+	_id:"rs0",
+	members:[
+		{
+			_id:0,
+			host:"127.0.0.1:27017",
+		},
+		{
+			_id:1,
+			host:"127.0.0.1:27018",
+		},
+		{
+			_id:2,
+			host:"127.0.0.1:27019",
+		},
+	]
+}
+# 初始化
+rs.initiate(replSet_config)
+
+# 查看副本集状态
+rs.status()
+
+# 验证数据同步备份
+rs.slaveOk() # 备份节点中执行后才能正常访问
+
+# 登录指定端口
+mongo 127.0.0.1:27019 
+
+```
+
+#### 多服务器副本集
+
+```shell
+...
+
+
+...
+# 程序连接方式 mongodb://username:password@192.168.56.101:27017,192.168.56.102:27017,192.168.56.103:27017/db_name?replicaSet=rschunqiu
 ```
 
 
 
+
+## MongoDB 使用
 ### 概念
 
 -   NoSQL **( Not Only SQL )** 非关系型数据库，是 不`同于传统关系型数据库` 的统称
@@ -135,7 +236,7 @@ mongoose.connect('mongodb://mongoroot:xxxxxx@xxx.xxx.xxx.xxx:27017/pro-node-lago
 
 -   
 
-## 操作指令
+###  操作指令
 
 ```shell
 mongodb  #数据库名
@@ -331,54 +432,10 @@ db.study.aggregate([
  	{$limit:2},
  	{$project:{_id:0,name:1,height:1}}
  ])
+ 
+ # 将文档数组类型字段 list，将文档拆分多个文档，每个文档的list 是原来 list数组的一个值
+ db.study.aggregate([{$unwind:"$list"}])
 ```
-
-
-
-### 权限
-
-```shell
-mongo 的权限认证与登录，默认是不需要的
-
-3、创建管理员账户，以后就需要密码了 ,管理的的 admin数据库
-	 db.createUser({user:"mongoadmin",pwd:"123456",roles:[{role:"userAdmin",db:"admin"}]})
-	 
-	xxxxx.....
-	
-# 查看角色列表
-show roles
-root  # 超级账号，超级权限，只在admin库中可用
-dbOwner # 允许用户在指定数据库中执行任意操作
-read  #允许用户读取指定数据库
-readWrite # 允许用户读写指定数据库
-...
-
-# 创建管理员账户，哪个创建的用户，默认归属那个数据库，只能操作那个数据库
-1、进入 use admin 管理员库设置管理员账号(默认没密码的)
-2、db.createUser({user:"mongoroot",pwd:"123456",roles:["root"]})
-3、db.createUser({user:"u1",pwd:"123456",roles:[{ role: "userAdminAnyDatabase", db: "admin" }]}) # 给u1指定库
-3、db.auth('mongoroot','123456') # 验证账号是否可用，1 成功
-
-# 查看用户信息 
-# "db" : "testuser" 表示用户只能操作 testuser 数据库 
-show users
-
-# 普通数据库下创建用户，u2只能操作这一个数据库
-db.createUser({user:"u2",pwd:"123456",roles:["dbOwner"]})
-
-# 删除用户
-db.dropUser("u2")
-
-# 普通方式启动还是不需要账号密码就能登录，要以授权方式启动 --auth
-mongod --port=27017 --dbpath=/mongod/data --logpath=/mongod/log/mongodb.log --bind_ip=0.0.0.0 --fork --auth
-
-# 以账号登录,
-mongo -umongoroot -p123456 --authenticationDatabase=admin
-mongo -uu2 -p123456 --authenticationDatabase=testuser
-
-```
-
-
 
 ### mongoose
 

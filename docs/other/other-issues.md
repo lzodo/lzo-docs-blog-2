@@ -150,3 +150,4 @@ huaweibyun 114.115.212.129 l...16.
 
 密码管理器？？？？
 
+Navicat mongo : lzoxun  ->  4233 -> lzx123456.XUN
