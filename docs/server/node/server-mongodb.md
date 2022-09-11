@@ -184,10 +184,21 @@ replSet_config = {
 		},
 	]
 }
+
+replSet_config = {
+	_id:"rs1",
+	members:[
+		{
+			_id:1,
+			host:"114.115.212.129:27018",
+		}
+	]
+}
 # 初始化
 rs.initiate(replSet_config)
 
 # 查看副本集状态
+# health:1 健康的， stateStr:"PRIMARY" 主节点
 rs.status()
 
 # 验证数据同步备份
@@ -201,8 +212,33 @@ mongo 127.0.0.1:27019
 #### 多服务器副本集
 
 ```shell
-...
+# 服务器1 
+mkdir -p ./mongodb/repl/rs_1/log
+mkdir -p ./mongodb/repl/rs_1/data/db
 
+vim ./mongodb/repl/rs_1/mongod.conf # 填写 /etc/mongod.conf 内容 更改数据和日志地址 放开 replSetName: 副本集名称
+
+# 服务器2 
+。。。
+
+# 进入希望作为获得节点的服务器 mongo localhost:27018 启动数据库 
+
+# 启动
+mongod -f /root/mongodb/repl/rs_1/mongod.conf
+
+# 初始化 (可以直接传入配置)
+rs.initiate() 
+
+# 查看状态，rs.conf() 本质是 local 库下 db.system.replset.find()
+config = rs.conf()
+# host不是ip需要修改
+config.members[0].host = "192.168.16.134:27018"
+rs.reconfig(config) # 重载配置
+
+# 添加副本节点 
+rs.add("114.115.212.129:27018") # 云端端安全组开放端口，本地主要防火墙开放端口
+
+# https://ke.qq.com/course/2930572/9864689478317964#term_id=103043162 add无法添加 卡住
 
 ...
 # 程序连接方式 mongodb://username:password@192.168.56.101:27017,192.168.56.102:27017,192.168.56.103:27017/db_name?replicaSet=rschunqiu
@@ -356,6 +392,8 @@ db.xxx.find(xx).explain()
 
 ### 分组(group)
 
+>   只能对本地单台机器数据处理
+
 ```shell
 # 分组统计 
 # 统计各组身高不高于170的人数
@@ -436,6 +474,54 @@ db.study.aggregate([
  # 将文档数组类型字段 list，将文档拆分多个文档，每个文档的list 是原来 list数组的一个值
  db.study.aggregate([{$unwind:"$list"}])
 ```
+
+### MapReduce 
+
+>   大数据计算模型，支持分布式，支持大量服务器同时工作 
+
+```shell
+# 通过 map (第一个函数)，处理每一个文档，map函数中最后通过调用 emit(key,value) 返回键值对
+# 系统会将emit的数据整理成 <k1,[v1,v2,v5]>  <k2,[v3,v4]> 这样的格式 
+# 通过 reduce (第二个函数)，<k1,[v1,v2,v5]> 对每一个相同键进行处理  => 参数1 = k1,参数2 = [v1,v2,v5]
+# 参数三，一个对象，把reduce输出的值进行各种处理
+
+# 统计 study 集合中，相同年龄的有谁，输出到当前数据库的 res 集合中
+# res集合中 _id 就是 age的值，value就是age值，对应的学生名字
+var map = function(){
+	# 先把文档数据经过各种处理
+	emit(this.age,this.name); # 可以调用多次
+}
+var reduce = function(age,values){ # k1,[v1,v2,v5]
+	 return values
+}
+db.study.mapReduce(map,reduce,{out:"res"})
+
+# optin    
+	out 输出的集合名称
+	query 塞选完再执行map
+	sort 排序完再执行map
+	limit 限制个数执行map
+	
+db.study.mapReduce(map,reduce,{
+	out:"res",
+	sort:{age:-1},
+	query:{age:20}, 
+	limit:2
+})
+
+```
+
+### 分片，分布式集群
+
+1.   副本集类似备份，每个备份节点内容是一样的，不担心某个数据库挂了
+
+2.   分布式集群，每个服务器只存能存下数据的一部分，满了，在开一个服务器，继续储存
+3.   通过 `mongos` 转发到每一个分片 ，传达用户请求
+
+```shell
+```
+
+
 
 ### mongoose
 
@@ -527,6 +613,75 @@ User.update({ age: 20 }, { us: "new123" })
 
 ## 导入导出备份
 
+### 备份（ mongodump ）
+
+>   .bson 方式输出，无法查看
+
+```shell
+# mongodump -h dbhost -d dbname -c cname -o dbdirectory
+# dbhost 需要备份的主机
+# dbname 需要备份的数据库
+# cname 需要备份的集合 (备份整个数据库就不需要 -c 了)
+# dbdirectory 输出存放位置
+mongodump -h 127.0.0.1:27017 -d test -c table -o /root/mongosave/
+mongodump -h 127.0.0.1 --port 27017 -d test -c table -o /root/mongosave/
+
+# --auth 开启的 mongo
+mongodump -h 127.0.0.1:27017 -u admin -p 123456 --authenticationDatabase admin -d test ...
+
+# 备份成功后生成两文件 .json 试一下概要信息，.bson(json 的二进制格式) 保存真正的数据
+
+```
+
+### 恢复 ( mongorestore )
+
+```shell
+# mongorestore -h dbhost ----nsInclude="数据库名.集合名" --dir=dbdirectory
+# dbhost 需要备份的主机
+# dbdirectory 需要恢复的数据库、或集合的位置
+# --drop 删除集合中所有数据，完全恢复备份的数据，备份后添加的数据会被删
+mongorestore -h 127.0.0.1:27017 --nsInclude="test.table" --dir=/root/mongosave
+
+# 账号密码
+mongorestore -h 127.0.0.1:27017 -u admin -p 123456 --authenticationDatabase admin --nsInclude="test.table" --dir=/root/mongosave
+
+# 数据恢复，会将备份之后删除的添加回来，备份之后添加的默认不动
+
+```
+
+### 导出 （ mongoexport ）
+
+>   得到一份可以可以看的 json 数据，普通数据，任何地方都能导入
+
+```shell
+# mongoexport -h dbhost -d dbname -c cname -o dbdirectory/xxxx.json
+# dbhost 需要导出的主机
+# dbname 需要导出的数据库
+# cname 需要导出的集合
+# dbdirectory 输出存放位置
+mongoexport  -h 127.0.0.1:27017  -d test -c table -o /root/mongoexport/xx2.json
+mongoexport  -h 127.0.0.1:27017  -u admin -p 123456 --authenticationDatabase admin -d test -c table -o /root/mongoexport/xx2.json
+```
+
+### 导入 ( mongoimport )
+
+>   在原有数据追加数据(_id重复会导致无法导入，没_id会自动生成_id)，不存在的数据库或集合，导入会自动创建
+
+```shell
+mongoimport -h 127.0.0.1:27017 -d test2 -c tab2 ./mongoexport/xx2.json
+mongoimport -h 127.0.0.1:27017 -u admin -p 123456 --authenticationDatabase admin -d test2 -c tab2 ./mongoexport/xx2.json
+```
+
+
+
+
+
+
+
+
+
+
+
 -   数据库相关工具
     +   导入`mongoimport`
         *   `-h` : 指明数据库宿主机的IP
@@ -548,14 +703,8 @@ User.update({ age: 20 }, { us: "new123" })
         *   `-c` : 指明collection的名字
         *   `-f` : 指明要导入那些列
         *   `mongoimport -d pro-node-lagou -c menus menus.dat`
-    +   备份`mongodump`
-        *   导出至少精确到集合，备份是整个数据库
-        *   `mongodump -d pro-node-lagou -o D:\lzo-project\lzo-everyday\mongodb-export`
-            -   D:\MyData\projects\lzo-everyday\mongodb-export
-        *   备份的数据默认存放位置，例如：c:\data\dump，当然该目录需要提前建立，在备份完成后，系统自动在dump目录下建立一个pro-node-lagou目录，
     +   恢复`mongorestore`
         *   `mongorestore D:\lzo-project\lzo-everyday\mongodb-export`
-        
     +   `mongofiles`保存大文件
     +   `mongostat`是mongodb自带的状态检测工具
     +   `mongotop`用来跟踪MongoDB的实例
