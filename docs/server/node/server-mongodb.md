@@ -151,13 +151,17 @@ db.auth('testRoleRser','123456')
 
 ```
 
-###  副本集(replication)
+###  副本集(replication) 复制
 
 1.   一个活跃节点( **Primary** ) + N 个备份节点( **Secondary** )
      1.   数据同步备份
           1.   备份节点`定期，轮询`获取`主节点`的`数据库操作`，自己数据库副本`执行这些操作`，来`实现数据同步`
      2.   若活跃接点奔溃，数据库会将其中一个北方接点审计为活跃接点
      3.   备份节点不能主动去操作，想看的话先执行`rs.slaveOk()`
+2.   实现故障转移，主从复制
+     1.   解决问题 数据冗余备份，架构高可用
+     2.   无法解决单节点压力问题( 硬件限制，并发访问压力)
+
 
 ```shell
 # 启动三个服务器，并设置所属的副本集 为 rs0
@@ -236,12 +240,14 @@ config.members[0].host = "192.168.16.134:27018"
 rs.reconfig(config) # 重载配置
 
 # 添加副本节点 
-rs.add("114.115.212.129:27018") # 云端端安全组开放端口，本地主要防火墙开放端口
+rs.add("114.115.212.129:27018") # 云端端安全组开放端口，本地主要防火墙开放端口 ,  问题可能没关闭selinux
 
 # https://ke.qq.com/course/2930572/9864689478317964#term_id=103043162 add无法添加 卡住
 
 ...
 # 程序连接方式 mongodb://username:password@192.168.56.101:27017,192.168.56.102:27017,192.168.56.103:27017/db_name?replicaSet=rschunqiu
+
+var config={_id:"rs1",members:[{_id:1,host:"114.115.212.129:27018"}]}
 ```
 
 
@@ -513,12 +519,69 @@ db.study.mapReduce(map,reduce,{
 
 ### 分片，分布式集群
 
-1.   副本集类似备份，每个备份节点内容是一样的，不担心某个数据库挂了
+![集群规划](D:\MyData\projects\lzo-docs-blog-2\static\img\2022-09-12_094526.jpg)
 
-2.   分布式集群，每个服务器只存能存下数据的一部分，满了，在开一个服务器，继续储存
-3.   通过 `mongos` 转发到每一个分片 ，传达用户请求
+1.   **对比副本集：**副本集类似备份，每个备份节点内容是一样的，不担心某个数据库挂了
+
+2.   **分布式集群：**每个服务器只存能存下数据的一部分，满了，在开一个服务器，继续储存
+3.   **主要部分：**
+     1.   `分片节点` - 普通mongod 进程，也可以是副本集，保存分片后的集合数据块
+     2.   `mongos路由节点` - 起到一个前端路由功能，供客户端进行接入，启动时从`配置节点`加载信息，当客户端连接到服务器时，会询问配置服务器，要到那个分片服务器上操作数据
+     3.   `配置节点` - 记录了`每个分片服务器`包含了`哪些数据`的信息，保存的只是数据的`分布表`
+
 
 ```shell
+# 1、启动三个分片节点
+mongod --shardsvr --dbpath "/root/mongos/data1/data/" --port 1111
+mongod --shardsvr --dbpath "/root/mongos/data2/data/" --port 2222
+mongod --shardsvr --dbpath "/root/mongos/data3/data/" --port 3333
+
+# 配置文件 有一个 
+sharding:
+	clusterRile:shardsvr
+
+
+# 2、启动配置节点副本集
+mongod --configsvr --replSet rs_cfg --dbpath "/root/mongos/config_data7/data/" --port 7777
+mongod --configsvr --replSet rs_cfg --dbpath "/root/mongos/config_data78data/" --port 8888
+# 副本集哪有的配置信息初始化
+mongo --port 7777 # 登录 7777 端口服务
+cfg = {
+	_id:"rs_cfg",
+	configsvr:true,
+	members:[
+		{_id:0,host:"127.0.0.1:7777"},
+		{_id:1,host:"127.0.0.1:8888"}
+	]
+}
+rs.initiate(cfg)
+
+# 3、启动 mongos 路由节点 (前面的都是mongod服务) 都在mongos操作所有数据，不需要去哪些分片节点了
+mongos --configdb 副本集名/配置节点地址 --port 端口
+mongos --configdb rs_cfg/localhost:7777,localhost:8888 --port 9999
+
+# 4、将分片节点信息添加到路由服务器中
+# mongo 5.x新版 sh. 肯都有改db.runCommand()
+mongo --port 9999 # 进入mongos 服务
+sh.addShard("localhost:1111") # sh 表示分布式集群
+sh.addShard("localhost:2222")
+sh.addShard("localhost:3333")
+sh.status() # 查看集群状态
+
+# 5、启动分片， 
+sh.enableSharding("test") # 将test作为分片数据库
+db.runCommand({enableSharding:"test"}) 
+sh.shardCollection("test.persons",{name:1}) # 对test persons集合提供分片支持，片键name,1 代表启用name为片键
+db.runCommand({shardCollection:"test.persons",key:{name:1}})
+db.runCommand({shardCollection:"test.persons",key:{_id:"hashed"}}) # hash 散列平均分片到所有分片
+# 片键(shard key)，通过片键决定数据存到哪个节点分片，片键必须是集合文档中存在的，片键太有规律肯能所有的会被分片到同一个分片
+# mongos 不允许插入没有片键的文档
+# 设置分片时在集合中选一个键，该键的值作为财富数据的依据
+
+# 6、使用 进入mongos --port 9999 服务，操作与以前单个服务一致
+ for(var i=0;i<1000000;i++){db.persons.insert({name:"name"+i,age:i})} # 测试数据储存位置
+
+
 ```
 
 
