@@ -932,7 +932,6 @@ dnf makecache
             -   `list-units`:查看所以单元
                 -   `--type=service`:只看 service 类型正在运行的服务
                 -   `--type=service --all`:只看 service 类型所有的服务
-        -   `netstat -antp`:查看系统网络服务
 
     -   完整的服务管理流程
         -   安装相关服务程序
@@ -1234,7 +1233,8 @@ ONBOOT="yes" # 开机读取
 -   `netstat`
     -   `netstat -anp|grep 21`:查询端口是否被使用
     -   `netstat -antup|grep pid`:根据 pid 查看端口使用者
-    -   `netstat -tlnp`:
+    -   `netstat -tlnp`:查看监听的端口
+    -   `netstat -antp`:查看系统网络服务
 -   `ss`
 -   `ip xxx`
 -   `lsof`:需要安装
