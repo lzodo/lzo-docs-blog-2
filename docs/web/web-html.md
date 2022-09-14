@@ -98,12 +98,17 @@ title: html
                     ![过程](D:\MyData\projects\lzo-docs-blog-2\static\img\2022-09-03_135559.jpg)
                
                3.    现在一般都用 `utf-8`
-          
+     
      2.   `title` 
+     
+     3.   link 外部资源链接
+     
+          1.   ref 设置类型 ， href 引入资源路径
+          2.   ref ="icon|stylesheel|dns-prefetch|preload"    图标 、样式表、指定域名提前解析  、预加载
      
 3.   **body**
 
-     1.   h （利于seo优化） 、p、ul li、
+     1.   h （利于seo优化） 、p、ul li 、ol li、dl dt dd、from
 
      2.   img  
 
@@ -122,25 +127,27 @@ title: html
            <!--协议地址-->
            <a href="mailto:xx@qq.com">发送邮件</a>
           ```
-     
+         
           3.   target 以什么方式打开 href，_self   _blank   _top(多层iframe最顶层打开)  _parent(多层iframe上层打开) ...
           4.   `锚点` a 元素的`href='#eleId'` 指向某个元素的 id  (实现`单页面菜单`，或`容器滚动到最底部`)
      
      4.   iframe
      
           1.   禁止别人引用 , 页面响应头设置 `X-Frame-Options:sameorigin` 表示只在同源域名下才能引用
-     
      5.   `div` `span` 和`strong` `i` 这种元素的来源 
      
           1.   早期并没有css样式，为了让页面更好看，所有添加可各种各样包含各种样式的标签
           2.   htm基本元素  ->  添加各种strong标签  -> 臃肿不好维护  -> css成为为标准 -> 样式分离，h1 strong i 这些 都能样式实现 -> 出现`div/span 盒子 来搭建基本结构`，`css调样式`, 如果有`语义化`的东西在用对应标签`h1 ul p` 不好看css再微调
-     
-     6.   link 外部资源链接
-     
-          1.   ref 设置类型 ， href 引入资源路径
-          2.   ref ="icon|stylesheel|dns-prefetch|preload"    图标 、样式表、指定域名提前解析  、预加载 
-
-
+     6.   table
+          1.   格式 table>(thead>tr>th)(tbody>tr>td)
+          2.   `border-collapse:collapse`  边框折叠，适合合并td左右边框
+          3.   常用属性：colspan="2" 跨列 (横向合并)、rowspan="2" 跨行（纵向合并）
+     7.   from 
+          1.   常用属性: disabled、readonly(只读)、checked 、autofocus(自动聚焦)
+          2.   Input Type
+               1.   button 普通按钮
+               2.   reset 重置，点击有默认行为，from标签内生效 (button type='reset' 也可以)
+               3.   submit 提交，点击有默认行为，from标签内生效
 
 ### HTML 关机知识点
 
