@@ -142,16 +142,62 @@ title: html
           1.   格式 table>(thead>tr>th)(tbody>tr>td)
           2.   `border-collapse:collapse`  边框折叠，适合合并td左右边框
           3.   常用属性：colspan="2" 跨列 (横向合并)、rowspan="2" 跨行（纵向合并）
+          4.   caption 表格标题
      7.   from 
-          1.   常用属性: disabled、readonly(只读)、checked 、autofocus(自动聚焦)
-          2.   Input Type
+          1.   常用属性: disabled、readonly(只读)、checked （checkbox的默认选择）、autofocus(自动聚焦)、selected(下拉的默认选择)
+          2.   Input Type 
                1.   button 普通按钮
                2.   reset 重置，点击有默认行为，from标签内生效 (button type='reset' 也可以)
-               3.   submit 提交，点击有默认行为，from标签内生效
+               3.   submit 提交，点击有默认行为，from标签内生效 
+               4.   radio 单选
+               5.   checkbox 多选
+          3.   Input Name
+               1.   用于表单submit时参数key构建
+               2.   相同Name 在 radio类型input 不能同时选择
+               3.   相同Name 确定 checkbox 类型input 是否为同一个东西 
+          4.   Input Value
+               1.   用于表单submit参数value的构建
+          5.   label  与某个input，textarea等元素绑定，点击label，就可以激活input ( label 的 for 与 input 的 id 关联 )
+          6.    textarea 多行输入
+               1.   cols 指定列数，rows 指定行数
+               2.   `css resize:none` 隐藏左下角拉伸的按钮
+          7.   select option
+
+### emmet 工具
+
+>   快速审查html 
+
+```shell
+# 快速生成h5默认结构
+!
+# 属性
+a[href="xxxx"]{链接}>span
+# > 子代 
+div>ul>li
+# + 兄弟
+div+div.tow$
+# 批量与内容
+div>ul>li*10{文本$} 
+# () 分组
+div>(div.div1>div.div1child)+div.div2
+# ^ 上级 .div11与.div1同级
+div>div.div1>div.div2^div.div11
+```
+
+>   css Emmet
+
+```shell
+w100 width:100px
+w100+h100 宽高100px  
+m20-30-40-50 margin:10px 30px 40px 50px;
+
+```
+
+
 
 ### HTML 关机知识点
 
-`文档类型` `字符集` `URL` `SEO` `元素` `实体字符` `元素属性公私属性` `语义化标签`
+`文档类型` `字符集` `URL` `SEO` `元素` `实体字符` `元素属性公私属性` `语义化标签` `表格` `表单`
 
 
 ​	
