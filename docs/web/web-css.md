@@ -5,7 +5,7 @@ title: css
 
 >   层叠样式表 , 给标签添加样式
 
-`内联样式` `内部样式` `link href 外部样式` `选择器` `定位` `文档流` `伪类` `伪元素`  `单位` `继承` `盒子模型` 
+`内联样式` `内部样式` `link href 外部样式` `选择器` `定位` `文档流` `伪类` `伪元素`  `单位` `继承` `盒子模型` `图标 字体图标`
 
 [官方文档](https://www.w3.org/TR/?tag=css)   [MDN文档](https://developer.mozilla.org/zh-CN/docs/Web/CSS)  [兼容性](https://caniuse.com)
 
@@ -182,8 +182,77 @@ title: css
 
 
 
-
 ### 选择器
+
+### 图标
+
+#### 边框图标
+
+```css
+box-sizing:border-box; /* 设置主内容包括边框 ，放大边框可以挤掉所有盒子的位置*/
+/* 三个边框 color 设置 transparent 透明，产生三角图标 */
+/* https://css-tricks.com/the-shapes-of-css/#top-of-site*/
+```
+
+
+
+####  字体图标
+
+1.   font-family:""; 使用的字体，默认是系统中储存的字体 
+
+2.   自定义网络字体
+
+     ```css
+     /* 引用字体 */
+     @font-face{ 
+       font-family:YH;
+       src:url(http://domain/fonts/MSYH.TTF); /* 一般回下载到本地 */
+     }
+     
+     @font-face{ 
+       font-family:YH;
+       src:url("./fonts/xxx.eot"); /* 专门为了兼容IE */
+       src:url("./fonts/xxx.eot?#iefix" format("embedded-opentype")), /* format 帮助浏览器快速识别字体 */
+           url("./fonts/xxx.woff" format("woff")),
+           url("./fonts/xxx.ttf" format("truetype")),
+           url("./fonts/xxx.svg" format("svg")),
+        ;
+     }
+     
+     /* 普通使用字体 */
+     html{
+         font-family:"YH";
+     }
+     
+     
+     /* 字体可以说设置成各种形状，所有也能设置成图标的样子 https://www.iconfont.cn */
+     .iconfont { /* 希望使用字体图标的地方 必须用有类 iconfont ，*/
+         font-family:"YH";
+     }
+     
+     i class='iconfont icotype'  编码 /i
+     /* 也可以写到样式中, 通过给 icotype 就能直接使用某个图标了*/
+     .icotype::before{
+         content:"编码"
+     }
+     
+     
+     
+     
+     /* 兼容处理 */
+     OpenType/TrueType 类字体扩展名 .ttf .otf  （两个兼容性好 除了ie8）
+     Embedded OpenType 类字体扩展名 .eot  (仅仅IE支持)
+     SVG字体 扩展名 .svg .svgz (主要适配苹果那个浏览器)
+     WOFF 开放字体扩展名 .woff （兼容性好 除了ie8）  .woff2
+     
+     /* https://www.fonts.net.cn/  有包括有版权的 免费的多种字体 */
+     
+     
+     ```
+
+     
+
+
 
 
 
