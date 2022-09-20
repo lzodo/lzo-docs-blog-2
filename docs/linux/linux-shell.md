@@ -350,6 +350,9 @@ ${#list[@]} # 获取数组长度
             -   `-d、-r`:查找文件是一个目录必须加这个参数
             -   `-l`:列出目录下匹配到内容所在的文件
         -   pattern:匹配模式 内容
+        -   查找文件夹下所有文件总行数目
+            -   grep . -rl --exclude-dir={node_modules,dist} --exclude={yarn.lock} ./|xargs grep -v "^$"|wc -l
+            -   grep 找到当前文件夹下所有文件||
     -   `sed`:(流编辑器 文本编辑工具)查找、替换
         -   格式: `sed [选项] 'sed脚本' 文本文件`
             -   多选项 -i -E 分开
