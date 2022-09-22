@@ -87,6 +87,7 @@ title: 工作学习资源
 -   [grid 学习工具 2](https://cssgrid-generator.netlify.app/)
 -   [button样式参考](https://www.bestcssbuttongenerator.com/)
 -   [html-css-js](https://html-css-js.com/)
+-   [查看图片，或设计稿图标的信息](http://www.spritecow.com/)
 ## 可s用素材
 
 ### 图库
