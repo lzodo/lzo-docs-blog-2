@@ -26,3 +26,5 @@ title: 开发脚手架工具
     -   `open`:打开浏览器
     -   `inquirer`:选项
 
+
+详细发布 lzo-nodejs 项目
