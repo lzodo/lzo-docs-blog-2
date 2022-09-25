@@ -142,8 +142,8 @@ ftp> help     ?
           anon_root=/usr/local/ftpdir #配置匿名用户根目录(如果无法直接设置777，许在ftpdir创建777权限文件夹，供匿名用户使用)
           anon_umask=022 #匿名用户上传的文件，其他人能否操作这些文件，的权限掩码 
           anon_upload_enable=YES #是否允许匿名用户上传写入
-          anon_mkdir_write_enable=YES # 控制匿名用户创建目录
-          anon_other_write_enable=YES　# 开启匿名用户可以删除目录和文件
+          anon_mkdir_write_enable=YES
+          anon_other_write_enable=YES
           
           # root 目录下创建 .message 文件
           dirmessage_enable=YES # 登录就会显示 .message 的内容 
@@ -248,6 +248,15 @@ ftp> help     ?
           # /etc/vsftpd/dir/user2
           anon_mkdir_write_enable=YES # 允许创建目录
           
+          # /etc/vsftpd/dir/user3
+          # chown virturl:virturl /var/ftpuser1/  改变所有者与所属组
+          write_enable=YES # 写权限，vsftpd.conf 有的这边就不要设置了
+          anon_upload_enable=YES
+          anon_mkdir_write_enable=YES 
+          anon_other_write_enable=YES # 删除/重命名的权限
+          anon_world_readable_only=YES # 文件的其他人必须有读的权限才允许下载
+          local_root=/var/ftpuser1  # 指定自己独有的家目录，不是 anon 就是 local开头
+          
           
           ```
      
@@ -276,6 +285,54 @@ pasv_max_port=50000
 
 ![华为主机配置](https://support.huaweicloud.com/bestpractice-ecs/zh-cn_topic_0115828034.html)
 ```
+### DNS
+
+ 域名 指向一个 IP 
+
+DNS 就是域名和IP互相解析的一个服务
+
+ #### 域名的组成和分类
+
+>   常见完整格式 `www.atguigu.com.`
+
+1.   `.`：跟域，可以省略不写 ，所有 `com` `cn`等 顶级域，都是建立在跟域上的
+     1.   全球共13台根域名服务器。名字分别为“A”至“M”，10台在美国，另外各有一台设置于英国、瑞典和日本。
+          1.   分为1台主根，12台辅根，辅根数据也必须从主根同步
+     2.   所有根服务器均由美国政府授权的互联网域名与号码分配机构ICANN统一管理
+     3.   国内设置`镜像根域.`使国内用户进行域名解析时效率更快，不要每次都跑国外去
+          1.   `镜像根`的数据只能来源于根域服务器，从根域服务器同步，不能其他方式更新
+2.   `com`：顶级域， ICANN组织指定和管理
+     1.   国家地区域名：**cn 中国**、**hk 香港**、**sg 新加坡** 等
+     2.   通用顶级域名：**com ( 商业机构 )**、**org ( 非盈利组织 )**、**edu ( 教育机构 )** 等
+     3.   新通用顶级域名：red   top
+3.   `atguigu`：二级域（ 注册与 )，个人或组织申请注册
+4.    `www`：三级域 （ 子域 ），服务器网站代表
+5.    `其他`：
+     1.   `s1.www.xxxx.xx` s1代码某台主机
+     2.   `com.cn` 属于二级域名，是 cn 顶级域的子域
+
+#### DNS域名解析过程
+
+1.   客户端访问 `www.atguigu.com`  
+     1.   浏览器自动补齐`:80`
+2.   客户端首先查询自己的 hosts 文件，查看该文件内是否有 `www.atguigu.com` 的记录
+     1.   有 直接返回IP地址给浏览器 
+3.   客户端继续在本机内查询DNS的解析缓存
+     1.   有 直接返回给浏览器
+4.   客户端查看网卡上设置的DNS服务器地址，访问DNS服务器，查询结果，
+     1.   若解析库有解析记录，返回给客户浏览器
+5.   客户机设置的DNS服务器，解析库找不到，去该服务器缓存查找
+     1.   有 直接返回
+6.   DNS服务器 向根域发起`迭代查询`
+     1.   DNS 找到根域， 拿到`com` 顶级域 的 IP地址
+     2.   DNS 根据 `com`顶级域的IP 找到顶级域，获取二级域`atguigu`的ip地址
+     3.    DNS 根据 `atguigu`二级域的地址找到二级域，获取 三级域`www`的 IP，这个就是我们需要的IP地址
+7.   拿到真正的IP地址后，**返回给客户端**，并把这次这个新记录**保存**到自己DNS解析库和缓存中，下次就不要再`迭代查询`了
+
+![解析](D:\MyData\projects\lzo-docs-blog-2\static\img\2022-09-26_013055.jpg)
+
+
+
 ### nc
 
 -   安装 `nmap-ncat`或`nmap-netcat`
@@ -495,6 +552,8 @@ showmount -e 服务端IP
 
 
 ### postfix + dovecot 收发邮件
+
+ 每个企业的邮箱都有 客户端 和  
 
 ### VNC 远程linux图形界面
 
