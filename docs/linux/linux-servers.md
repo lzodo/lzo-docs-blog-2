@@ -54,7 +54,9 @@ iptables -L
 
 ### FTP
 
->   搭建好之后可以通过客户端上传现在服务器的文件
+>   文件传输协议，搭建好之后可以通过客户端上传现在服务器的文件
+
+FTP协议，直接以明文传输，安全不太好
 
 #### 终端ftp
 window自带
@@ -65,7 +67,7 @@ ftp> open ip
 回车 依次输入用户名密码
 
 # help 查看支持的命令列表
-ftp> help 
+ftp> help     ?
 
 # LITERAL PASV 切换被动模式
 ```
@@ -76,78 +78,189 @@ ftp> help
 
 #### 服务端 vsftpd 搭建 ftp 环境
 
-1、vsftpd 基于 FTP 协议
-2、被动模式（Prot）：服务端打开好端口，让客户端主动来连（服务端被动）
-3、主动模式（Pasv）：服务端主动向客户端某个端口进行数据连接
-4、云服务器上你可以连接到服务器上某个端口，但是服务器连接不到你（云服务器最好用被动模式）
+>   vsftpd 基于 FTP 协议，解决了ftp一些传输安全问题 
 
--   安装 `vsftpd`
--   创建访问用户(本地 linux 用户)
--   `/etc/vsftpd.conf`:配置文件
+1.   关闭防火墙 关闭 selinux
+     1.   vim /etc/selinux/config ；SELINUX=enforcing  -> SELINUX=disabled
+     2.   终端 setenforce 1||0 临时开启关闭,  0 管理好像有问题
 
-```shell
+1.   VSFTP链接类型
+     1.   控制链接 （持续连接）-> TCP21 -> 用户收发FTP命令
+     2.   数据链接 （按需链接）-> TCP20 -> 用于上传下载数据
 
-# 本地用户
-local_enable=YES #是否允许本地用户`如root`登录
-local_root=/home/ftpuser #设置本地用户登录后默认路径，否则默认在自己的家目录
-local_umask=022 #设置本地用户上传文件的权限
+2.   主动模式（Prot）：客户端生成随机端口给服务器
 
-# 匿名用户
-# 账户:anonymous或ftp 密码随意
-anonymous_enable=YES #是否允许匿名访问
-anon_root=/usr/local/ftpdir #配置匿名用户根目录(如果无法直接设置777，许在ftpdir创建777权限文件夹，供匿名用户使用)
-anon_umask=022 #匿名用户上传文件的权限
-anon_upload_enable=YES #是否允许匿名用户上传写入
-anon_mkdir_write_enable=YES #控制匿名用户创建目录
-no_anon_password=YES #匿名用户不用密码登录
-ftp_username=ftpuser #匿名登录后的使用者
-anon_other_write_enable=YES　　　　　 　  # 开启匿名用户可以删除目录和文件
-anon_world_readable_only=YES　　　　　 　# 开启匿名用户下载权限
+     1.   服务端打开好21端口，让客户端随时来连
+     2.   如果登录成功，客户端会生成一个随机端口，Prot模式主动将这端口给服务器，用于接收服务器通过`20端口`发出的数据 
 
-# 这两个默认的，默认被动模式
-prot_enable:YES|NO # 是否取消主动模式 默认yes
-pasv_enable:YES|NO # 是否使用被动模式 默认yes
-# 功能性配置
-write_enable=YES #是否允许写入，否则不能上传文件
-chroot_local_user=YES #所有用户不能切换到上级
-allow_writeable_chroot=YES #如果文件不能上传 550 Permis....，可以加上这儿
-ftpd_banner=Welcome to blah FTP service. #ftp链接成功提示
-chroot_list_enable=YES #是否启用限制用户名单
-# 我的arch配置
-anonymous_enable=NO
-local_enable=YES
-write_enable=YES
-local_umask=022
-dirmessage_enable=YES
-xferlog_enable=YES
-connect_from_port_20=YES
-ascii_upload_enable=YES
-ascii_download_enable=YES
-banned_email_file=/etc/vsftpd.banned_emails
-listen=YES
-seccomp_sandbox=NO # arch vsftpd 无法显示列表的原因之一
-pam_service_name=vsftpd
-```
+3.   被动模式（Pasv）：服务端主动生成数据交互端口给客户端
 
--   `ftpusers`:不允许里面的用户登录服务器（manjaro 没有）
--   `user_list`:
-    -   `userlist_enable=YES`:启用这个配置文件
-    -   如果`userlist_deny=NO`,就只允许里面的用户登录，否则 YES 表示不允许里面的用户登录
--   `chroot_list`:文件是限制在主目录下的例外用户名单(里面的用户可以访问上级)
-    -   `chroot_list_enable=YES`                     #启用例外用户名单
-    -   `chroot_list_file=/etc/vsftpd/chroot_list`   #例外用户名单文件
-    -   `allow_writeable_chroot=YES` #所有用户都可以访问上级(与第一个互斥)
+     1.   服务端打开好21端口，让客户端随时来连
+     2.   如果登录成功，客户端向服务端**发送PASV指令**，服务器开发随机端口(需要指定范围)，并把端口告诉客户端
+          1.    随机端口 与 主动模式的 20端口地位是一样的，（注意防火墙开发端口）
+     3.   客户端生成临时端口，与服务器随机端口来与 服务器传输数据
+     4.   云服务器上你可以连接到服务器上某个端口，但是服务器连接不到你（云服务器最好用被动模式）
 
--   安装命令行 ftp 链接工具，`ftp localhost` 测试是否可以链接
+4.   数据传输模式
+
+     1.   **Binary模式：**不对数据进行处理，适用于`可执行文件`、`压缩文件`，`图片`等
+     2.   **ASCII：**进行文本传输时，自动适应模板操作系统的结束符，回车符等
+     3.   切换方式 ftp 命令提示符输入 ascii 或 bin 转换
+
+5.   安装
+     -   安装 `vsftpd`
+     -   `systemctl enable vsftpd` 开机自启服务
+     -   `systemctl start vsftpd` 启动服务
+     -   `netstat -antp` 查看21端口是否开启
+     -   
+     
+6.   登录颜色方式
+     1.   匿名账户登录
+
+          1.   名称 `ftp` 或 `anonymous`
+     
+          2.   无密码，直接回车
+     
+          3.   默认目录：`/var/ftp`
+     
+          4.   默认权限： 可下载不可上传 ( 上传权限由两部分组成 )
+               1.   主配置文件部分 `anon_upload_enable=YES`
+     
+               2.   文件系统部分 
+                    1.   `/var/ftp` 除了所有者之外，组 和 其他人是否有写入权限，一般添加子目录 `chmod 添加权限 777`
+     
+                    2.   本地用户，一般把他的跟文件夹所有者，变成他
+     
+               3.   不用创建大量用户，但是所有人都能用，都设置完在重启
+     
+          5.   相关配置一般 `anon` 开头
+     
+          ```shell
+          # 匿名用户 常用配置 /etc/vsftpd.conf
+          # 账户:anonymous或ftp 密码随意
+          anonymous_enable=YES #是否允许匿名访问
+          anon_root=/usr/local/ftpdir #配置匿名用户根目录(如果无法直接设置777，许在ftpdir创建777权限文件夹，供匿名用户使用)
+          anon_umask=022 #匿名用户上传的文件，其他人能否操作这些文件，的权限掩码 
+          anon_upload_enable=YES #是否允许匿名用户上传写入
+          anon_mkdir_write_enable=YES # 控制匿名用户创建目录
+          anon_other_write_enable=YES　# 开启匿名用户可以删除目录和文件
+          
+          # root 目录下创建 .message 文件
+          dirmessage_enable=YES # 登录就会显示 .message 的内容 
+          
+          no_anon_password=YES #匿名用户不用密码登录
+          ftp_username=ftpuser #匿名登录后的使用者
+          anon_world_readable_only=YES　　　　　 　# 开启匿名用户下载权限
+          ```
+     
+          
+     
+     2.   本地用户登录
+     
+          1.   账号密码 : `本地账户的用户名与密码`
+          2.   工作目录：登录用户家目录  `drwx------`
+          3.   创建访问，不用登录系统的用户(本地 linux 用户)
+               1.   `useradd -s /sbin/ nologin zhangsan`
+          4.   相关配置一般`local`开头，所有用户local配置的是一样的
+     
+          ```shell
+          # 本地用户 /etc/vsftpd.conf
+          local_enable=YES #是否允许本地用户`如root`登录
+          local_root=/home/ftpuser #设置本地用户登录后默认路径，否则默认在自己的家目录
+          local_umask=022 #设置本地用户上传文件的权限
+          
+          listen=YES
+          listen_ipv6=YES # 注释掉
+          local_max_rate=0 # 限制最大传输速率
+          write_enable=YES #是否允许写入，否则不能上传文件
+          ftpd_banner=Welcome to blah FTP service. # ftp链接成功提示
+          
+          # 配置文件 chroot_list
+          chroot_local_user=YES # 本地用户不能切换到上级
+          chroot_list_enable=YES #是否启用限制用户名单
+          chroot_list_file=/etc/vsftpd/chroot_list # 如果开启就要指定路径，里面的用户不限制去上级
+          allow_writeable_chroot=YES #如果文件不能上传 550 Permis....，可以加上这儿
+          allow_writeable_chroot=YES & setenforce 0 # 这个设为yes 并且 关闭eslinux，才能正常使用 chroot
+          
+          # 配置文件 user_list
+          userlist_enable=YES & userlist_deny=YES # 禁止/etc/vsftpd/user_list 文件中的用户登录
+          userlist_enable=YES & userlist_deny=NO # 允许 /etc/vsftpd/user_list 文件中的用户登录
+          
+          # 配置文件 ftpusers 权限高，里面所有用户都不允许登录，root默认在里面（（manjaro 没有））
+          
+          # 被动模式
+          pasv_enable=YES # 启用被动模式，默认YES
+          pasv_min_prot=40000
+          pasv_max_prot=50000  # 指定被动模式端口范围
+          
+          # 主动模式
+          prot_enable=YES|NO # 是否取消主动模式 默认YES
+          ```
+     
+          
+     
+     3.   虚拟用户登录
+     
+          1.    创建虚拟用户代替本地用户
+          2.   使用`本地用户`作为`虚拟用户`的`映射用户`，为虚拟用户提供`工作目录`和`权限控制`
+          3.   能够设置严格权限，为每个虚拟用户生成单独配置文件
+     
+          ```shell
+          # 虚拟用户
+          # 1、/etc/vsftpd/ 建立FTP的虚拟用户数据库文件 vsftpd.user 随意
+          user1
+          pwd1
+          user2
+          pwd2     # 奇数行账号，偶数行密码
+          
+          # 加密生成数据库文件
+          db_load -T -t hash -f vsftpd.user vsftpd.db
+          
+          # 设置 vsftpd.db 文件权限 保证安全
+          chmod 600 vsftpd.db
+          
+          # 创建虚拟映射用户 virturl，并指定用户家目录
+          useradd -d /var/ftproot -s /sbin/nologin virturl
+          
+          # /var/ftproot 添加其他人权限
+          chmod o+r /var/ftproot
+          
+          # 建立支持虚拟用户的PAM任务文件 /etc/pam.d/vsftpd ，添加虚拟用户支持
+          cp -a /etc/pam.d/vsftpd /etc/pam.d/vsftpd.pam
+          
+          # 编辑 .pam （清空原来内容，添加下面两行）
+          auth       required    pam_userdb.so db=/etc/vsftpd/vsftpd
+          account    required    pam_userdb.so db=/etc/vsftpd/vsftpd
+          
+          # vsftpd.conf 文件添加支持
+          # 修改
+          pam_service_name=vsftpd.pam
+          # 添加
+          guest_enable=YES # 开启虚拟用户
+          guest_username=virturl # 指定虚拟用户的映射用户
+          user_config_dir=/etc/vsftpd/dir # 虚拟用户的配置目录，需要创建 /etc/vsftpd/dir 
+          
+          # 关闭匿名用户的一些配置,除非都要用的，否则私有的要提到 dir 下 单独配置
+          
+          # /etc/vsftpd/dir/user1
+          anon_upload_enable=YES # 允许 user1 上传文件
+          
+          # /etc/vsftpd/dir/user2
+          anon_mkdir_write_enable=YES # 允许创建目录
+          
+          
+          ```
+     
+     4.   **配置文件中不能出现多余空格**
 
 
 ####  新建一个用户
 ```shell
 # 配置一个用户
-useradd ftpuser
+useradd -s /sbin/nologin ftpuser
 passwd ftpuser
 
-# 权限目录
+# 权限目录 默认 家目录
 mkdir /var/ftp/ftpupload
 chown -R ftpuser:ftpuser /var/ftp/ftpupload
 
