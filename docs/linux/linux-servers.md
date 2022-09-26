@@ -6,8 +6,18 @@ title: linux服务
 
 #### 安装防火墙服务 firewalld
 
+firewall-cmd
+
+```shell
+# 查看防火墙状态
+firewall-cmd --state
+
+# 重启防火墙(重启完设置才生效)
+firewall-cmd --reload
+
+```
 -   `firewall-cmd --zone=public --add-service=ftp --permanent`:防火墙开起 ftp 服务
-    -   `--zone=public`:下面所以指令都能加
+    -   `--zone=public`:设置区域，默认就是public ，下面所以指令都能加
 -   `firewall-cmd --list-all`:开放的端口，以及其他信息
     -   `--list-ports`:开放的端口
     -   `--list-service`:查看防火墙已开通的服务
@@ -15,9 +25,9 @@ title: linux服务
     -   `--add-port=8080-8083/tcp`:添加多个端口
     -   `--remove-port=81/tcp`:删除端口
     -   `--query-port=81/tcp`:查询端口是否开放
--   `firewall-cmd --reload`:重启防火墙(重启完设置才生效)
--   `firewall-cmd --state`:查看防火墙状态
+-    设置完重启防火墙生效
 
+通过 systemctl
 ```shell
 # 开启防火墙
 systemctl start firewalld.service | service firewalld start
@@ -196,6 +206,28 @@ ftp> help     ?
           # 主动模式
           prot_enable=YES|NO # 是否取消主动模式 默认YES
           ```
+          5.  新建一个用户
+          ```shell
+          # 配置一个用户
+          useradd -s /sbin/nologin ftpuser
+          passwd ftpuser
+
+          # 权限目录 默认 家目录
+          mkdir /var/ftp/ftpupload
+          chown -R ftpuser:ftpuser /var/ftp/ftpupload
+
+          # 备份配置文件
+          cp /etc/vsftpd.conf /etc/vsftpd.conf.back
+
+          pasv_address=114.115.121.129
+          pasv_enable=YES
+          pasv_min_port=30000
+          pasv_max_port=50000
+
+          # 主机安全组配置30000-50000 和 21 端口的几率
+
+          ![华为主机配置](https://support.huaweicloud.com/bestpractice-ecs/zh-cn_topic_0115828034.html)
+          ```
      
           
      
@@ -263,28 +295,6 @@ ftp> help     ?
      4.   **配置文件中不能出现多余空格**
 
 
-####  新建一个用户
-```shell
-# 配置一个用户
-useradd -s /sbin/nologin ftpuser
-passwd ftpuser
-
-# 权限目录 默认 家目录
-mkdir /var/ftp/ftpupload
-chown -R ftpuser:ftpuser /var/ftp/ftpupload
-
-# 备份配置文件
-cp /etc/vsftpd.conf /etc/vsftpd.conf.back
-
-pasv_address=114.115.121.129
-pasv_enable=YES
-pasv_min_port=30000
-pasv_max_port=50000
-
-# 主机安全组配置30000-50000 和 21 端口的几率
-
-![华为主机配置](https://support.huaweicloud.com/bestpractice-ecs/zh-cn_topic_0115828034.html)
-```
 ### DNS
 
  域名 指向一个 IP 
@@ -329,7 +339,7 @@ DNS 就是域名和IP互相解析的一个服务
      3.    DNS 根据 `atguigu`二级域的地址找到二级域，获取 三级域`www`的 IP，这个就是我们需要的IP地址
 7.   拿到真正的IP地址后，**返回给客户端**，并把这次这个新记录**保存**到自己DNS解析库和缓存中，下次就不要再`迭代查询`了
 
-![解析](D:\MyData\projects\lzo-docs-blog-2\static\img\2022-09-26_013055.jpg)
+![解析](..\..\static\img\2022-09-26_013055.jpg)
 
 
 
@@ -366,18 +376,20 @@ DNS 就是域名和IP互相解析的一个服务
 
 ### docker
 > 容器镜像服务，Docker理解成一个专门分装应用程序与执行环境的轻型虚拟机,作用镜像制作
+
 [镜像官网](https://hub.docker.com)
 [其他镜像](https://quay.io)
--   yay安装 ，通过systemctl开启服务
--   权限:
+
+  -   yay安装 ，通过systemctl开启服务
+  -   权限:
     -   创建docker组，将相关用户归属组添加docker
     -   sudo gpasswd -a username docker
-    -   刷新:newgrp docker
+  -   刷新:newgrp docker
     -   id username 查看是否添加成功
--   镜像
-    -   阿里云 -> 控制台 -> 产品与服务 -> 搜索容器镜像服务-> 加速配置
+  -   镜像
+  -   阿里云 -> 控制台 -> 产品与服务 -> 搜索容器镜像服务-> 加速配置
     -   将他的配置json内容复制到/etc/docker/daemon.json中
--   常用命令
+  -   常用命令
     -   `docker info`:查看docker基础信息
     -   `docker search xxx`:查找镜像
     -   `docker pull xxxname`:下载镜像

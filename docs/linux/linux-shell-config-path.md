@@ -18,3 +18,8 @@ cd /usr/lib/systemd/system
 ls -la|grep runlevel   => runlevel{0-7}.target => 其中234命令行 5图形
 systemctl set-default multi-user.target  #社区默认启动为敏玲模式
 ```
+
+> selinux
+```shell
+cat /etc/selinux/config
+```
