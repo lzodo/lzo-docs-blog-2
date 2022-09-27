@@ -15,6 +15,10 @@ firewall-cmd --state
 # 重启防火墙(重启完设置才生效)
 firewall-cmd --reload
 
+# ftp
+firewall-cmd –zone=public –add-port=21/tcp –permanent 开启21号端口
+firewall-cmd –zone=public –add-port=30000-40000/tcp –permanent 开启30000到40000的端口
+firewall-cmd –add-service=ftp –permanent 永久开发ftp服务
 ```
 -   `firewall-cmd --zone=public --add-service=ftp --permanent`:防火墙开起 ftp 服务
     -   `--zone=public`:设置区域，默认就是public ，下面所以指令都能加
@@ -26,6 +30,7 @@ firewall-cmd --reload
     -   `--remove-port=81/tcp`:删除端口
     -   `--query-port=81/tcp`:查询端口是否开放
 -    设置完重启防火墙生效
+
 
 通过 systemctl
 ```shell
