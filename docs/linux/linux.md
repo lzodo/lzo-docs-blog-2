@@ -67,7 +67,7 @@ title: linux
 -   `su <user-name>` ： 切换用户
 -   `passwd <user-name>` ：更改用户密码（需要交互）
     -   `echo '123' | passwd --stdin <user-name>`：直接设置
--   `ln`: ln -s 源文件 快捷方式文件
+-   `ln`: ln -s 源文件 快捷方式文 件
     -   源文件路径最好用绝对路径
 -   `alias`: 创建别名(`/home/xxx/.bashrc`)
     -   `alias`:查看系统中存在的别名
