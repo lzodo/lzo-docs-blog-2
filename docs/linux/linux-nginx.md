@@ -233,6 +233,13 @@ http {
 ```
 
 
+```shell
+# vue history 模式 ，如果 URL 不匹配任何静态资源，它应提供与你的应用程序中的 index.html 相同的页面。
+location / {
+  try_files $uri $uri/ /index.html;
+}
+```
+
 ---
 ### 基本概念
 
