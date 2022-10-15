@@ -184,7 +184,7 @@ http {
         listen       9002;
         server_name  192.168.1.104;
         location /www/ { # 范围路径有www的时候
-            root  /data/; # root /data/ 设置为静态资源服务器
+            root  /data/; # root /data/ 设置为静态资源服务器  , root 要缓存alias
             index  index.html index.htm;
         }
         location /image/ {
@@ -311,8 +311,9 @@ proxy_pass http://myserver; # 上面定义的名称
 
 ## location 里的属性
 ```shell
-location /img/ {
+location /img/ { # 配置静态资源服务器 
     alias /var/www/image/;
+    autoindex on; # 列出文件列表
 }
 #若按照上述配置的话，则访问/img/目录里面的文件时，ningx会自动去/var/www/image/目录找文件
 ```
