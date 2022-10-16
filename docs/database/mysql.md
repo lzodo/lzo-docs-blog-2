@@ -336,3 +336,12 @@ UPDATE `products` SET `brand_id` = 4 WHERE `brand` = '小米';
 
 [Navicat](http://www.navicat.com.cn/download/direct-download?product=navicat_premium_cs_x64.exe&location=1)
 
+工具快捷键
+
+-   `Ctrl + q`：打开查询界面
+-   `Ctrl + r`：运行当前查询界面的sql语句
+-   `Ctrl + Shift + r`：运行焦点所在的sql语句
+-   `Ctrl + d`：复制当前行
+-   `Ctrl + l`：历史日志
+-   `F6`：命令行界面
+
