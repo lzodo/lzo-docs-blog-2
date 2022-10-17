@@ -327,7 +327,18 @@ UPDATE `products` SET `brand_id` = 1 WHERE `brand` = '华为'; # 因为 brand �
 UPDATE `products` SET `brand_id` = 5 WHERE `brand` = 'oppo';
 UPDATE `products` SET `brand_id` = 4 WHERE `brand` = '小米';
 
-# 修改和删除被当做外键引用了的id (默认不能修改)
+
+# 修改和删除被当做外键引用了的id (id 默认不能修改)
+# 从工具中表右键 - 设计表 - 外键 有一个删除时的值 RESTRICT ，更新时的值 RESTRICT，界面可以直接修改状态
+# 将它们的值 从RESTRICT 该为 CASCADE ，如果id改了，子集引用了这个id的外键会自动更新
+# 将它们的值 从RESTRICT 该为 SET NULL ，如果id改了，子集引用了这个id的外键会自动变 NULL
+
+# SQL 语句修改
+SHOW CREATE TABLE `products`; # 查看外键的表 的 创建表的语句，哪里有外键关联信息
+ALTER TABLE `products` DROP FOREIGN KEY products_ibfk_1; # 根据名称删除外键
+# 重新关联外键，并指定更新时的值为 CASCADE 删除时的默认(如果删除也设置成 CASCADE 那么，父一删除，关联它的id外键也会全部删除)
+ALTER TABLE `products` ADD FOREIGN KEY (brand_id) REFERENCES brand(id) ON UPDATE CASCADE ON DELETE RESTORE;
+
 ```
 
 
