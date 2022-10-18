@@ -388,6 +388,27 @@ UNION
 
 
 
+### 扩展知识
+
+#### ORM
+
+>   **对象映射关系 ** `ORM` 是一种程序设计方案
+
+-   效果上，他提供了一个可在变成语言中 使用虚拟对象数据库的效果
+
+-   Node 常用的：`sequelize` ...
+
+    -   `npm install mysql2 sequelize --save`
+
+-   JAVA 经常使用的ORM包括：`Hibernate`、`MyBatis`、...  
+
+    -   不使用ORM的操作方式
+        -    node项目中编写sql语句，传到数据库处理，返回得到的结果到 node项目
+
+    -   使用ORM的操作方式
+        -    不用变形SQL语句，操作ORM库提供的 类 的 方法
+        -   ORM库会将你的操作转换成 SQL语句，传到数据库处理，返回得到的结果到ORM，再经过处理返回给用户
+
 #### GUR工具
 
 [Navicat](http://www.navicat.com.cn/download/direct-download?product=navicat_premium_cs_x64.exe&location=1)
