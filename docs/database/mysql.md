@@ -341,6 +341,51 @@ ALTER TABLE `products` ADD FOREIGN KEY (brand_id) REFERENCES brand(id) ON UPDATE
 
 ```
 
+#### 多表联合查询
+
+>   SQL JOIN
+
+-   左连接
+-   有连接
+-   内连接
+-   全连接
+
+```mysql
+# 多表查询 SQL JOIN
+# 1、左连接，查询表 products 和 brand 的数据，通过products.brand_id 和 brand.id 进行关联;
+
+# 作用 以左表为主，查询出 pruducts 所有数据，在把右表中 id 等于 左表 brand_id 的记录，追加到对应记录后面，
+SELECT * FROM `products` LEFT JOIN `brand` ON products.brand_id = brand.id;
+
+# 作用 以左表为主，查询出 pruducts 所有数据，在把右表中 id 等于 左表 brand_id 的记录删除，只留下左表独有的数据
+SELECT * FROM `products` LEFT JOIN `brand` ON products.brand_id = brand.id WHERE brand.id IS NULL;
+
+#=================
+# 2、右连接，查询表 products 和 brand 的数据，通过products.brand_id 和 brand.id 进行关联;
+
+# 作用 以右表为主，查询出 brand 所有数据，在左表中 brand_id 等于 右表 id 的记录，追加到对应记录前面
+SELECT * FROM `products` RIGHT JOIN `brand` ON products.brand_id = brand.id;
+
+# 作用 以右表为主，查询出 brand 所有数据，在左表中 brand_id 等于 右表 id 的记录删除，只留下右边表独有的数据
+SELECT * FROM `products` RIGHT JOIN `brand` ON products.brand_id = brand.id WHERE products.brand_id IS NULL;
+
+#=================
+# 3、内连接 查找products.brand_id 能关联上 brand.id , brand.id 也能关联上 products.brand_id 的记录
+
+SELECT * FROM `products` JOIN `brand` ON products.brand_id = brand.id;
+
+#=================
+# 4、全连接 （左连接 + 有连接 + 删除重复）
+(SELECT * FROM `products` LEFT JOIN `brand` ON products.brand_id = brand.id)
+UNION
+(SELECT * FROM `products` RIGHT JOIN `brand` ON products.brand_id = brand.id);
+ 
+# 去交集 只要左边关联不到右边，右边也关联不到左边的数据
+(SELECT * FROM `products` LEFT JOIN `brand` ON products.brand_id = brand.id WHERE brand.id IS NULL)
+UNION
+(SELECT * FROM `products` RIGHT JOIN `brand` ON products.brand_id = brand.id WHERE products.brand_id IS NULL);
+```
+
 
 
 #### GUR工具
