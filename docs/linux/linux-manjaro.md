@@ -662,6 +662,7 @@ sudo pacman -Syu || sudo pacman -Syudd(-dd 跳过全部检测)\_
 -   `curl "wttr.in/福州?lang=zh"`:天气预报
 -   `aria2`:下载工具
 -   `FreeFileSync`: [数据备份软件](https://freefilesync.com/)
+-   `nmon`:监控当前系统性能
 
 ### 网上存储
 
