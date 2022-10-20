@@ -351,7 +351,7 @@ ALTER TABLE `products` ADD FOREIGN KEY (brand_id) REFERENCES brand(id) ON UPDATE
 -   全连接
 
 ```mysql
-# 多表查询 SQL JOIN
+# 多表设计查询 - 多表查询 SQL JOIN
 # 1、左连接，查询表 products 和 brand 的数据，通过products.brand_id 和 brand.id 进行关联;
 
 # 作用 以左表为主，查询出 pruducts 所有数据，在把右表中 id 等于 左表 brand_id 的记录，追加到对应记录后面，
@@ -386,7 +386,8 @@ UNION
 (SELECT * FROM `products` RIGHT JOIN `brand` ON products.brand_id = brand.id WHERE products.brand_id IS NULL);
 ```
 
-
+#### 多对多关系
+> lzoxun 下查询文件
 
 ### 扩展知识
 
@@ -413,8 +414,9 @@ UNION
 
 [Navicat](http://www.navicat.com.cn/download/direct-download?product=navicat_premium_cs_x64.exe&location=1)
 
-工具快捷键
+设置查询文件位置：数据库右键编辑 - 高级 - 位置设置
 
+工具快捷键
 -   `Ctrl + q`：打开查询界面
 -   `Ctrl + r`：运行当前查询界面的sql语句
 -   `Ctrl + Shift + r`：运行焦点所在的sql语句
