@@ -263,7 +263,7 @@ var config={_id:"rs1",members:[{_id:1,host:"114.115.212.129:27018"}]}
 
 -   对比关系数据库
     -   数据库(database) -> 集合(collectiion) -> 文档(document) -> 字段(field)   -> 索引(index)  -> _id     ->  视图(view) -> 聚合操作
-    -   数据库(databsse) -> 表(table) ->              行(row) ->                 列(column) -> 索引(index) ->  主键  ->  视图(view) -> 表链接
+    -   数据库(databsse) -> 表(table) ->         行(row) ->        列(column) ->    索引(index) ->  主键  ->  视图(view) -> 表链接
 -   适用场景
     -   基于灵活的json文档模型，适合业务变化快，敏捷的快速开发
     -   读写速度快，更适合处理大 数据
@@ -290,22 +290,23 @@ mongoose #node操作数据库的指令
 ### 数据库增删改查
 
 ```shell
-# 数据库操作
+# 数据库操作  ( DDL-database )
 show dbs; | show databases                 #查看全部不为空的数据库
 db.getMongo()                              #查看db链接机器地址
 db.dropDatabase()                          #删除数据库
 use <db name>;             #切换数据库(或创建数据库)
 db;或者db.getName();        #查看当前所在数据库
 
-# 切换到数据库后，当前数据库集合操作
-db.createCollection("testuser") # 创建集合，新集合没数据可能不会显示
+# 切换到数据库后，当前数据库集合操作 ( DDL-table )
+db.createCollection("testuser") # 创建集合，新集合没数据可能不会显示（灵活 不用知道字段以及类型）
 show collections | show tables;          #显示当前数据库中的集合（类似关系数据库中的表）
 db.testuser.drop()       #删除名为testuser的集合
 
-直接使用js语句操作
+
+# 文档操作 ( DML-table )
+# 直接使用js语句操作
 for(var i=0;i<10;i++){db.testusers.insert({name:`Name${i}`,age:10+i})}
 
-# 文档操作
 db.testuser.insert|save([{a:1,b:2}])       # 插入多个文档，不写中开括号就插入单个，save(废弃)
 	-	直接往不存在的集合插入文档，默认会自动创建这个集合
 db.testuser.insertMany([{a:1,b:2}])        # 也是批量插入
@@ -326,6 +327,7 @@ db.testuser.update({a:1},{b:5})            # 替换原有文档成 {b:5} 只有_
     db.testuser.update({a:0},{$pullAll:{list:["ele1","ele2"]}},0,1) # 删除多个 
     # $pop 删除
     
+# 查询 ( DQL-table )
 db.testuser.find()       # 查询当前所在数据库，testuser 集合里面的列表文档内容
 	db.testuser.find({age:20}) # 查询年龄为20的文档
 	db.testuser.find({age:20,name:1}) # 查询年龄为20,并且name为1的文档

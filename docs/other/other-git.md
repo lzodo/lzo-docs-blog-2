@@ -143,6 +143,7 @@ git remote show origin # 查看远程仓库名为origin的详细信息
 git remote add <name> <url> # 添加远程仓库name建议用origin,一个项目可以添加到多个远程仓库
 							# <name>为本地自定义远程仓库别名，clone项目默认都是origin
 git remote rm <name> # 端口与指定名称的远程仓库的关联
+                     # 远程项目改名 github 会帮你重定向到此项目，不更新remote也能正常提交
 git push <name> <branch> # 提交到远程,如果后期不需要跟换仓库名与分支可以直接git push
 
 git clone <url> # 从远程克隆项目
