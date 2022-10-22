@@ -8,6 +8,25 @@ title: 微信小程序
 1、开发环境：一般网页运行浏览器中，小程序运行微信环境中
 2、API差异：小程序无法调用浏览器的DOM BOM API，但是有微信环境提供的各种API
 3、开发模式：账号 + 微信开发者工具 （开发设置获取AppID，创建项目需要用到）
+    -   vscode开发 
+        -   wxml 插件
+        -   小程序开发助手
+        -   wechat-snippit
+        -   vscode编辑代码，还是微信开发者工具展示(模拟器可以分离)
+
+#### 关于
+ 传统程序需要打包到应用商店，通过审核才能上线，小程序可以动态添加功能，无需下载，安装（绕过苹果应用商店）
+介于H5（前端）和原生App（移动开发工程师）的产品，基本前端来开发
+主要技术
+    小程序原生：WXML\WXSS\JavaScript\WexinScript（只有微信能用的一些脚本） 
+    Vue开发：uni-app 跨平台选型方案（不同平台可能会有一些适配问题）
+    React/Vue/Nerv：taro 京东团队的跨端跨框架技术
+    其他开发app技术: ReactNative、Flutter。。。
+
+#### 小程序 MVVM 架构思想
+ view（.wxml）<=>  ViewModel（小程序内部框架） <=>  model（.js）
+ 
+
 ### 关键字
 + openId:openid相当重要，它是用户的唯一标识id
 ## 目录结构
