@@ -8,11 +8,11 @@ title: 微信小程序
 1、开发环境：一般网页运行浏览器中，小程序运行微信环境中
 2、API差异：小程序无法调用浏览器的DOM BOM API，但是有微信环境提供的各种API
 3、开发模式：账号 + 微信开发者工具 （开发设置获取AppID，创建项目需要用到）
-    -   vscode开发 
-        -   wxml 插件
-        -   小程序开发助手
-        -   wechat-snippit
-        -   vscode编辑代码，还是微信开发者工具展示(模拟器可以分离)
+-   vscode开发 
+    -   wxml 插件
+    -   小程序开发助手
+    -   wechat-snippit
+    -   vscode编辑代码，还是微信开发者工具展示(模拟器可以分离)
 
 #### 关于
  传统程序需要打包到应用商店，通过审核才能上线，小程序可以动态添加功能，无需下载，安装（绕过苹果应用商店）
@@ -21,11 +21,18 @@ title: 微信小程序
     小程序原生：WXML\WXSS\JavaScript\WexinScript（只有微信能用的一些脚本） 
     Vue开发：uni-app 跨平台选型方案（不同平台可能会有一些适配问题）
     React/Vue/Nerv：taro 京东团队的跨端跨框架技术
-    其他开发app技术: ReactNative、Flutter。。。
+    其他开发app技术: ReactNative、Flutter(好用比较原生)。。。
 
 #### 小程序 MVVM 架构思想
- view（.wxml）<=>  ViewModel（小程序内部框架） <=>  model（.js）
+> view（.wxml）<=>  ViewModel（小程序内部框架） <=>  model（.js） 
  
+小程序的架构模型(双线程模型)
+    宿主环境（微信）为了执行小程序，将 WXML模块和WXSS样式，运行与`渲染层`，使用`WebView线程`（多个页面会有多个WebView线程）
+    使用`JsCore`线程运行JS脚本
+    两个线程都由`微信客户端（Native）`进行中转交互
+    ![双线程模型](../../../static/img/wx-model.jpeg)
+
+为了接近原生体验，后期可能会用 `flutter` 的 `Skyline 渲染引擎`,`WebView`渲染的最终还是一个网页
 
 ### 关键字
 + openId:openid相当重要，它是用户的唯一标识id
@@ -71,24 +78,81 @@ title: 微信小程序
         -   rpx 适配
             -   将宽度分为 `750` 份，屏幕总宽度为 `750rpx`
             -   换算px 
+            -   px转rpx(750/屏幕【设计稿】宽度)  => 750屏幕 1px==1rpx  => 375屏幕 1px==2rpx  => 375和750屏幕，满屏都是750rpx
+            -                                      250屏幕 1px==3rpx => 50屏幕 1px==15rpx  => 都是750rpx满屏
+            -                                      当拿到设计稿250的设计稿，设置设计稿上50px的盒子，就需要设置（50*3）rpx
+            -                                      所以屏幕越小，1px对应的rpx就越大，所以不同大小设备显示在屏幕上的比例都是一样的
+            -   rpx转px(屏幕或设计稿宽度/750)
+            -   
         -   @import 样式导入
             -   `@import "xxxx.wxss"`
     -   app.wxss 全局样式表 页面中 自己的私有样式表
         -   局部权重(鼠标移入wxss类时显示权重 )大于等于全局时，就近原则，局部样式覆盖全局
         -   
 
-### 生命周期
-页面的生命周期
+### 执行
+
+#### 小程序的生命周期
+![文档]('https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html')
+```javascript
+// 必须再app.js中调用，且只能调用一次
+App({
+    onLaunch(options){ // 只执行1次
+        console.log("小程序生命周期，初始化");
+        // 1. 执行登录等业务逻辑
+        wx.login({
+            success: res => {
+                // 发送 res.code 到后台换取 openId, sessionKey, unionId
+            }
+        })
+        //1.1 如果登录成功就将获取的数据储存到 store
+        //1.2 只有一个，且是全局共享的，所以 共享数据可以放这里 this.globalData 
+    },
+    onShow(options){ // 执行多次
+        // 判断用户进入小程序的场景（群聊，扫一扫）
+        console.log(options.scene) // 场景编码 主入口1001
+        console.log("小程序生命周期，切换到前台");
+    },
+    onHide(){
+        console.log("小程序生命周期，切换到后台");
+    },
+    globalData: { // 自定义随机对象，储存全局属性
+        token:'123456',
+        userInfo:'12'
+    }
+})
+
+
+```
+ 
+#### 页面的生命周期
+
 ```javascript
 Page({
-    onLoad(){} // 页面加载时候执行
+    // 页面加载时候执行
+    onLoad(){
+        // 获取 App 实例的共享数据
+        const app = getApp();
+        const token = app.globalData.token; // 123456
+        const userInfo = app.globalData.userInfo;
+
+        // 发送请求
+        wx.require({
+            url:'',
+            success: (res)=>{},
+            error: (err)=>{}
+        })
+        // 渲染数据
+    } 
 })
 
 ```
+#### 组件的生命周期
+
 ### util 文件夹
 > 存放一些工具方法
 
-### 文件
+### 配置文件
 + app.js  (全局js逻辑)
     -   app.js 项目入口文件
 + app.json  (全局配置文件)
@@ -98,10 +162,12 @@ Page({
     -   `"style":"v2"` 用v2版本样式
 + app.wxss  (全局css)
 + project.config.json (一些配置项目配置信息)
-    -   setting (详情->本地设置的操作记录)
+    -   一般不做修改
     -   appid (网上的项目需要把这个appid换成自己的)
-+ project.private.config.json，覆盖 project.config.json 相同属性的值
-+ sitemap.json (设置爬虫文件)
++ project.private.config.json，（私有配置 可以放到.gitxxx里 ）覆盖 project.config.json 相同属性的值
+    -   setting (详情->本地设置的操作 会更新到这里)
++ sitemap.json (设置爬虫文件权限)
+    
 
 https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
 
