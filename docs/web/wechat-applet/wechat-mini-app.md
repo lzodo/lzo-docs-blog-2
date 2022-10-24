@@ -35,17 +35,17 @@ title: 微信小程序
 为了接近原生体验，后期可能会用 `flutter` 的 `Skyline 渲染引擎`,`WebView`渲染的最终还是一个网页
 
 ### 关键字
-+ openId:openid相当重要，它是用户的唯一标识id
+-  openId:openid相当重要，它是用户的唯一标识id
 ## 目录结构
 ### page 文件夹
 > 小程序页面, 快捷创建方式: `app.json` -> `pages` -> `直接添加路径保存`，就能直接生成`整个页面文件`了
 
 相关文件
-+ index.js  (某页面js逻辑)
+-  index.js  (某页面js逻辑)
     -   每个页面自己的 js
     -   
-+ index.json  (某页面数据)
-+ index.wxml  (某页面html)
+-  index.json  (某页面数据)
+-  index.wxml  (某页面html)
     -   与 html 的差异
     -   标签名称不同、属性节点不同
     -   提供类似vue的模板语法   
@@ -58,7 +58,8 @@ title: 微信小程序
         -  索引 {{index}}  每一项 {{item}}  
         -  `wx:for-index="idx"` 重命名索引
         -  `wx:for-item="itm"` 重命名每一项
-        -  `wx:key="id"`
+        -  `wx:key="id"` 自动去取item的id
+        -  `wx:key="*this"` item自身作为key
     -   绑定事件 : 
         -   点击触发 `bindtap 或 bind:tap`
         -   输入触发 `bindinput 或 bind:input`
@@ -72,8 +73,10 @@ title: 微信小程序
         -   input bindinput 的最新值 `e.detail.value`
     -   独特标签
         -   block 包裹多个标签，渲染后不会该标签不存在
+    -   动态绑定class
+        -   class='item {{xxxindex === index?"active":"“}}'
     
-+ index.wxss  (某页面css)
+-  index.wxss  (某页面css)
     -   仅支持大部分css属性，常用的基本都支持，也有`自己的东西`
         -   rpx 适配
             -   将宽度分为 `750` 份，屏幕总宽度为 `750rpx`
@@ -88,7 +91,32 @@ title: 微信小程序
             -   `@import "xxxx.wxss"`
     -   app.wxss 全局样式表 页面中 自己的私有样式表
         -   局部权重(鼠标移入wxss类时显示权重 )大于等于全局时，就近原则，局部样式覆盖全局
-        -   
+
+-  微信的WexinScript
+    -    里面的方法可以直接在{{}}中使用
+    -   页面中直接写
+    ```javascript
+    // wxml 页面中使用
+    <wxs module='count'>
+        function add(a,b){  //只能用原生js
+            return a+b;
+        }
+
+        //必须使用 CommonJs导出才能使用
+        module.exports = {
+            addvalue:add
+        }
+    </wxs>
+
+    <view>{{count.addvalue(1,2)}}</view>
+    ```
+    -   封装到文件
+
+    ```javascript
+    // count.wxs
+    <wxs module='count' src='/xx/xx/xx/count.wxs'></wxs>
+    ```
+
 
 ### 执行
 
@@ -147,7 +175,31 @@ Page({
 })
 
 ```
-#### 组件的生命周期
+#### 组件和组件的生命周期
+组件的创建 components
+    组件的 `.json` 文件  `component:true`
+    组件必须被引用，否则会报错
+    页面的 `.json` 文件需要引入
+    ```json
+    "usingComponents": {
+        "my-banner":"/components/banner/banner"
+    },
+    ```
+    组件间可以`相互引用`
+    `app.json` 里注册就是`全局注册` 
+
+
+组件通信
+
+
+
+组件的生命周期
+```javascript
+
+```
+
+
+
 
 ### util 文件夹
 > 存放一些工具方法
