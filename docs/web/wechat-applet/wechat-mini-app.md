@@ -25,7 +25,7 @@ title: 微信小程序
 
 #### 小程序 MVVM 架构思想
 > view（.wxml）<=>  ViewModel（小程序内部框架） <=>  model（.js） 
- 
+
 小程序的架构模型(双线程模型)
     宿主环境（微信）为了执行小程序，将 WXML模块和WXSS样式，运行与`渲染层`，使用`WebView线程`（多个页面会有多个WebView线程）
     使用`JsCore`线程运行JS脚本
@@ -68,9 +68,33 @@ title: 微信小程序
             -   target：指向触发事件的源头组件(类似 ul 事件委托的 li)
             -   currentTarget：绑定事件的组件(类似 ul 事件委托的 ul)
     -   事件传参
-        -   传递参数xxx，值为123 ：`data-xxx="{{123}}"`
+        -   传递参数xxx，值为123 ：`data-xxx="123"`
         -   获取 `event.currentTarget.dataset.xxx`
         -   input bindinput 的最新值 `e.detail.value`
+
+        -   传递参数xxx，值为123 ：`mark:xxx="123"`
+        -   获取 `event.mark.xxx`
+
+    -   捕获与冒泡
+        -   点击后，向内捕获 到达底点击对象 向外冒泡
+        ```html
+        <!--默认就是冒泡 v3tap v2tap v1tap 这样执行的-->
+        <!--这里设置成捕获执行v1tap v2tap v3tap-->
+        <view class="v1" bindtap='v1tap' capture-bind:tap="v1tap">
+            <view class="v2" bindtap='v2tap' capture-bind:tap="v2tap">
+                <view class="v3" bindtap='v3tap' capture-bind:tap="v3tap">
+                </view>
+            </view>
+        </view>
+
+        <!--到达捕获的 v2tap 时直接终止，不继续捕获和后面的向上冒泡了-->
+        <view class="v1" bindtap='v1tap' capture-bind:tap="v1tap">
+            <view class="v2" bindtap='v2tap' capture-catch:tap="v2tap">
+                <view class="v3" bindtap='v3tap' capture-bind:tap="v3tap">
+                </view>
+            </view>
+        </view>
+        ```
     -   独特标签
         -   block 包裹多个标签，渲染后不会该标签不存在
     -   动态绑定class
@@ -101,13 +125,13 @@ title: 微信小程序
         function add(a,b){  //只能用原生js
             return a+b;
         }
-
+    
         //必须使用 CommonJs导出才能使用
         module.exports = {
             addvalue:add
         }
     </wxs>
-
+    
     <view>{{count.addvalue(1,2)}}</view>
     ```
     -   封装到文件
@@ -121,7 +145,8 @@ title: 微信小程序
 ### 执行
 
 #### 小程序的生命周期
-![文档]('https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html')
+[文档]('https://developers.weixin.qq.com/miniprogram/dev/reference/api/App.html')
+
 ```javascript
 // 必须再app.js中调用，且只能调用一次
 App({
@@ -152,7 +177,7 @@ App({
 
 
 ```
- 
+
 #### 页面的生命周期
 
 ```javascript
@@ -180,17 +205,50 @@ Page({
     组件的 `.json` 文件  `component:true`
     组件必须被引用，否则会报错
     页面的 `.json` 文件需要引入
-    ```json
-    "usingComponents": {
-        "my-banner":"/components/banner/banner"
-    },
-    ```
-    组件间可以`相互引用`
-    `app.json` 里注册就是`全局注册` 
+```javascript
+"usingComponents": {
+    "my-banner":"/components/banner/banner"
+}
+```
+
+​	组件间可以`相互引用app.json` 里注册就是`全局注册` 
+
+组件的wxss样式
+    组件中不能使用`id选择器`,`属性选择器`,`标签选择器` （这些选择器会影响外面页面的样式）
+    `class` 不会影响到外面，所有尽量用class
+    外面的处理 `标签`选择器，默认都不会影响到组件
+```javascript
+Components({
+    options:{
+        styleIsolation: "isolated"， // 默认
+        styleIsolation: "apply-shared"， // 组件中让页面样式影响到我
+        styleIsolation: "shared"， // 组件中让页面样式影响到我，让自己样式影响到页面
+    }
+})
+```
 
 
 组件通信
+```javascript
+// 通过组件的 properties 接收  
+properties: { 
+    title:{
+        type:String, //null 不限制类型 
+        value:"默认标题"
+    }
+},
+// 组件发出自定义事件
+methods:{
+    cpmClick(){
+        console.log("传出数据到外部")
+        this.triggerEvent("titleclick",'datastrval')
+    },
+    // 外面 bind:titleclick="xxxxx" 接收
+}
 
+// 接收外面传进来的累
+externalClasses:['info'], 
+```
 
 
 组件的生命周期
@@ -219,7 +277,7 @@ Page({
 + project.private.config.json，（私有配置 可以放到.gitxxx里 ）覆盖 project.config.json 相同属性的值
     -   setting (详情->本地设置的操作 会更新到这里)
 + sitemap.json (设置爬虫文件权限)
-    
+  
 
 https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
 
@@ -235,7 +293,7 @@ https://www.bilibili.com/video/BV19r4y1N7Br?p=3&spm_id_from=pageDriver
     ```html
     view  <!--类似div-->
     scroll-view + scroll-y属性 <!--可滚动的视图区域-->
-    ```  
+    ```
 -   API支持
     -   事件监听API
         -   以 on 开头 监听事件触发。wx. == window.
