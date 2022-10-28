@@ -277,10 +277,37 @@ http请求 无状态 服务器、客户端相互不认识
 1. 用户输入用户名、密码进行登录
 2. 成功后，后端会存一个session，保存用户信息
 3. session值当做cookie内容被种到客户端	
-4. cookie会在请求下一个资源时携带
+4. cookie会在请求下一个资源时携带（默认域名为作用域，子域名不会携带）
 5. 后端将cookie内容与session值进行对比，相等通过，不相等不通过
 6. 缺点:服务器需要存每个用户的session
+7. cookie 不设置过期时间(内存cookie，会话cookie)，浏览器关闭自动删除，设置过期时间（硬盘cookie）浏览器关闭依然存在，过期了才会删除
+8. 当访问接口时，发现浏览器cookie存储有，与该接口同域名的cookie，就会自动携带到请求头中
 
+缺点
+    每个http都会携带
+    大小4kb限制
+    其他客户端(IOS 安卓) 必须手动设置，与浏览器自动不一致
+    分布式系统和服务器集群要保证服务器1中的session，要在服务器2、3中正确解析
+设置cookie
+```javascript
+// 客户端设置
+document.cookie='name=lzoxun;max-age=5;'; // 5s过期时间
+
+// koa 后端设置
+
+// sessin 基于 cookie，只能服务端设置
+// npm install koa-session
+// 设置 session 到时候 ctx 就会有session这个属性
+const Session = require("koa-session");
+const session = Session({
+    key: 'sessionid',
+    maxAge: 5 * 1000,
+    signed: true  //签名
+}, app)
+app.keys = ['fdsafafsa']; // 签名就要有这个，用户不知道这个就不能正确加解密，session别修改，这边也不会获取
+app.use(session);   
+
+```
 #### 方案二、[jwt](http://jwt.io) （json web token）
 使用步骤:
 - 用户登录 服务器产生一个token(加密字符串)发送给前端
@@ -289,12 +316,23 @@ http请求 无状态 服务器、客户端相互不认识
 - 服务器验证token是否合法,如果合法继续操作否则终止操作  
 - token应用场景:无状态请求、保存用户登录状态、第三方登录...  
 
+jwt 生成token 的组成部分
+header
+    alg : 默认 { algorithm: "HS256"} 对称加密
+    typ : 固定值
+payload
+    用户信息
+signature
+    设置 secreKey
+
+生成 header.payload.siggnature 加密后的字符串
+
 #### 密码学
 两种加密方式:
 非对称加密（又叫公钥加密）:RS256、RSA算法 ...
     通过私钥产生token、通过公钥解密token
     指加密和解密使用不同密钥的加密算法,也称为公私钥加密。
-    加密过程: 原文 + 公钥 = 密文
+    加密过程: 原文 + 公钥 = 密文 （项目中好像遇到原文+私钥=密文？？）
     解密过程: 密文 + 私钥 = 原文
 
     相对安全复杂
