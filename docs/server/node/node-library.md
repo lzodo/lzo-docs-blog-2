@@ -11,7 +11,15 @@ Express.js、Koa、NestJS(基于Express)、Nuxt.js(Vue)
 -   CRON定时：[node-cron](https://www.npmjs.com/package/cron)
 -   mongodb工具：[mongose](http://www.mongoosejs.net/)
 -   邮件发送：[nodemailer](https://nodemailer.com/about/)
+-   接口文檔：[apidoc](https://www.npmjs.com/package/apidoc)
+-   日志插件: [log4](https://www.npmjs.com/package/log4js)
+-   错误插件
 -   pm2:[node进程管理工具]
+
+-   koa
+-   koa-compress 压缩响应数据
+-   koa-logger 输出服务日志
+-   koa-error 处理响应错误
 
 
 ### pm2

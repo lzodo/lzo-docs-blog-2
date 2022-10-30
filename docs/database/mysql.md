@@ -19,6 +19,8 @@ rpm -qi mysql-server # 查看版本
 systemctl start mysql # 开启服务
 
 mysqladmin -u root password 'lzx123456' # 第一次设置mysql root密码
+#或 直接输入 `mysql_secure_installation` 设置密码等初始化信息
+
 mysql -u root -p  回车 输入密码登录
 mysql -uroot -pxxx 直接输入也可以，u后面空格随意
 ```
@@ -415,6 +417,21 @@ UNION
 [Navicat](http://www.navicat.com.cn/download/direct-download?product=navicat_premium_cs_x64.exe&location=1)
 
 设置查询文件位置：数据库右键编辑 - 高级 - 位置设置
+
+数据库连接
+```javascript
+/**
+ * 连接云服务器，需要先开放 3306 端口，在 将服务器mysql数据库中，要连接的用户root的host该为% (默认值是localhost 限制只有本地才能连接)
+ * use mysql
+ * update user set host = '%' where user = 'root';
+ * 成功后重启mysql
+ * 
+ */
+```
+数据的导出与导入
+1、导出的服务器 右键数据库 -> 转储 SQL 文件到本地 -> 生成一个 数据库名.sql 的文件
+2、导入的服务器 右键运行 SQL 文件 -> 选择刚刚导出的 sql 文件 -> 开始，
+
 
 工具快捷键
 -   `Ctrl + q`：打开查询界面

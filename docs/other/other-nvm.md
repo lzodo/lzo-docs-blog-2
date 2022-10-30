@@ -70,3 +70,6 @@ nvm version 查看当前的版本
 切换 node 版本后有时候需要重新 install 项目的依赖才能正常运行
 全局安装的插件路径都能在当前 nvm node 版本下与 npm config get prefix 指令查看
 切换版本 npm config get prefix 得到的路径也会一起变化
+
+
+#### 类似工具 n

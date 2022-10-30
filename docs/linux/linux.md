@@ -780,7 +780,7 @@ sed -i 's/mirrors.cloud.aliyuncs.com/mirrors.aliyun.com/g'  /etc/yum.repos.d/epe
 yum clean all 
 yum makecache
 ```
-### DNF 
+### DNF (新的yum)
 > 新一代的RPM软件包管理器
 
 [文档](https://wangchujiang.com/linux-command/c/dnf.html)
@@ -796,6 +796,12 @@ dnf repolist epel -v
 
 # 建立元数据缓存
 dnf makecache  
+```
+
+指令
+```javascript
+dnf search mysql-server // 查询包
+dnf info mysql-server // 查看它提供包的版本信息
 ```
 ### debian 包安装
 
