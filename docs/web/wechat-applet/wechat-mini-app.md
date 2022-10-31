@@ -190,7 +190,7 @@ Page({
         const userInfo = app.globalData.userInfo;
 
         // 发送请求
-        wx.require({
+        wx.request({
             url:'',
             success: (res)=>{},
             error: (err)=>{}
@@ -253,10 +253,39 @@ externalClasses:['info'],
 
 组件的生命周期
 ```javascript
+Component({
+    lifetimes:{ // 组件自身的生命周期
+        created() { // created
+            console.log("组件被创建created")
+        },
+        attached() { // mounted
+            console.log("组件被添加到组件树种attached")
+        },
+        ready() {
+            console.log("在组件视图层布局完成 ready")
+        },
+        detached() { 
+            console.log("组件从组件树种被移除detached")
+        },
+        moved(){}, // 组件实例被移动到家节点树的其他位置
+        error(){} // 组件方法排除错误时候  v2.4.1
+    },
+
+    pageLifetimes:{ // 引入组件的页面的生命周期
+        show(){}
+    },
+})
+
 
 ```
 
+### API调用
+> 微信提供了专属API接口，用于网络请求: wx.request({})
 
+-   合法域名
+    -   如果小程序想要给任意服务器发送请求，需要先设置**通讯域名**，设置的才能通讯（开发管理-开发设置-服务器域名）
+    -   通讯域名（合法，ICP备案，https的域名）否则某个小程序从乱七八糟地方拿到乱七八糟的数据，影响微信用户体验
+    -   调试阶段可以勾选不校验合法域名，暂时使用
 
 
 ### util 文件夹
