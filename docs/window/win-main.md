@@ -439,6 +439,9 @@ linux其他终端 `DroidSansMono Nerd Font Blod`效果步长
     -   2、关闭对方防火墙(或将对方防火墙网路发现的公用私用打钩允许)
     -   3、关闭对方控制面板\程序\程序和功能->启用关闭 widows 功能 勾掉 `SMB 1.0/CFLS 文件共享支持`
     -
+### 回收站
+终端打开：explorer.exe ::{645FF040-5081-101B-9F08-00AA002F954E}
+位置:/mnt/c/$Recycle.Bin
 
 ### bat 批处理
 
