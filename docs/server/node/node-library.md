@@ -76,6 +76,9 @@ pm2 startup
 # 恢复上一次保存的自启动列表
 pm2 resurrect
 
+# 后台运行pm2,启动4个app.js 实现负载均衡
+pm2 start app.js -i 4
+
 # 查看端口
 netstat -lntp
 
