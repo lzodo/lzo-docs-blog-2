@@ -441,3 +441,7 @@ UNION
 -   `Ctrl + l`：历史日志
 -   `F6`：命令行界面
 
+
+
+MySql报错only_full_group_by
+
