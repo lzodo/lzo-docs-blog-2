@@ -444,4 +444,5 @@ UNION
 
 
 MySql报错only_full_group_by
+    5.7 以上使用 JSON_ARRAYAGG 就必须 GROUP BY分组，mysql2 有限制，有些sql外面工具可以不发分
 
