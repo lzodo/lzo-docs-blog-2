@@ -117,14 +117,13 @@ v-bang、绑定class和style
 
 #### MVC 与 MVVM
 
-MVC: `Model - View - Controller` 的简称，（前端也符合，html view - js 控制器）
-     准备好界面  控制器去服务器获取数据  得到数据转换为模型给页面使用
-
-MVVM: `Model（script，data、methods等） - View（template） - ViewModel（Vue框架`） 的简称 ，Vue给Model和View建立桥梁 
-    ViewModel 把 Model数据 绑定到界面
-    ViewModel 把 View事件 监听到 Model
-
-#### 父
-
-
-
+```javascript
+/**
+ * MVC: `Model - View - Controller` 的简称，（前端也符合，html view - js 控制器）
+ *     准备好界面  控制器去服务器获取数据  得到数据转换为模型给页面使用
+ *
+ * MVVM: `Model（script，data等） - View（template） - ViewModel（Vue框架`） 的简称 ，Vue给Model和View建立桥梁 
+ *     ViewModel 把 Model数据 绑定到界面
+ *     ViewModel 把 View事件 监听到 Model
+ */
+```

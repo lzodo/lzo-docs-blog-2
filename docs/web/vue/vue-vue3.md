@@ -29,7 +29,7 @@ manjaro
 
 ## 构建响应式数据
 ### ref(基于 Object.defineProperty) 
-> `用于简单值`
+> 用于简单值
 + 接受一个参数并返回一个可改变的响应式ref对象
 + ref对象有一个指向内部值的单一属性value
 
