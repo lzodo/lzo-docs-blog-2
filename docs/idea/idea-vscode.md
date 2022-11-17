@@ -131,3 +131,13 @@ Powermode: Enable Shake 去除代码抖动
 ```
 - 配置默认终端
     - `ctrl+shift+P`:输入 `>terminal:select default profile`
+
+### 配置代码片段
+
+1、复制需要生成的代码
+
+2、[生成]("https://snippet-generator.app") 该网站生成
+
+3、vscode 首选项添加
+
+4、新建页面，输入 prefix 自动导入
