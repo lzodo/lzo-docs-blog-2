@@ -21,13 +21,65 @@ const app = Vue.createApp({
             info: "this a info",
             coutn: 2,
             imgurl: "http://xxx/xxx/xxx.jpg",
+            infos:{a:1,b:2}
         }
     }，
 
     // 不可以用箭头函数(箭头无作用域，里面的this无法指向vue对象)
     methods: {
-        getData(){}
+        connect_met(){
+            return this.info +“ ”+ this.msg
+        }
+        getData(){} 
+    },
+    
+    /**
+     * 计算属性, （包含响应式数据的计算），涉及到的属性变化，结果跟着变化
+     * connect 会被混入到实例中, 可以通过 this.connetc 使用
+     * 和 methods差别 存在缓存
+     *     模板中 {{ connect_met() }} 使用三次,执行了三次
+     *     模板中 {{ connect }} 使用三次，只会计算一次
+     *     this.info 和 this.msg 发生变化，自动更新 connect
+     */
+    computed:{
+        connect(){
+            return this.info +" "+ this.msg
+        },
+        connect2:{
+            get: function(){
+                return this.info +" "+ this.msg
+            },
+            set: function(value){
+                // 一些列操作
+            }
+        }
+    },
+        
+    /**
+     * 监听属性变化，某个属性变化，去做一件事情
+     *
+     */
+    watch:{
+        info(n,o){
+            
+        }
+        infos(n,o){
+            // 整个infos发生变化，得到的n是一个 Proxy对象
+            console.log(Vue.toRaw(n)) // 获取原生对象
+        },
+        infos:{
+            handler(n,o){
+                // 侦听对象某个属性变化，默认无法深度监听
+                console.log(Vue.toRaw(n)) // 获取原生对象
+            },
+            deep:true,
+            immediate:true  // 第一次立即执行
+        },
+        "infos.a"(n,o){
+            // 直接侦听对象属性
+        }
     }
+    
  
 })
 
@@ -105,11 +157,67 @@ v-bang、绑定class和style
 /**
  * v-if/vi-else-if/v-else 节点的删除创建
  * v-show  // display 的显示隐藏
- * v-for="(item,index) in array"
+ * v-for="(item,index) in array"  
  * v-for="(item, key,index) in object"	
- *
+ * 	可迭代对象如字符串都是可以遍历的
  */
 ```
+
+>   数组更新的检测，只有改变原数组，或调用可改变元素组的方法，才会更新
+
+key
+
+```javascript
+/**
+ * v-for key 属性的作用
+ * 	  唯一的，一般用id 
+ *	  主要用在Vue的虚拟DOM算法，在新旧nodes对比时辨识VNodes
+ *    没使用key，有一种算法，使用key会用一种更好的算法（基于key的变化重新排列元素顺序，并移除不存在的元素）
+ */
+```
+
+-   VNode: `Virtual Node` 虚拟节点
+
+    -   位置： 存在于 vue template  到  真实DOM之间
+    -   本质：是一个JavaScript对象
+
+    ```javascript
+    // template: <div class="title" style="font-size:30px">{{msg}}</div>
+    
+    const vnode = {
+        type:"div",
+        props: {
+            class: "title",
+            style: {
+                "font-size":"30px"
+            }
+        }
+        children: "内容"
+    }
+    
+    // DOM: <div class="title" style="font-size:30px">内容</div>
+    ```
+
+-   虚拟DOM：很多`VNode`形成的 `VNode Tree`
+
+    -   方便跨平台
+
+        -   可以转 真实DOM对象
+        -   可以转 移动端的 `button/view/image`
+        -   可以转 IOS `UIButtono/UIView`
+        -   `JavaScript` ，是**脚本语言**，可以将 转换为**各个平台想要显示的东西**
+
+    -   方便diff算法 
+
+        -   **没有Key** ：当遍历的**数组发生变化**时，**销毁所有**的**虚拟DOM**，在按照新的数据**全部重新创建**
+
+        ![](../../../static/img/not-key.jpg)
+
+        -   **存在唯一Key**：虚拟DOM会**通过key**认识，**变化后的某个节点，就是变化前的那个节点**，不销毁进行重新排序
+
+        ![](../../../static/img/has-key.jpg)
+
+
 
 
 
