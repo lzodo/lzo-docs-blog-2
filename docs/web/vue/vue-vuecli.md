@@ -23,7 +23,7 @@ vue ui
 ```
 
 ## 创建vue项目
-[https://www.cnblogs.com/joe235/archive/2004/01/13/12448744.html](https://www.cnblogs.com/joe235/archive/2004/01/13/12448744.html)
+[案例](https://www.cnblogs.com/joe235/archive/2004/01/13/12448744.html)
 
 ### vue-CLI 3+
 ```shell

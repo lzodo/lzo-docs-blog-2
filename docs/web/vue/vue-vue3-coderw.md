@@ -24,6 +24,7 @@ const app = Vue.createApp({
             infos:{a:1,b:2}
         }
     }，
+    // filters 部分代码 vue3已经删除，功能通过 methods 或 computed 的可以实现
 
     // 不可以用箭头函数(箭头无作用域，里面的this无法指向vue对象)
     methods: {
@@ -75,10 +76,18 @@ const app = Vue.createApp({
             deep:true,
             immediate:true  // 第一次立即执行
         },
-        "infos.a"(n,o){
+        "infos.a":(n,o){
             // 直接侦听对象属性
         }
-    }
+    },
+
+	/**
+	 *   生命周期
+	 */
+     created(){
+         this.$watch("msg",(n,o)=>{},{deep:true}) // 逻辑中监听
+     } 
+     
     
  
 })
@@ -148,6 +157,29 @@ v-bang、绑定class和style
  *
  */
 ```
+
+v-model
+>   表单设置双向数据绑定 ，如果手动实现，@input 的时候执行函数，手动让 其他数据变化
+
+```html
+<input v-model="selectText" />
+<input :value="searchText" @input="searchText = $event.target.value" />
+
+<!-- 修饰符，可多个同时使用 -->
+<!-- v-model.lazy  失去焦点时绑定 防抖-->
+<!-- v-model.number  自动将值转换为数字（vue2 中即使input type设置成number 依然会被转成字符串）-->
+<!-- v-model.trim 去除首位空格-->
+
+
+<!--多选框中，v-model绑定的是一个数组列表，需要额外设置每一项的value -->
+<!--单选框中，需要用相同的 name 关联 ，v-model如果绑定同一个data,就可以不需要name了 ，需要额外设置value -->
+<!--select中，直接给select标签v-model,value全在option中 -->
+
+```
+
+
+
+
 
 条件渲染
 
@@ -219,10 +251,6 @@ key
 
 
 
-
-
-
-
 #### MVC 与 MVVM
 
 ```javascript
@@ -235,3 +263,13 @@ key
  *     ViewModel 把 View事件 监听到 Model
  */
 ```
+
+
+
+#### 组件化
+
+-   初始化 #app 就是根组件
+-   
+
+#### 脚手架
+
