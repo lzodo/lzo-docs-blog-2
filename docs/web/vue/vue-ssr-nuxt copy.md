@@ -4,7 +4,6 @@ title: nuxt
 
 [配套项目](https://github.com/liaozhongxun/lzo-nuxt-v2.0.git)
 
-### 概念
 优点
     1、多页面
     2、ssr seo 优化 每页有自己的tdk
@@ -81,7 +80,7 @@ SEO优化方案
 -   nuxt.config.js  配置文件
 
 概念
-    路由`不需要手动配置`，会根据pages目录下的文件自动生成
+    路由`不需要手动配置`，会更加pages目录下的文件自动生成
     页面上用到的组件会自动去components目录查找，`不需要导入` -> 可配置
 
 
