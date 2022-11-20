@@ -374,3 +374,18 @@ tolen使用场景文档
 
 搜索Github其他人的项目
     curl -H "Accept: application/vnd.github+json" https://api.github.com/search/repositories\?q\=NAME\&sort\=stars\&page\=1\&per_page\=100``
+
+
+### 问题
+远程 ssh: connect to host github.com port 22: Connection refused
+
+```shell
+# $ vim ~/.ssh/config
+# Add section below to it
+Host github.com
+  Hostname ssh.github.com
+  Port 443
+
+# 测试
+# $ ssh -T git@github.com
+```
