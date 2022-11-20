@@ -57,6 +57,15 @@ const app = Vue.createApp({
     },
         
     /**
+     * 注册局部组件
+     * 导入的时候尽量大驼峰取名，组件名与组件是一样的就可以缩写了
+     */
+    components:{
+        "ProductItem":ProductItem,
+         ProductItem
+    },
+        
+    /**
      * 监听属性变化，某个属性变化，去做一件事情
      *
      */
@@ -177,7 +186,7 @@ v-model
 
 ```
 
-
+>   v-model 在组件上使用
 
 
 
@@ -268,8 +277,83 @@ key
 
 #### 组件化
 
--   初始化 #app 就是根组件
--   
+-   初始化 App 就是根组件，一个vue项目就是一棵组件树
+
+```javascript
+// 定义一个全局组件
+const productItem = {
+    template: `<h1>组件</h1>`
+}
+// 注册一个全局组件，组件名称 短横线 或 大驼峰命名
+app.component("product-item",productItem);
+
+// 注册局部组件, 选项components
+components:{
+    productItem
+}
+```
+
+
 
 #### 脚手架
 
+```javascript
+// 全局安装 vue
+npm install @vue/cli -g
+
+// 创建项目
+vue create <project-name>
+    
+```
+
+>   browserslist  设置babel转换代码的标准
+
+```javascript
+"> 1%", // 适配市场占有率大于1%的浏览器
+"last 2 versions",
+"not dead",
+"not ie 11", // 不需要支持ie11  
+```
+
+>   jsconfig.json  让vscode提供友好的代码提示
+
+```javascript
+{
+  "compilerOptions": {
+    "target": "es5",
+    "module": "esnext",
+    "baseUrl": "./", // paths中src相对路径
+    "moduleResolution": "node",
+    "paths": {
+      "@/*": ["src/*"],  // 当用户输入@，vscode就会提示去src/下找东西
+      "utils/*":[src/utils/*] // 当用户输入utils，vscode就会提示去src/utils下找东西
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  }
+}
+```
+
+>   引入 vue 构建版本问题
+
+```javascript
+// 编译过程：模板html --createVnode()--> VNode -> 虚拟DOM -> 真实DOM
+
+/**
+ * 预先编译
+ * 默认 import { createApp } from "vue"
+ *     不支持template选项，需要通过.vue文件引入
+ *     以前的runtime版本 
+ *     编译功能的实现代码，不是存在vue源码中
+ *            webpack处理vue-loader处理.vue 时预先编译就实现了 html --createVnode()的过程
+ */
+
+/**
+ *  运行时编译
+ *  import { createApp } from "vue/dist/vue.esm-bundler"
+ *     支持template选项，模板html在属性中，vue-loader无法处理，所有编译代码集成到vue.esm-bundler源码中
+ *     以前的runtime+compile版本  runtime+编译 
+ *     编译功能的实现代码，存放在vue.esm-bundler，vue源码中
+ */
+```
+
+ 

@@ -245,7 +245,7 @@ this.$cookies.get("token")
             }
             fial(){},
             increase(num){ // 页面加载过程中调用，num 小于100
-
+    
             },
         }
     }

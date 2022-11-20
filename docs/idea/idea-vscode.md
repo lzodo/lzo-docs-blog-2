@@ -62,7 +62,8 @@ title: VsCode 编辑器
 
 ### 基础常用
 - Chinese (Simplified) Language Pack for Visual Studio Code   (中文汉化包)
-- Vetur (vue必装)
+- Vetur (vue2常用，vue3支持但不太友好)
+- volar (vue3）
 - Vue VSCode Snippets(vue文件 输入`vbase` 快速生成各种版本的基本模板)
     -   更多模板生成 [指令](https://marketplace.visualstudio.com/items?itemName=sdras.vue-vscode-snippets)
 - EditorConfig (是一种被各种编辑器广泛支持的配置 .editorconfig)
