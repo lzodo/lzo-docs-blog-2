@@ -293,6 +293,55 @@ components:{
 }
 ```
 
+>   组件通信
+
+```html
+<!--父组件传递与接收 组件标签通过-->
+<cpn-name :name='name' :info="InfoObj" @receive="xxxx" :vis='a' abc='123' ></cpn-name>
+```
+
+```javascript
+// 接收 prop 属性接收 ，横杆和驼峰命名都可以
+// 父级传递 没用prop接收的属性，会变成组件中根节点的属性
+// 使用 inheritAttrs:false 选项禁止, 也能手动在子节点上 通过 $attrs.abc 给其他子节点
+
+export default {
+    props:["name"], 
+    props:{
+        name: {
+            type: String,
+            default: "",
+            required: true,
+        },
+        InfoObj: { // 对象或数字默认值必须从函数中返回
+            type: Object,
+            default: ()=>{ 
+                return {a:1}
+            }
+        },
+        vis: { // 自定义验证
+            validator(value){
+                return ['a','b','c'].includes(value)
+            }
+        }
+    },
+    emits:['receive'], // 注册一下，外面用的时候会有提示,也可以验证函数返回
+	mounted(){
+        this.$emit("receive",data) //子传父
+    }
+}
+```
+
+### 插槽
+
+```html
+<!-- 父组件 -->
+
+
+
+<!-- 子组件 -->
+```
+
 
 
 #### 脚手架
