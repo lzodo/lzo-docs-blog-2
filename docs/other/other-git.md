@@ -216,6 +216,7 @@ touch .gitignore # 创建文件
 ```
 
 ## 忽略文件 .gitignore
+> .gitignore只能忽略那些原来没有被追踪的文件,否则无效（要通过 git rm .env.development --cached ）
 
 ```shell
 *.txt  # 忽略所有.txt格式文件
