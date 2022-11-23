@@ -332,14 +332,107 @@ export default {
 }
 ```
 
+>   非父子组件通信 
+
+```javascript
+/**
+ * Provide 和 Inject 依赖注入
+ *     无论层级多深，父组件都可以通过 Provide 向它下面所有子组件提供数据
+ *     子组件通过inject接收
+ */
+
+export default {
+    data(){
+        retrun {
+            name:"liao"
+        }
+    },
+    provide: {
+        name:"liao",
+        age:16
+    },
+    provide(){ // 通过行数使用动态数据，数据改变不会更新
+        return {
+            name: this.name,
+            age:16
+        }
+    },
+    provide(){ // 通过行数使用动态数据，数据改变更新
+        return {
+            name: computed(()=> this.name), // computed 需要从vue引入， 子组件中需要 this.name.value 展示
+            age:16
+        }
+    },
+}
+
+export default {
+    inject: ["name","age"]
+}
+
+/**
+ * 事件总线
+ *    mitt 或 tiny-emitter 库，Vue2 是有自带的 
+ *    全局 导入总线对象 EventBusxxx
+ *    需要用的地方导入 EventBusxxx，EventBusxxx.emit("EventName",data); 发出事件
+ *    需要用的地方导入 EventBusxxx，EventBusxxx.on("EventName",(data)=>{console.log(data)}); 监听事件
+ */
+```
+
+
+
 ### 插槽
 
-```html
-<!-- 父组件 -->
+>   渲染作用域：插槽所有内容都是父组件里的数据
 
+```html
+<!-- 普通插槽父组件 -->
+<cpn-item>
+    <button>普通插槽内容</button>
+</cpn-item> 
 
 
 <!-- 子组件 -->
+<template>
+	<div> 
+        <slot><h1>没使用插槽默认展示</h1></slot> <!--<button>普通插槽内容</button> 插入这里name="default"-->
+    </div>
+</template>
+
+<!-- 具名插槽父组件 v-slot:[可以是变量] #warp-->
+<cpn-item>
+    <template v-slot:warp>
+    	<button>外面</button>
+    </template>
+     <template v-slot:inner>
+    	<button>里面</button>
+    </template>
+</cpn-item> 
+
+
+<!-- 子组件 -->
+<template>
+	<div>
+        <slot name="warp"></slot>
+        <span>
+            <slot name="inner"></slot>
+        </span>
+    </div>
+</template>
+
+<!-- 数据向外传递 -->
+<cpn-item>
+    <template v-slot:default="props"> <!--只有默认的，可以简写成 v-slot="props"-->
+    	<button>{{props.item}} - {{props.title}}</button>
+    </template>
+</cpn-item> 
+
+
+<!-- 子组件 -->
+<template>
+	<div> 
+        <slot :item="item" title='name'></slot>
+    </div>
+</template>
 ```
 
 
