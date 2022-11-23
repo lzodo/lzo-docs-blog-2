@@ -284,12 +284,13 @@ Component({
 code
 -   wx.login({success:(res)=>{res.code}) 获取
 -   后端通过 code，appsecret，appid 去小程序服务器获取 openId, sessionKey, unionId 
+-   通过openId生成token返回给客户端 
 
 openId
 > 用户在我的小程序中的唯一标识
 > 静默登录后如果需要网页登录，需要让openid与用户账号关联
 
-unionId
+unionId（账号同时注册小程序和公众号就会有 ）
 > 同一个用户在微信不同产品的唯一标识（小程序、公众号。。。）
 ### API调用
 > 微信提供了专属API接口，用于网络请求: wx.request({})
