@@ -376,7 +376,39 @@ export default {
  *    需要用的地方导入 EventBusxxx，EventBusxxx.emit("EventName",data); 发出事件
  *    需要用的地方导入 EventBusxxx，EventBusxxx.on("EventName",(data)=>{console.log(data)}); 监听事件
  */
+
+/**
+ * 状态管理库 vuex
+ */
 ```
+
+>   组件的生命周期（生命开始到结束经历变化的一系列过程）
+
+```javascript
+/**
+ * 1、创建  ---  beforeCreate、 created  （创建好后这里有一个 从 html模板编译到虚拟DOM的过程）
+ *     发送网络请求、事件监听
+ * 2、挂载到组件树（虚拟DOM） --- beforeMount、 mounted （挂到虚拟DOM后，同时将映射到真实DOM，界面上就可以看到）
+ *     获取/使用DOM
+ * 3、修改更新数据 --- beforeUpdate、 updated （根据新数据生成新VNode,形成新的虚拟DOM，根据diff算法更新真实DOM）
+ * 4、卸载 --- beforeUnmount、unmounted （通过v-if可以卸载）
+ *     回收操作，取消定时器/事件监听
+ * 特殊阶段
+ *      
+ *
+ * 我们可以在经历某个阶段做特定的逻辑代码
+ * 我们可以通过生命周期函（钩子函数、回调函数）数知道所在的阶段
+ */
+```
+
+>   ref  属性绑定DOM或组件实例，this.$refs.xxx 获取实例 
+
+```javascript
+this.$refs.cpnRefName // 直接操作组件里的dom、方法等
+this.$refs.cpnRefName.$el
+```
+
+>   this.$paren、this.$root 、this.$children 操作父组件、根组件、子组件（vue 2）
 
 
 
