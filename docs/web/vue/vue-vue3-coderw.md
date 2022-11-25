@@ -394,7 +394,9 @@ export default {
  * 4、卸载 --- beforeUnmount、unmounted （通过v-if可以卸载）
  *     回收操作，取消定时器/事件监听
  * 特殊阶段
- *      
+ *     缓存组件的生命周期
+ *     activated(){}, 激活
+ *     deactivated(){} 离开    
  *
  * 我们可以在经历某个阶段做特定的逻辑代码
  * 我们可以通过生命周期函（钩子函数、回调函数）数知道所在的阶段
@@ -406,9 +408,94 @@ export default {
 ```javascript
 this.$refs.cpnRefName // 直接操作组件里的dom、方法等
 this.$refs.cpnRefName.$el
+
+// this.$paren、this.$root 、this.$children 操作父组件、根组件、子组件（vue 2）
 ```
 
->   this.$paren、this.$root 、this.$children 操作父组件、根组件、子组件（vue 2）
+>   动态组件
+
+```vue
+<template>
+    <div>
+        <!-- 全局或局部注册的组件 v-for cpnList 内部-->
+        <components :is="cpnList[index]"></components>
+    </div>
+</template>
+
+<script>
+export default {
+	data(){
+		cpnList:[cpn1,cpn2,cpn3]
+	}
+}
+</script>
+```
+
+>   keep-alive 组件切换保持存活，缓存数据
+
+```vue
+<template>
+    <div>
+        <!--根据组件name,只缓存这包含的组件 或 exclude="cpn1" 排除 -->
+        <!-- max=3 最多缓存3个 -->
+        <keep-alive include="cpn2,cpn3"> 
+        	<cpn1></cpn1>
+    	</keep-alive>
+    </div>
+</template>
+
+<script>
+export default {
+	data(){
+
+	},
+    components:{
+        cpn1,
+        cpn2,
+        cpn3
+    },
+}
+    
+// 组件内部
+activated(){},
+deactivated(){} 
+</script>
+```
+
+>   异步组件
+
+```javascript
+import("./components/cpn1.vue").then(res=>{}) // 可以对导入的文件进行分包处理 ,打包成单独文件
+# vue 异步引入组件
+import { defineAsyncComponent } from "vue";
+const Cpn1 = defineAsyncComponent(()=> import("./components/cpn1.vue"))
+```
+
+>   组件 v-model
+
+```vue
+<template>
+    <div>
+        <cpn1 v-model="msg"></cpn1> 
+        <cpn1 :model-value="msg" @update:model-value="xxx"></cpn1>
+        
+        <cpn1 v-model:msg2="msg2"></cpn1> 
+        <cpn1 :msg2="msg2" @update:msg2="xxx"></cpn1>
+    </div>
+</template>
+
+<script>
+export default {
+	data(){
+		msg:"123",
+        msg2:"456"
+	},
+    components:{
+        cpn1,
+    },
+}
+</script>
+```
 
 
 
@@ -530,4 +617,16 @@ vue create <project-name>
  */
 ```
 
- 
+ ### 打包
+
+```shell
+# app.xxxxx.js            默认存放所有自己编写的代码
+# chunk-vendors.xxxx.js   保持所有的第三方库
+# 浏览器渲染需要把 app,vendors 下载才能渲染（如果把app拆分，把单前页面的文件下载就可以渲染）  
+
+import("./components/cpn1.vue").then(res=>{}) # 可以对导入的文件进行分包处理 
+# vue 异步引入组件
+import { defineAsyncComponent } from "vue";
+const Cpn1 = defineAsyncComponent(()=> import("./components/cpn1.vue"))
+```
+
