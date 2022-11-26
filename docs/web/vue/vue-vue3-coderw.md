@@ -480,7 +480,7 @@ const Cpn1 = defineAsyncComponent(()=> import("./components/cpn1.vue"))
         <cpn1 :model-value="msg" @update:model-value="xxx"></cpn1>
         
         <cpn1 v-model:msg2="msg2"></cpn1> 
-        <cpn1 :msg2="msg2" @update:msg2="xxx"></cpn1>
+        <cpn1 :msg2="msg2" @update:msg2="msg2=xxx"></cpn1>
     </div>
 </template>
 
@@ -495,6 +495,14 @@ export default {
     },
 }
 </script>
+```
+
+>   Mixin 混合
+
+```vue
+// 
+
+ 
 ```
 
 
