@@ -137,7 +137,7 @@ Powermode: Enable Shake 去除代码抖动
 
 1、复制需要生成的代码
 
-2、[生成]("https://snippet-generator.app") 该网站生成
+2、[生成](https://snippet-generator.app) 该网站生成
 
 3、vscode 首选项添加
 
